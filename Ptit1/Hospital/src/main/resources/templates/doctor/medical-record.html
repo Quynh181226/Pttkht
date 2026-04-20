@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ bệnh án | SmartCare</title>
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<section id="sidebar">
+    <a href="#" class="brand"><i class="bx bx-capsule"></i><span class="text">SmartCare</span></a>
+    <ul class="side-menu top">
+        <li><a th:href="@{/doctor/dashboard}"><i class="bx bxs-dashboard"></i><span class="text">Dashboard</span></a></li>
+        <li><a th:href="@{/doctor/waiting-list}"><i class="bx bxs-group"></i><span class="text">Chờ khám</span></a></li>
+        <li class="active"><a th:href="@{/doctor/medical-history}"><i class="bx bxs-folder-open"></i><span class="text">Bệnh nhân đã khám</span></a></li>
+    </ul>
+    <ul class="side-menu">
+        <li><a href="#"><i class="bx bxs-cog"></i><span class="text">Cài đặt</span></a></li>
+        <li><a th:href="@{/logout}"><i class="bx bxs-log-out-circle"></i><span class="text">Đăng xuất</span></a></li>
+    </ul>
+</section>
+
+<section id="content">
+    <nav>
+        <i class="bx bx-menu"></i>
+        <div class="logo-admin">
+            <input type="checkbox" id="switch-mode" hidden><label for="switch-mode" class="switch-mode"></label>
+            <a href="#" class="notification"><i class="bx bxs-bell"></i><span class="num">3</span></a>
+            <div class="profile-dropdown" style="position: relative;">
+                <a href="#" class="profile" id="profileBtn">
+                    <img th:src="${session.avatarUrl != null ? session.avatarUrl : 'https://randomuser.me/api/portraits/men/32.jpg'}" alt="avatar">
+                </a>
+                <div id="userMenuContainer" style="position: absolute; top: 45px; right: 0; z-index: 100; display: none;">
+                    <div th:replace="~{fragments/user-menu :: userMenu}"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="head-title">
+            <div class="left"><h1>Hồ sơ bệnh nhân: <span th:text="${patient.fullName}"></span></h1>
+                <ul class="breadcrumb"><li><a href="#">Bệnh nhân</a></li><li><i class="bx bx-chevron-right"></i></li><li><a class="active" href="#">Bệnh án</a></li></ul>
+            </div>
+            <button class="btn-new" onclick="history.back()"><i class="bx bx-arrow-back"></i> Quay lại</button>
+        </div>
+
+        <!-- Thông tin bệnh nhân -->
+        <div class="box-info-wrapper" style="margin-bottom:24px">
+            <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                <div><strong>Họ tên:</strong> <span th:text="${patient.fullName}"></span></div>
+<!--                <div><strong>Giới tính:</strong> <span th:text="${patient.gender.name() == 'male' ? 'Nam' : (patient.gender.name() == 'female' ? 'Nữ' : 'Khác')}"></span></div>-->
+                <div><strong>Giới tính:</strong>
+                    <span th:text="${patient.gender == 'male' ? 'Nam' : (patient.gender == 'female' ? 'Nữ' : 'Khác')}"></span>
+                </div>
+                <div><strong>Năm sinh:</strong> <span th:text="${#temporals.year(patient.dateOfBirth)}"></span></div>
+                <div><strong>SĐT:</strong> <span th:text="${patient.phone}"></span></div>
+                <div><strong>BHYT:</strong> <span th:text="${patient.insuranceNumber}"></span></div>
+            </div>
+        </div>
+
+        <!-- Lịch sử khám -->
+        <div class="table-data">
+            <div class="order">
+                <div class="head"><h3>Lịch sử khám bệnh</h3></div>
+                <table>
+                    <thead>
+                    <tr><th>Ngày khám</th><th>Bác sĩ</th><th>Triệu chứng</th><th>Chẩn đoán</th><th>Đơn thuốc</th><th>Trạng thái</th><th>Chi tiết</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="record : ${medicalRecords}">
+                        <td th:text="${#temporals.format(record.appointment.appointmentDate, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${record.appointment.doctor.user.fullName}"></td>
+                        <td th:text="${record.symptoms}"></td>
+                        <td th:text="${record.diagnosis}"></td>
+                        <!-- Cột đơn thuốc: hiển thị từng loại thuốc + số lượng -->
+<!--                        <td>-->
+<!--                                <span th:each="detail : ${record.prescription.prescriptionDetails}"-->
+<!--                                      th:text="${detail.medicine.name} + ' (' + detail.quantity + ')'"></span>-->
+<!--                            <span th:if="${record.prescription == null}">Chưa kê đơn</span>-->
+<!--                        </td>-->
+                        <!-- Cột Đơn thuốc -->
+                        <td>
+                            <!-- Trường hợp có đơn thuốc -->
+                            <th:block th:if="${record.prescription != null}">
+        <span th:each="detail : ${record.prescription.prescriptionDetails}"
+              th:text="${detail.medicine.name} + ' (' + detail.quantity + ')' + ' '"></span>
+                            </th:block>
+
+                            <!-- Trường hợp chưa có đơn thuốc -->
+                            <span th:if="${record.prescription == null}" class="text-muted">Chưa kê đơn</span>
+                        </td>
+                        <!-- Cột trạng thái đơn thuốc -->
+<!--                        <td>-->
+<!--                            <span th:if="${record.prescription != null and record.prescription.status.name() == 'dispensed'}" class="status-active">Đã cấp phát</span>-->
+<!--                            <span th:if="${record.prescription != null and record.prescription.status.name() == 'pending'}" class="status-waiting">Chờ cấp phát</span>-->
+<!--                            <span th:if="${record.prescription == null}" class="status-inactive">Chưa kê đơn</span>-->
+<!--                        </td>-->
+                        <td>
+                            <span th:if="${record.prescription != null and record.prescription.status.name() == 'dispensed'}" class="status-active">Đã cấp phát</span>
+                            <span th:if="${record.prescription != null and record.prescription.status.name() == 'pending'}" class="status-waiting">Chờ cấp phát</span>
+                            <span th:if="${record.prescription == null}" class="status-inactive">Chưa kê đơn</span>
+                        </td>
+                        <td class="action">
+                            <button class="edit-btn" th:onclick="'viewDetail(' + ${record.id} + ')'"><i class="bx bxs-show"></i> Xem</button>
+                        </td>
+                        </tr>
+                    <tr th:if="${medicalRecords.isEmpty()}">
+                        <td colspan="7" style="text-align:center">Chưa có bệnh án nào</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</section>
+
+<script>
+    function viewDetail(recordId) {
+        // Có thể mở modal hoặc chuyển trang chi tiết
+        alert("Chức năng đang phát triển. ID: " + recordId);
+    }
+
+    const profileBtn = document.getElementById('profileBtn');
+    const userMenuContainer = document.getElementById('userMenuContainer');
+    if (profileBtn && userMenuContainer) {
+        profileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            userMenuContainer.style.display = userMenuContainer.style.display === 'block' ? 'none' : 'block';
+        });
+        document.addEventListener('click', () => { userMenuContainer.style.display = 'none'; });
+        userMenuContainer.addEventListener('click', (e) => { e.stopPropagation(); });
+    }
+    const switchMode = document.getElementById("switch-mode");
+    if (localStorage.getItem("darkMode") === "true") { switchMode.checked = true; document.body.classList.add("dark"); }
+    switchMode.addEventListener("change", () => { document.body.classList.toggle("dark"); localStorage.setItem("darkMode", switchMode.checked); });
+    const menuBar = document.querySelector("#content nav .bx-menu"); const sidebar = document.getElementById("sidebar");
+    if (localStorage.getItem("sidebarHide") === "true") sidebar.classList.add("hide");
+    menuBar.addEventListener("click", () => { sidebar.classList.toggle("hide"); localStorage.setItem("sidebarHide", sidebar.classList.contains("hide")); });
+</script>
+</body>
+</html>

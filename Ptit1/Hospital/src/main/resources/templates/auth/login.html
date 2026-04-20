@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Healthcare - Đăng nhập</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        * {
+            font-family: system-ui, 'Segoe UI', sans-serif;
+        }
+
+        .modal-enter {
+            animation: fadeScaleIn 0.25s ease-out;
+        }
+
+        @keyframes fadeScaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        input.error,
+        select.error,
+        textarea.error {
+            border-color: #E5101B !important;
+            background-color: #fff5f5 !important;
+        }
+
+        .error-message {
+            color: #E5101B;
+            font-size: 13px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* ===== INPUT KIỂU LABEL ĐÈ LÊN BORDER ===== */
+
+        .input-group {
+            position: relative;
+            margin-top: 12px;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: -10px;
+            left: 16px;
+            background: white;
+            padding: 0 8px;
+            font-size: 14px;
+            color: #6B7280;
+            z-index: 2;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            height: 56px;
+            border: 2px solid #7C86A5;
+            border-radius: 16px;
+            padding: 0 18px;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #5E6A8A;
+            box-shadow: 0 0 0 3px rgba(94, 106, 138, 0.12);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .toggle-password:hover {
+            color: #6B7597;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+
+<!-- Modal Login -->
+<div id="loginModal"
+     class="fixed inset-0 z-[999] flex items-center justify-center">
+
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-md" id="modalBg"></div>
+
+    <!-- Box -->
+    <div class="relative w-[75%] md:w-[480px] bg-white border border-gray-200 rounded-2xl shadow-2xl modal-enter overflow-hidden">
+
+        <!-- HEADER -->
+        <div class="modal-header">
+            <h2 class="text-xl font-semibold text-gray-900">
+                Smart Care User - Đăng nhập
+            </h2>
+
+            <button id="closeModalBtn" class="text-gray-400 hover:text-gray-600 transition-colors" onclick="closeModal()">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- BODY -->
+        <div class="modal-body">
+            <!-- FORM -->
+            <form th:action="@{/login}"
+                  th:object="${loginDTO}"
+                  method="post"
+                  class="space-y-6">
+
+                <!-- Username -->
+                <div class="input-group">
+
+                    <label for="username">
+                        Tên đăng nhập - Email
+                    </label>
+
+                    <input type="text"
+                           id="username"
+                           th:field="*{usernameOrEmail}">
+
+                    <div th:if="${#fields.hasErrors('usernameOrEmail')}"
+                         class="error-message">
+
+                        <i class="fas fa-exclamation-circle mr-1"></i>
+
+                        <span th:errors="*{usernameOrEmail}"></span>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="input-group">
+
+                    <label for="password">
+                        Mật khẩu
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input type="password"
+                               id="password"
+                               th:field="*{password}"
+                               class="pr-12">
+
+                        <i class="fas fa-eye-slash toggle-password"
+                           id="togglePassword"></i>
+                    </div>
+
+                    <div th:if="${#fields.hasErrors('password')}"
+                         class="error-message">
+
+                        <i class="fas fa-exclamation-circle mr-1"></i>
+
+                        <span th:errors="*{password}"></span>
+                    </div>
+                </div>
+
+                <!-- Quên mật khẩu -->
+                <div class="text-right">
+                    <button type="button"
+                            id="forgotBtn"
+                            class="text-sm text-[#6B7597] hover:text-[#4F5A7A] font-medium transition-colors">
+
+                        Quên mật khẩu?
+                    </button>
+                </div>
+
+                <!-- Error -->
+                <div th:if="${error != null}" class="mb-6 text-red-600 text-sm rounded-xl flex items-start">
+                    <i class="fas fa-exclamation-circle mt-0.5 mr-3"></i>
+                    <span th:text="${error}"></span>
+                </div>
+
+                <!-- Success -->
+                <div th:if="${success != null}"
+                     class="mb-6 text-green-600 text-sm rounded-xl flex items-start">
+                    <i class="fas fa-check-circle mt-0.5 mr-3"></i>
+                    <span th:text="${success}"></span>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit"
+                        class="cursor-pointer w-full text-white mt-2 py-3 rounded-full font-medium bg-gradient-to-r from-[#5E6A8A] to-[#6B7597] hover:brightness-110 active:scale-95 transition-all">
+
+                    Đăng Nhập
+                </button>
+
+                <!-- Register -->
+                <p class="text-center text-sm text-gray-600 mt-4">
+
+                    Chưa có tài khoản?
+
+                    <a href="/register"
+                       class="text-[#6B7597] hover:text-[#4F5A7A] font-medium transition-colors">
+
+                        Đăng ký ngay
+                    </a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function closeModal() {
+        window.location.href = '/'
+    }
+
+    $('#togglePassword').click(function () {
+        const input = $('#password')
+
+        const type =
+            input.attr('type') === 'password'
+                ? 'text'
+                : 'password'
+
+        input.attr('type', type)
+
+        $(this).toggleClass('fa-eye-slash fa-eye')
+    })
+
+    $('#forgotBtn').click(function () {
+        window.location.href = '/forgot-password'
+    })
+
+    $('#modalBg').click(closeModal)
+</script>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SmartCare Admin</title>
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .doctor{
+            width: 30%;
+            height: 97%;
+            border-radius: 12px;
+            font-size: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: var(--light-yellow);
+            padding: 10px;
+            color: var(--yellow);
+        }
+        .side-menu li a svg{
+            font-size: 16px;
+            min-width: 24px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<section id="sidebar">
+    <a href="#" class="brand"><i class="bx bx-capsule"></i><span class="text">SmartCare</span></a>
+<!--    <ul class="side-menu top">-->
+<!--        <li class="active"><a th:href="@{/admin/dashboard}"><i class="bx bxs-dashboard"></i><span class="text">Dashboard</span></a></li>-->
+<!--        <li><a th:href="@{/admin/specialties}"><i class="bx bx-grid-alt"></i><span class="text">Chuyên khoa</span></a></li>-->
+<!--        <li><a th:href="@{/admin/doctors}"><i class="bx bxs-user-badge"></i><span class="text">Bác sĩ</span></a></li>-->
+<!--        <li><a th:href="@{/admin/medicines}"><i class="bx bxs-capsule"></i><span class="text">Thuốc</span></a></li>-->
+<!--        <li><a th:href="@{/admin/prescriptions}"><i class="bx bxs-receipt"></i><span class="text">Đơn thuốc</span></a></li>-->
+<!--        <li><a th:href="@{/admin/users}"><i class="bx bxs-group"></i><span class="text">Bệnh nhân</span></a></li>-->
+<!--        <li><a th:href="@{/admin/appointments}"><i class="bx bxs-calendar"></i><span class="text">Lịch hẹn</span></a></li>-->
+<!--        <li><a th:href="@{/admin/statistics}"><i class="bx bxs-chart"></i><span class="text">Thống kê</span></a></li>-->
+<!--    </ul>-->
+    <ul class="side-menu top">
+        <li class="active">
+            <a th:href="@{/admin/dashboard}">
+                <i class="bx bxs-dashboard"></i>
+                <span class="text">Dashboard</span>
+            </a>
+        </li>
+
+        <!-- CHUYÊN KHOA -->
+        <li>
+            <a th:href="@{/admin/specialties}">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="20"
+                     height="20"
+                     viewBox="0 0 24 24"
+                     fill="currentColor"
+                     style="min-width: 20px;">
+                    <path d="M7 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8M17 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8M7 13a4 4 0 1 0 0 8 4 4 0 1 0 0-8M18 13h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/>
+                </svg>
+                <span class="text">Chuyên khoa</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/admin/doctors}">
+                <i class="bx bxs-user-badge"></i>
+                <span class="text">Bác sĩ</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/admin/medicines}">
+                <i class="bx bxs-capsule"></i>
+                <span class="text">Thuốc</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/admin/prescriptions}">
+                <i class="bx bxs-receipt"></i>
+                <span class="text">Đơn thuốc</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/admin/users}">
+                <i class="bx bxs-group"></i>
+                <span class="text">Bệnh nhân</span>
+            </a>
+        </li>
+
+        <!-- LỊCH HẸN -->
+        <li>
+            <a th:href="@{/admin/appointments}">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="20"
+                     height="20"
+                     viewBox="0 0 24 24"
+                     fill="currentColor"
+                     style="min-width: 20px;">
+                    <path d="M4 2H2v19c0 .55.45 1 1 1h19v-2H4z"></path>
+                    <path d="M7 10h11c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1H7c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1m10-2h-5V6h5zM8 6h2v2H8zM21 12H7c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1M8 14h6v2H8zm12 2h-4v-2h4z"></path>
+                </svg>
+                <span class="text">Lịch hẹn</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/admin/statistics}">
+                <i class="bx bxs-chart"></i>
+                <span class="text">Thống kê</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="side-menu">
+        <li><a href="#"><i class="bx bxs-cog"></i><span class="text">Cài đặt</span></a></li>
+        <li><a th:href="@{/logout}"><i class="bx bxs-log-out-circle"></i><span class="text">Đăng xuất</span></a></li>
+    </ul>
+</section>
+
+<section id="content">
+    <nav>
+        <i class="bx bx-menu"></i>
+        <div class="logo-admin">
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode"></label>
+            <a href="#" class="notification"><i class="bx bxs-bell"></i><span class="num">8</span></a>
+            <div class="profile-dropdown" style="position: relative;">
+                <a href="#" class="profile" id="profileBtn">
+                    <img th:src="${avatarUrl != null ? avatarUrl : 'https://randomuser.me/api/portraits/men/32.jpg'}" alt="avatar">
+                </a>
+                <div id="userMenuContainer" style="position: absolute; top: 45px; right: 0; z-index: 100; display: none;">
+                    <div th:replace="~{fragments/user-menu :: userMenu}"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="head-title">
+            <div class="left"><h1>Dashboard</h1><ul class="breadcrumb"><li><a href="#">Dashboard</a></li><li><i class="bx bx-chevron-right"></i></li><li><a class="active" href="#">Home</a></li></ul></div>
+        </div>
+
+        <div class="box-info-wrapper">
+            <ul class="box-info">
+                <li>
+                    <i class="bx bxs-group"></i>
+                    <div class="text">
+                        <h3 th:text="${totalPatients}">0</h3>
+                        <p>Bệnh nhân</p>
+                    </div>
+                </li>
+                <li>
+                    <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="doctor" fill="currentColor" viewBox="0 0 24 24" ><path d="M8.5 10.5c0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5S14 7 12 7s-3.5 1.5-3.5 3.5m5 0c0 .88-.62 1.5-1.5 1.5s-1.5-.62-1.5-1.5S11.12 9 12 9s1.5.62 1.5 1.5"></path><path d="m20.53 7.15-8-5c-.32-.2-.74-.2-1.06 0l-8 5c-.29.18-.47.5-.47.85v8c0 .34.18.67.47.85l8 5a1.01 1.01 0 0 0 1.06 0l8-5c.29-.18.47-.5.47-.85V8c0-.34-.18-.67-.47-.85M12 19.82l-3.1-1.94c.55-.56 1.29-.88 2.1-.88h2c.8 0 1.55.32 2.1.88zm7-4.38-2.19 1.37A4.97 4.97 0 0 0 13 15h-2c-1.48 0-2.87.68-3.81 1.81L5 15.44V8.55l7-4.38 7 4.38z"></path></svg>
+                    <div class="text">
+                        <h3 th:text="${totalDoctors}">0</h3>
+                        <p>Bác sĩ</p>
+                    </div>
+                </li>
+                <li>
+                    <i class="bx bxs-receipt"></i>
+                    <div class="text">
+                        <h3 th:text="${totalAppointments}">0</h3>
+                        <p>Lịch hẹn</p>
+                    </div>
+                </li>
+                <li style="color: #c62828;">
+                    <i class="bx bxs-capsule" style="background-color: #fbeaea; padding: 10px; border-radius: 12px;"></i>
+                    <div class="text">
+                        <h3 th:text="${pendingPrescriptions}">0</h3>
+                        <p>Đơn thuốc chờ</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </main>
+</section>
+
+<script>
+    // User menu dropdown
+    const profileBtn = document.getElementById('profileBtn');
+    const userMenuContainer = document.getElementById('userMenuContainer');
+    if (profileBtn && userMenuContainer) {
+        profileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const isVisible = userMenuContainer.style.display === 'block';
+            userMenuContainer.style.display = isVisible ? 'none' : 'block';
+        });
+        document.addEventListener('click', () => { userMenuContainer.style.display = 'none'; });
+        userMenuContainer.addEventListener('click', (e) => { e.stopPropagation(); });
+    }
+
+    const switchMode = document.getElementById("switch-mode");
+    if (localStorage.getItem("darkMode") === "true") { switchMode.checked = true; document.body.classList.add("dark"); }
+    switchMode.addEventListener("change", () => { document.body.classList.toggle("dark"); localStorage.setItem("darkMode", switchMode.checked); });
+    const menuBar = document.querySelector("#content nav .bx-menu"); const sidebar = document.getElementById("sidebar");
+    if (localStorage.getItem("sidebarHide") === "true") sidebar.classList.add("hide");
+    menuBar.addEventListener("click", () => { sidebar.classList.toggle("hide"); localStorage.setItem("sidebarHide", sidebar.classList.contains("hide")); });
+</script>
+</body>
+</html>

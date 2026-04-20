@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} != null ? ${pageTitle} : 'Bệnh viện Smart Care'">Bệnh viện Smart Care</title>
+
+    <link rel="stylesheet" th:href="@{/css/style1.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div th:fragment="header">
+    <div class="topbar" th:if="${session.role == 'patient'}">
+        <div class="container">
+            <div class="topbar-left">
+                <span><i class="fas fa-phone-alt"></i> Hotline: 1900 6951</span>
+                <span><i class="far fa-clock"></i> Giờ làm việc: 7h30 - 16h30 (T2 - T7)</span>
+                <span><i class="fas fa-map-marker-alt"></i> Hà Nội - 123 Nguyễn Trãi</span>
+            </div>
+            <div class="topbar-right">
+                <a th:href="@{/books}"><i class="fas fa-calendar-plus"></i> Đặt lịch nhanh</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <a th:href="@{/}" style="display: flex; align-items: center; text-decoration: none; gap: 10px;">
+                    <img th:src="@{/images/logo/img.png}" alt="Logo" style="height: 45px; width: auto; object-fit: contain;">
+                    <span style="font-weight: bold; color: inherit;">
+                        BỆNH VIỆN <span style="color: #E5101B;">Smart Care</span>
+                    </span>
+                </a>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle">☰</button>
+
+            <ul class="nav" id="navMenu">
+                <th:block th:if="${session.role == 'patient'}">
+                    <li><a th:href="@{/}" class="nav-link">Trang chủ</a></li>
+                    <li><a th:href="@{/about}" class="nav-link">Giới thiệu</a></li>
+                    <li><a th:href="@{/departments}" class="nav-link">Chuyên khoa</a></li>
+                    <li><a th:href="@{/doctors}" class="nav-link">Bác sĩ</a></li>
+                    <li><a th:href="@{/books}" class="nav-link">Đặt lịch</a></li>
+                    <li><a th:href="@{/appointments}" class="nav-link">Lịch khám</a></li>
+                    <li><a th:href="@{/history}" class="nav-link">Lịch sử khám</a></li>
+
+                    <li class="dropdown" style="position: relative;">
+                        <a href="#" style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-user-circle"></i>
+                            <span th:text="${session.userName}"></span>
+                            <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                        </a>
+                        <ul class="dropdown-menu" style="position: absolute; right: 0; top: 100%; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 180px; display: none; z-index: 100; list-style: none; padding: 0;">
+                            <li><a th:href="@{/profile}" style="display: block; padding: 10px 16px;"><i class="fas fa-id-card"></i> Hồ sơ của tôi</a></li>
+                            <li><a th:href="@{/appointments}" style="display: block; padding: 10px 16px;"><i class="fas fa-calendar-check"></i> Lịch hẹn</a></li>
+                            <li><a th:href="@{/history}" style="display: block; padding: 10px 16px;"><i class="fas fa-file-medical"></i> Bệnh án</a></li>
+                            <li><hr style="margin: 4px 0;"></li>
+
+                            <li>
+                                <form th:action="@{/logout}" method="post" style="margin: 0; padding: 0;">
+                                    <button type="submit" style="background: none; border: none; padding: 10px 16px; color: #E5101B; font-size: inherit; cursor: pointer; width: 100%; text-align: left;">
+                                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </th:block>
+
+                <th:block th:unless="${session.userEmail}">
+                    <li><a th:href="@{/login}" class="nav-link">Đăng nhập</a></li>
+                    <li><a th:href="@{/register}" class="nav-link">Đăng ký</a></li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        // Mobile menu toggle
+        $('#mobileToggle').click(function() {
+            $('#navMenu').toggleClass('show');
+            if ($('#navMenu').hasClass('show')) {
+                $('#navMenu').css({
+                    'display': 'flex',
+                    'flex-direction': 'column',
+                    'position': 'absolute',
+                    'top': '70px',
+                    'left': '0',
+                    'width': '100%',
+                    'background': 'white',
+                    'padding': '20px',
+                    'box-shadow': '0 4px 12px rgba(0,0,0,0.1)',
+                    'z-index': '999'
+                });
+            } else {
+                $('#navMenu').removeAttr('style');
+            }
+        });
+
+        // Dropdown hover
+        $('.dropdown').hover(
+            function() { $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeIn(200); },
+            function() { $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeOut(200); }
+        );
+
+        // Active nav link highlighting
+        const currentPath = window.location.pathname;
+        $('.nav-link').each(function() {
+            const href = $(this).attr('href');
+            if (href === currentPath || (currentPath === '/' && href === '/')) {
+                $(this).addClass('active');
+            }
+        });
+    </script>
+</div>
+</body>
+</html>

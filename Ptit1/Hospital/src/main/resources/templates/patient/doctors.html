@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Đội ngũ bác sĩ</h1>
+            <p>Bác sĩ chuyên khoa giàu kinh nghiệm, đồng hành trong mọi hành trình điều trị.</p>
+        </div>
+        <div class="page-hero-actions">
+            <a th:href="@{/books}" class="btn btn-primary">Đặt lịch ngay</a>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 1: BÁC SĨ TIÊU BIỂU (CÓ ẢNH) -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Bác sĩ tiêu biểu</h2>
+        <div class="image-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <!-- Bác sĩ 1 -->
+            <div class="image-card">
+                <img th:src="@{/images/landing/doctor-1.webp}" alt="BS Hà" onerror="this.src='https://via.placeholder.com/300x400';">
+                <div class="image-card-body">
+                    <h4>Bác sĩ Phạm Thị Thu Hà</h4>
+                    <p>Chuyên khoa Da liễu - 15 năm kinh nghiệm</p>
+                </div>
+            </div>
+            <!-- Bác sĩ 2 -->
+            <div class="image-card">
+                <img th:src="@{/images/landing/doctor-2.webp}" alt="BS Nam" onerror="this.src='https://via.placeholder.com/300x400';">
+                <div class="image-card-body">
+                    <h4>Bác sĩ Nguyễn Văn Nam</h4>
+                    <p>Chuyên khoa Nội tổng quát - 10 năm kinh nghiệm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 2: DANH SÁCH CHI TIẾT (DẠNG CARD) -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Danh sách chuyên khoa</h2>
+        <div class="grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            <!-- Card 1 -->
+            <div class="card" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px;">
+                <div class="card-body">
+                    <h3>Bác sĩ Trần Thị Lan</h3>
+                    <p>Thạc sĩ - Bác sĩ chuyên khoa I</p>
+                    <p>Khoa: <strong>Sản nhi</strong></p>
+                    <p>Kinh nghiệm: 8 năm</p>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="card" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px;">
+                <div class="card-body">
+                    <h3>Bác sĩ Lê Hoàng Quân</h3>
+                    <p>Tiến sĩ Y khoa</p>
+                    <p>Khoa: <strong>Ngoại thần kinh</strong></p>
+                    <p>Kinh nghiệm: 20 năm</p>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="card" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px;">
+                <div class="card-body">
+                    <h3>Bác sĩ Đặng Minh Anh</h3>
+                    <p>Bác sĩ chuyên khoa II</p>
+                    <p>Khoa: <strong>Tai Mũi Họng</strong></p>
+                    <p>Kinh nghiệm: 12 năm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -371,55 +371,55 @@ SELECT id, patient_name FROM appointments WHERE doctor_id = 3 AND status = 'COMP
 -- 2. UPDATE cho từng người (thay ? bằng ID thực tế)
 UPDATE medical_records
 SET diagnosis = 'Viêm da cơ địa tái phát',
-    prescription = 'Cetirizine 10mg x 10 viên, Kem bôi Betamethasone 0.1%',
-    notes = 'Tránh thức ăn tanh, hải sản, tái khám sau 7 ngày'
+prescription = 'Cetirizine 10mg x 10 viên, Kem bôi Betamethasone 0.1%',
+notes = 'Tránh thức ăn tanh, hải sản, tái khám sau 7 ngày'
 WHERE appointment_id = ?;
 
 UPDATE medical_records
 SET diagnosis = 'Nấm da vùng bẹn',
-    prescription = 'Clotrimazole 1% bôi 2 lần/ngày x 14 ngày, Terbinafine 250mg x 14 ngày',
-    notes = 'Vệ sinh khô ráo, tái khám sau 2 tuần'
+prescription = 'Clotrimazole 1% bôi 2 lần/ngày x 14 ngày, Terbinafine 250mg x 14 ngày',
+notes = 'Vệ sinh khô ráo, tái khám sau 2 tuần'
 WHERE appointment_id = ?;
 
 UPDATE medical_records
 SET diagnosis = 'Mề đay mạn tính',
-    prescription = 'Fexofenadine 180mg x 20 viên, uống 1 viên/ngày',
-    notes = 'Tránh tác nhân gây dị ứng'
+prescription = 'Fexofenadine 180mg x 20 viên, uống 1 viên/ngày',
+notes = 'Tránh tác nhân gây dị ứng'
 WHERE appointment_id = ?;
 
 UPDATE medical_records
 SET diagnosis = 'Viêm nang lông',
-    prescription = 'Clindamycin 1% bôi sáng tối, Doxycycline 100mg x 14 ngày',
-    notes = 'Vệ sinh da, tránh cạo lông'
+prescription = 'Clindamycin 1% bôi sáng tối, Doxycycline 100mg x 14 ngày',
+notes = 'Vệ sinh da, tránh cạo lông'
 WHERE appointment_id = ?;
 
 
 
 INSERT INTO medical_records (appointment_id, diagnosis, prescription, notes, created_at, updated_at)
 SELECT
-    a.id,
-    CASE a.patient_name
-        WHEN 'Vũ Đức Minh' THEN 'Viêm da cơ địa tái phát'
-        WHEN 'Đỗ Thị Hương' THEN 'Nấm da vùng bẹn'
-        WHEN 'Bùi Văn Tùng' THEN 'Mề đay mạn tính'
-        WHEN 'Trịnh Thị Lan Anh' THEN 'Viêm nang lông'
-        WHEN 'Phùng Văn Thắng' THEN 'Viêm họng cấp tính'
-        END,
-    CASE a.patient_name
-        WHEN 'Vũ Đức Minh' THEN 'Cetirizine 10mg x 10 viên, Kem bôi Betamethasone 0.1%'
-        WHEN 'Đỗ Thị Hương' THEN 'Clotrimazole 1% bôi 2 lần/ngày x 14 ngày'
-        WHEN 'Bùi Văn Tùng' THEN 'Fexofenadine 180mg x 20 viên'
-        WHEN 'Trịnh Thị Lan Anh' THEN 'Clindamycin 1% bôi, Doxycycline 100mg x 14 ngày'
-        WHEN 'Phùng Văn Thắng' THEN 'Amoxicillin 500mg, Paracetamol 500mg, Alpha Choay'
-        END,
-    'Tái khám nếu không đỡ',
-    NOW(),
-    NOW()
+a.id,
+CASE a.patient_name
+WHEN 'Vũ Đức Minh' THEN 'Viêm da cơ địa tái phát'
+WHEN 'Đỗ Thị Hương' THEN 'Nấm da vùng bẹn'
+WHEN 'Bùi Văn Tùng' THEN 'Mề đay mạn tính'
+WHEN 'Trịnh Thị Lan Anh' THEN 'Viêm nang lông'
+WHEN 'Phùng Văn Thắng' THEN 'Viêm họng cấp tính'
+END,
+CASE a.patient_name
+WHEN 'Vũ Đức Minh' THEN 'Cetirizine 10mg x 10 viên, Kem bôi Betamethasone 0.1%'
+WHEN 'Đỗ Thị Hương' THEN 'Clotrimazole 1% bôi 2 lần/ngày x 14 ngày'
+WHEN 'Bùi Văn Tùng' THEN 'Fexofenadine 180mg x 20 viên'
+WHEN 'Trịnh Thị Lan Anh' THEN 'Clindamycin 1% bôi, Doxycycline 100mg x 14 ngày'
+WHEN 'Phùng Văn Thắng' THEN 'Amoxicillin 500mg, Paracetamol 500mg, Alpha Choay'
+END,
+'Tái khám nếu không đỡ',
+NOW(),
+NOW()
 FROM appointments a
 WHERE a.doctor_id = 3 AND a.status = 'COMPLETED'
 ON DUPLICATE KEY UPDATE
-                     diagnosis = VALUES(diagnosis),
-                     prescription = VALUES(prescription);
+diagnosis = VALUES(diagnosis),
+prescription = VALUES(prescription);
 
 
 
@@ -439,49 +439,49 @@ DELETE FROM medical_records WHERE appointment_id IN (15, 16, 17, 18, 19);
 
 INSERT INTO medical_records (appointment_id, diagnosis, prescription, notes, created_at, updated_at)
 SELECT
-    a.id,
-    CASE a.patient_name
-        WHEN 'Vũ Đức Minh' THEN 'Viêm da cơ địa tái phát'
-        WHEN 'Đỗ Thị Hương' THEN 'Nấm da vùng bẹn'
-        WHEN 'Bùi Văn Tùng' THEN 'Mề đay mạn tính'
-        WHEN 'Trịnh Thị Lan Anh' THEN 'Viêm nang lông'
-        WHEN 'Phùng Văn Thắng' THEN 'Viêm họng cấp tính'
-        END,
-    CASE a.patient_name
-        WHEN 'Vũ Đức Minh' THEN 'Cetirizine 10mg x 10 viên, Kem bôi Betamethasone 0.1%'
-        WHEN 'Đỗ Thị Hương' THEN 'Clotrimazole 1% bôi 2 lần/ngày x 14 ngày'
-        WHEN 'Bùi Văn Tùng' THEN 'Fexofenadine 180mg x 20 viên'
-        WHEN 'Trịnh Thị Lan Anh' THEN 'Clindamycin 1% bôi, Doxycycline 100mg x 14 ngày'
-        WHEN 'Phùng Văn Thắng' THEN 'Amoxicillin 500mg, Paracetamol 500mg, Alpha Choay'
-        END,
-    'Tái khám nếu không đỡ',
-    NOW(),
-    NOW()
+a.id,
+CASE a.patient_name
+WHEN 'Vũ Đức Minh' THEN 'Viêm da cơ địa tái phát'
+WHEN 'Đỗ Thị Hương' THEN 'Nấm da vùng bẹn'
+WHEN 'Bùi Văn Tùng' THEN 'Mề đay mạn tính'
+WHEN 'Trịnh Thị Lan Anh' THEN 'Viêm nang lông'
+WHEN 'Phùng Văn Thắng' THEN 'Viêm họng cấp tính'
+END,
+CASE a.patient_name
+WHEN 'Vũ Đức Minh' THEN 'Cetirizine 10mg x 10 viên, Kem bôi Betamethasone 0.1%'
+WHEN 'Đỗ Thị Hương' THEN 'Clotrimazole 1% bôi 2 lần/ngày x 14 ngày'
+WHEN 'Bùi Văn Tùng' THEN 'Fexofenadine 180mg x 20 viên'
+WHEN 'Trịnh Thị Lan Anh' THEN 'Clindamycin 1% bôi, Doxycycline 100mg x 14 ngày'
+WHEN 'Phùng Văn Thắng' THEN 'Amoxicillin 500mg, Paracetamol 500mg, Alpha Choay'
+END,
+'Tái khám nếu không đỡ',
+NOW(),
+NOW()
 FROM appointments a
 WHERE a.doctor_id = 3
-  AND a.status = 'COMPLETED'
-  AND a.id NOT IN (SELECT appointment_id FROM medical_records WHERE appointment_id IS NOT NULL);
+AND a.status = 'COMPLETED'
+AND a.id NOT IN (SELECT appointment_id FROM medical_records WHERE appointment_id IS NOT NULL);
 
 
 
 
 INSERT INTO medical_records (appointment_id, diagnosis, prescription, notes, created_at, updated_at)
 SELECT
-    a.id,
-    'Viêm họng cấp tính, Amidan sưng nề mủ nhẹ',
-    'Amoxicillin 500mg: 20 viên (uống 2 lần, mỗi lần 1 viên sau ăn). Paracetamol 500mg: 10 viên (uống khi sốt trên 38.5 độ). Alpha Choay: 2 vỉ (ngậm dưới lưỡi ngày 4 viên chia 2 lần)',
-    'Tái khám sau 5 ngày nếu không đỡ',
-    NOW(),
-    NOW()
+a.id,
+'Viêm họng cấp tính, Amidan sưng nề mủ nhẹ',
+'Amoxicillin 500mg: 20 viên (uống 2 lần, mỗi lần 1 viên sau ăn). Paracetamol 500mg: 10 viên (uống khi sốt trên 38.5 độ). Alpha Choay: 2 vỉ (ngậm dưới lưỡi ngày 4 viên chia 2 lần)',
+'Tái khám sau 5 ngày nếu không đỡ',
+NOW(),
+NOW()
 FROM appointments a
 WHERE a.patient_name = 'Vũ Hoàng Nhi'
-  AND a.status = 'COMPLETED'
-  AND a.id NOT IN (SELECT appointment_id FROM medical_records WHERE appointment_id IS NOT NULL);
+AND a.status = 'COMPLETED'
+AND a.id NOT IN (SELECT appointment_id FROM medical_records WHERE appointment_id IS NOT NULL);
 
 
 -- Xóa medical_records trước (nếu có)
 DELETE FROM medical_records WHERE appointment_id IN (
-    SELECT id FROM appointments WHERE patient_name = 'Vũ Hoàng Nhi'
+SELECT id FROM appointments WHERE patient_name = 'Vũ Hoàng Nhi'
 );
 
 -- Xóa appointments
@@ -489,3 +489,173 @@ DELETE FROM appointments WHERE patient_name = 'Vũ Hoàng Nhi';
 
 -- Xóa user
 DELETE FROM users WHERE fullname = 'Vũ Hoàng Nhi';
+
+
+use hospital_db;
+
+
+-- =====================================================
+-- 1. THÊM TÀI KHOẢN BÁC SĨ (role = DOCTOR)
+-- =====================================================
+INSERT INTO users (fullname, phone, email, password, role, dob, gender, address)
+VALUES ('Bác sĩ Nguyễn Văn An', '0900000001', 'bs.an@hospital.com', '123456', 'DOCTOR', '1980-05-15', 'MALE', 'Số 12, Lê Lợi, Hà Nội');
+
+-- =====================================================
+-- 2. THÊM BÁC SĨ VÀO BẢNG doctors (KHÔNG có user_id, chỉ có name và department_id)
+-- =====================================================
+INSERT INTO doctors (name, department_id, qualification, experience, fee)
+VALUES ('Bác sĩ Nguyễn Văn An', 1, 'Tiến sĩ, Bác sĩ chính', 15, 350000);
+
+-- =====================================================
+-- 3. THÊM BỆNH NHÂN MỚI (role = USER)
+-- =====================================================
+INSERT INTO users (fullname, phone, email, password, role, dob, gender, address) VALUES
+('Nguyễn Thị Hồng', '0987654321', 'hong@email.com', '123456', 'USER', '1992-07-12', 'FEMALE', 'Số 67, Tây Sơn, Hà Nội'),
+('Trần Văn Cường', '0976543210', 'cuong@email.com', '123456', 'USER', '1985-12-01', 'MALE', 'Số 34, Hoàng Quốc Việt, Hà Nội'),
+('Lê Thị Linh', '0965432109', 'linh@email.com', '123456', 'USER', '2005-09-18', 'FEMALE', 'Số 9, Hoàng Hoa Thám, Hà Nội'),
+('Hoàng Văn Nam', '0954321098', 'nam@email.com', '123456', 'USER', '1975-03-22', 'MALE', 'Số 56, Láng Hạ, Hà Nội'),
+('Đỗ Thị Hoa', '0943210987', 'hoa@email.com', '123456', 'USER', '1998-06-30', 'FEMALE', 'Số 12, Trần Duy Hưng, Hà Nội');
+
+-- =====================================================
+-- 4. TẠO LỊCH HỌC CHO BÁC SĨ (doctor_id = id vừa thêm ở bước 2)
+-- =====================================================
+-- Lấy doctor_id của 'Bác sĩ Nguyễn Văn An' (thường là 13)
+INSERT INTO appointments (appointment_code, patient_name, patient_phone, patient_email, patient_dob, patient_gender, patient_address, identity_no, insurance_no, doctor_id, department_id, appointment_date, slot, symptoms, status, user_id)
+SELECT
+CONCAT('KH', FLOOR(RAND() * 1000000000)),
+u.fullname,
+u.phone,
+u.email,
+u.dob,
+u.gender,
+u.address,
+NULL,
+NULL,
+(SELECT id FROM doctors WHERE name = 'Bác sĩ Nguyễn Văn An' LIMIT 1),  -- doctor_id
+1,  -- department_id
+DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 14) + 1 DAY),
+CASE WHEN RAND() > 0.5 THEN 'MORNING' ELSE 'AFTERNOON' END,
+CASE
+WHEN u.fullname = 'Nguyễn Thị Hồng' THEN 'Nổi mẩn đỏ khắp người, ngứa nhiều về đêm'
+WHEN u.fullname = 'Trần Văn Cường' THEN 'Vảy nến vùng khuỷu tay và đầu gối'
+WHEN u.fullname = 'Lê Thị Linh' THEN 'Mụn trứng cá nặng vùng mặt, có thâm'
+WHEN u.fullname = 'Hoàng Văn Nam' THEN 'Nám da vùng má, da khô sạm'
+ELSE 'Thăm khám da liễu định kỳ'
+END,
+CASE WHEN RAND() > 0.3 THEN 'PENDING' ELSE 'CONFIRMED' END,
+u.id
+FROM users u
+WHERE u.phone IN ('0987654321', '0976543210', '0965432109', '0954321098', '0943210987');
+
+-- =====================================================
+-- 5. KIỂM TRA KẾT QUẢ
+-- =====================================================
+SELECT
+a.id,
+a.appointment_code,
+a.patient_name,
+a.patient_phone,
+d.name as doctor_name,
+a.appointment_date,
+a.slot,
+a.status
+FROM appointments a
+JOIN doctors d ON a.doctor_id = d.id
+WHERE d.name = 'Bác sĩ Nguyễn Văn An'
+ORDER BY a.appointment_date DESC;
+
+
+
+-- Kiểm tra status hiện tại của các lịch hẹn này
+SELECT id, patient_name, status FROM appointments
+WHERE patient_phone IN ('0943210987', '0965432109', '0954321098', '0976543210', '0987654321');
+
+-- Cập nhật status cho các lịch hẹn có status NULL hoặc rỗng
+UPDATE appointments SET status = 'PENDING'
+WHERE status IS NULL OR status = ''
+AND patient_phone IN ('0943210987', '0965432109', '0954321098', '0976543210', '0987654321');
+
+-- Hoặc cập nhật cụ thể từng bệnh nhân
+UPDATE appointments SET status = 'PENDING' WHERE patient_phone = '0965432109';  -- Lê Thị Linh
+UPDATE appointments SET status = 'PENDING' WHERE patient_phone = '0976543210';  -- Trần Văn Cường
+UPDATE appointments SET status = 'PENDING' WHERE patient_phone = '0987654321';  -- Nguyễn Thị Hồng
+
+
+-- Xem các medical_record bị trùng
+SELECT appointment_id, COUNT(*) FROM medical_records GROUP BY appointment_id HAVING COUNT(*) > 1;
+
+-- Giữ lại 1 bản ghi, xóa bản trùng (cẩn thận)
+DELETE FROM medical_records WHERE id NOT IN (
+SELECT MIN(id) FROM medical_records GROUP BY appointment_id
+);
+-- Xóa hết medical_record cũ, để dữ liệu sạch
+DELETE FROM medical_records;
+
+-- Sau đó khám lại bệnh nhân từ đầu
+-- Xóa các lịch hẹn theo appointment_code
+DELETE FROM appointments
+WHERE appointment_code IN (
+'KH177736605699819E4',
+'KH177736620475902E9',
+'KH17774379711811FCF',
+'KH17774537233403BE8'
+);
+
+-- Xóa 3 bác sĩ theo ID
+DELETE FROM doctors
+WHERE id IN (11, 12, 13);
+
+-- Bước 1: Kiểm tra xem 3 bác sĩ có lịch hẹn không
+SELECT * FROM appointments WHERE doctor_id IN (11, 12, 13);
+
+-- Bước 2: Chuyển lịch hẹn của 3 bác sĩ sang bác sĩ ID 4 (TS.BS Phạm Thị Dung)
+-- (bạn có thể đổi ID khác nếu muốn)
+UPDATE appointments SET doctor_id = 4 WHERE doctor_id IN (11, 12, 13);
+
+-- Bước 3: Kiểm tra lại lịch hẹn đã được chuyển chưa
+SELECT * FROM appointments WHERE doctor_id = 4;
+
+-- Bước 4: Xóa 3 bác sĩ
+DELETE FROM doctors WHERE id IN (11, 12, 13);
+
+-- Bước 5: Kiểm tra lại danh sách bác sĩ
+SELECT * FROM doctors;
+
+-- Giữ lại các ID cụ thể (ví dụ: giữ 1,2,3,4,5,6,7,8)
+DELETE FROM appointments
+WHERE id NOT IN (1, 2, 3, 4, 5, 6, 7, 8);
+
+-- Tắt kiểm tra khóa ngoại
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Xóa lịch hẹn
+DELETE FROM appointments
+WHERE id NOT IN (
+SELECT id FROM (
+SELECT id FROM appointments
+ORDER BY appointment_date DESC
+LIMIT 8
+) AS temp
+);
+
+-- Bật lại kiểm tra
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- Xóa theo số điện thoại
+DELETE FROM users WHERE phone IN ('0981234561', '0981234562', '0981234563', '0981234564', '0981234565');
+
+-- Hoặc xóa theo email
+DELETE FROM users WHERE email LIKE '%@dalieu.vn';
+
+-- Hoặc xóa theo role DOCTOR (cẩn thận nếu có dữ liệu real)
+DELETE FROM users WHERE role = 'DOCTOR';
+
+-- Nếu password để plain text (KHÔNG KHUYẾN KHÍCH)
+INSERT INTO users (fullname, phone, email, password, role, created_at, updated_at)
+VALUES
+('PGS.TS Nguyễn Văn An', '0981234561', 'nguyenvanan@dalieu.vn', '123456', 'DOCTOR', NOW(), NOW()),
+('TS.BS Trần Thị Bình', '0981234562', 'tranthibinh@dalieu.vn', '123456', 'DOCTOR', NOW(), NOW()),
+('BS.CKII Lê Văn Cường', '0981234563', 'levancuong@dalieu.vn', '123456', 'DOCTOR', NOW(), NOW());
+
+

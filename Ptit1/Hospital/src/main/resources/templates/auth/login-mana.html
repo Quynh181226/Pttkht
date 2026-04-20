@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Healthcare - Đăng nhập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { font-family: system-ui, 'Segoe UI', -apple-system, sans-serif; }
+        .dancing-script { font-family: 'Dancing Script', cursive; }
+        .btn-gradient-diagonal {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            border: 1px solid #5a637d;
+            background-color: #7d88a8;
+            box-shadow: 0 6px 0 #5a637d;
+        }
+        .btn-gradient-diagonal:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 9px 0 #5a637d;
+        }
+        .btn-gradient-diagonal .diagonal-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(-115deg, #6a7698 60%, #7d88a7 60%, #7d88a7 62%, #6a7698 62%, #6a7698 65%, #7d88a7 65%, #7d88a7 70%, #6a7698 70%, #6a7698 73%, #7d88a7 73%, #7d88a7 75%, #6a7698 75%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .btn-gradient-diagonal span { position: relative; z-index: 2; }
+        input:focus { outline: none; }
+        input.error, select.error, textarea.error {
+            border-color: #E5101B !important;
+            background-color: #fff5f5 !important;
+        }
+        .error-message {
+            color: #E5101B;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+        .toast-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: white;
+            font-size: 14px;
+            z-index: 10000;
+            animation: fadeInOut 2.5s ease forwards;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+    </style>
+</head>
+<body class="bg-[#F4F5F8]">
+<div class="min-h-screen bg-[#F4F5F8] bg-gradient-to-tl from-[#d4d7e2]/95 via-[#f2f3f7]/60 to-white/80 backdrop-blur-sm flex items-center">
+    <div class="flex flex-col sm:flex-row p-5 gap-[10px] w-full mx-auto items-center sm:items-start">
+        <!-- Phần bên trái -->
+        <div class="ml-22 hidden sm:flex relative w-[55%] h-[95vh] rounded-3xl overflow-hidden flex-col items-center bg-cover bg-center bg-no-repeat">
+            <img src="https://techmoss.net/wp-content/uploads/2021/12/goc-review-cac-phan-mem-quan-ly-benh-vien-duoc-tin-dung-hien-nay-3.jpg" alt="Background" class="absolute w-full h-full object-cover">
+
+            <div class="absolute top-[6%] left-12">
+                <div class="flex items-center gap-2 text-[#6a7698] rotate-[-4deg] skew-y-[-3.5deg]">
+                    <svg  xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 24 24" ><path d="M21 9h-3V5h1V3H5v2h1v4H3c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h18c.55 0 1-.45 1-1V10c0-.55-.45-1-1-1M4 11h2v8H4zm6 4v4H8V5h8v14h-2v-4zm10 4h-2v-8h2z"></path><path d="M15 8h-2V6h-2v2H9v2h2v2h2v-2h2z"></path>
+                    </svg>
+                    <span class="font-['Dancing_Script',cursive] font-semibold tracking-wide italic text-[2rem]">
+                         Smart Healthcare
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phần form đăng nhập Admin/Doctor -->
+        <div class="w-full sm:w-[60%] sm:mt-[86px] sm:p-0 flex justify-center">
+            <div class="bg-white/90 sm:bg-transparent border border-gray-200 sm:border-none rounded-2xl sm:rounded-none shadow-md sm:shadow-none px-8 py-10 w-[90%] sm:w-[80%]">
+                <div class="flex sm:hidden justify-center mb-6">
+                    <div class="flex items-center gap-2 text-[#6a7698] rotate-[-3.6deg]">
+                        <svg  xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 24 24" >
+                            <path d="M21 9h-3V5h1V3H5v2h1v4H3c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h18c.55 0 1-.45 1-1V10c0-.55-.45-1-1-1M4 11h2v8H4zm6 4v4H8V5h8v14h-2v-4zm10 4h-2v-8h2z"></path><path d="M15 8h-2V6h-2v2H9v2h2v2h2v-2h2z"></path>
+                        </svg>
+                        <span class="font-['Dancing_Script',cursive] font-semibold tracking-wide italic text-[2rem]">
+                             Smart Healthcare
+                        </span>
+                    </div>
+                </div>
+
+                <span class="text-[28px] sm:text-[32px] font-bold text-[#3D3D3D] block text-center sm:text-left">Đăng Nhập</span>
+                <span class="block text-sm text-[#676767] text-center sm:text-left mt-1">Dành cho Quản trị viên & Bác sĩ</span>
+
+
+
+                <form th:action="@{/login-mana}" th:object="${loginDTO}" method="post" novalidate class="flex flex-col gap-[10px] mt-6">
+                    <!-- Email -->
+                    <label class="block text-sm font-medium text-gray-700">Email</label>
+                    <div class="flex items-center mt-1">
+                        <span class="flex items-center justify-center bg-[#6a7698] px-3 py-3.5 rounded-l-md"><i class="fas fa-envelope text-[#f4eeee]"></i></span>
+                        <input type="email" th:field="*{usernameOrEmail}" placeholder="Nhập email" class="w-full border border-gray-300 rounded-r-md px-3 py-2 focus:ring-2 focus:ring-[#6a7698]" :class="${#fields.hasErrors('usernameOrEmail')} ? 'error' : ''">
+                    </div>
+                    <div th:if="${#fields.hasErrors('usernameOrEmail')}" class="error-message">
+                        <i class="fas fa-exclamation-circle mr-1"></i> <span th:errors="*{usernameOrEmail}"></span>
+                    </div>
+
+                    <!-- Mật khẩu -->
+                    <label class="block text-sm font-medium text-gray-700 mt-3">Mật khẩu</label>
+                    <div class="flex items-center mt-1">
+                        <span class="flex items-center justify-center bg-[#6a7698] px-3 py-3.5 rounded-l-md"><i class="fas fa-key text-[#f4eeee]"></i></span>
+                        <div class="relative w-full">
+                            <input type="password" th:field="*{password}" id="password" placeholder="Nhập mật khẩu"
+                                   class="w-full border border-gray-300 rounded-r-md px-3 py-2 pr-10 focus:ring-2 focus:ring-[#6a7698]"
+                                   :class="${#fields.hasErrors('password')} ? 'error' : ''">
+                            <i class="fas fa-eye-slash absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer" id="togglePassword"></i>
+                        </div>
+                    </div>
+                    <div th:if="${#fields.hasErrors('password')}" class="error-message">
+                        <i class="fas fa-exclamation-circle mr-1"></i> <span th:errors="*{password}"></span>
+                    </div>
+
+                    <a class="text-[#6a7698] text-[12px] cursor-pointer w-fit mt-2" id="forgotLink">Quên Mật Khẩu</a>
+
+
+
+                    <div th:if="${error != null}" class="mb-4 text-red-600 text-sm rounded-lg">
+                        <i class="fas fa-exclamation-circle mr-2"></i> <span th:text="${error}"></span>
+                    </div>
+
+                    <div class="flex flex-col gap-4 mt-3">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" th:field="*{rememberMe}" id="remember">
+                            <label class="text-sm text-[#676767]">Lưu thông tin đăng nhập</label>
+                        </div>
+
+                        <button type="submit" class="relative mb-2.5 border border-[#5a637d] bg-[#7d88a8] text-white font-bold text-[16px] rounded-2xl h-[5vh] shadow-[0_6px_0_#5a637d] cursor-pointer overflow-hidden hover:-translate-y-[1px] hover:shadow-[0_9px_0_#5a637d] transition-all btn-gradient-diagonal">
+                            <div class="diagonal-bg"></div>
+                            <span>Đăng Nhập</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Toggle password visibility
+    $('#togglePassword').click(function() {
+        const input = $('#password');
+        const type = input.attr('type') === 'password' ? 'text' : 'password';
+        input.attr('type', type);
+        $(this).toggleClass('fa-eye-slash fa-eye');
+    });
+
+    $('#forgotLink').click(function() {
+        alert('Vui lòng liên hệ admin để đặt lại mật khẩu\n' +
+            'Sđt: 0339991903');
+    });
+</script>
+</body>
+</html>

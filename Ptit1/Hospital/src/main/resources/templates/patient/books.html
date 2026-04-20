@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt lịch khám | SmartCare</title>
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style1.css}">
+    <style>
+        .content { margin: 40px; }
+        .booking-container { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .booking-form { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .booking-form h3 { margin-bottom: 20px; font-size: 20px; display: flex; align-items: center; gap: 10px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
+        .form-group select, .form-group input, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        .time-slots { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .time-slot { padding: 10px 16px; text-align: center; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: white; }
+        .time-slot:hover:not(.disabled) { border-color: #BCA2CCFF; background: #BCA2CCFF; color: white; }
+        .time-slot.selected { border-color: #E5101B; background: #E5101B; color: white; }
+        .time-slot.disabled { background: #f5f5f5; color: #ccc; cursor: not-allowed; text-decoration: line-through; }
+        .summary-card { background: white; border-radius: 20px; padding: 24px; position: sticky; top: 80px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .summary-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .summary-total { font-size: 20px; font-weight: 700; color: #5E5959FF; margin-top: 16px; padding-top: 16px; }
+        .btn-booking { width: 100%; margin-top: 24px; padding: 14px; font-size: 16px; background: #6A7698FF; color: black!important; border: none; border-radius: 14px; cursor: pointer; }
+        .btn-booking:disabled { opacity: 0.5; cursor: not-allowed; }
+        .info-note { background: #e8f0fe; border-radius: 12px; padding: 16px; margin-top: 20px; font-size: 13px; color: #2c3e66; }
+        .head-title { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 24px; }
+        .head-title .left h1 { font-size: 36px; font-weight: 600; margin-bottom: 10px; }
+        .breadcrumb { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .breadcrumb li { list-style: none; }
+        .breadcrumb li a { color: #999; text-decoration: none; }
+        .breadcrumb li a.active { color: #E5101B; }
+        @media (max-width: 768px) { .booking-container { grid-template-columns: 1fr; } .content { margin: 20px; } }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="content">
+    <main>
+        <div class="head-title">
+            <div class="left">
+                <h1>Đặt lịch khám</h1>
+                <ul class="breadcrumb">
+                    <li><a href="#">Đặt lịch</a></li>
+                    <li><i class="bx bx-chevron-right"></i></li>
+                    <li><a class="active" href="#">Chọn bác sĩ & thời gian</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <form th:action="@{/books}" method="post" id="bookingForm">
+            <div class="booking-container">
+                <div class="booking-form">
+                    <h3><i class="bx bx-calendar"></i> Thông tin đặt lịch</h3>
+
+                    <div class="form-group">
+                        <label>Chuyên khoa *</label>
+                        <select id="specialtySelect" required>
+                            <option value="">-- Chọn chuyên khoa --</option>
+                            <option th:each="s : ${specialties}" th:value="${s.id}" th:text="${s.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bác sĩ *</label>
+                        <select id="doctorSelect" name="doctorId" required disabled>
+                            <option value="">-- Chọn chuyên khoa trước --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ngày khám *</label>
+                        <input type="date" id="dateInput" name="appointmentDate" th:value="${selectedDate}" min="" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Chọn giờ khám *</label>
+                        <div class="time-slots" id="timeSlots">
+                            <div class="time-slot disabled">Chọn bác sĩ và ngày trước</div>
+                        </div>
+                        <input type="hidden" id="selectedShiftId" name="shiftId">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lý do khám</label>
+                        <textarea name="reason" rows="3" placeholder="Nhập triệu chứng hoặc lý do khám..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ghi chú thêm</label>
+                        <textarea name="patientNote" rows="2" placeholder="Ghi chú cho bác sĩ (nếu có)..."></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="summary-card">
+                        <h3><i class="bx bx-info-circle"></i> Thông tin đặt lịch</h3>
+                        <div class="summary-item"><span>Chuyên khoa:</span><span id="summarySpecialty">---</span></div>
+                        <div class="summary-item"><span>Bác sĩ:</span><span id="summaryDoctor">---</span></div>
+                        <div class="summary-item"><span>Ngày khám:</span><span id="summaryDate">---</span></div>
+                        <div class="summary-item"><span>Giờ khám:</span><span id="summaryTime">---</span></div>
+                        <div class="summary-item"><span>Phí khám:</span><span id="summaryFee">---</span></div>
+                        <div class="summary-total" id="summaryTotal">Tổng cộng: 0đ</div>
+                        <button type="submit" class="btn-booking" id="bookBtn" disabled>Đặt lịch ngay</button>
+                        <div class="info-note">
+                            <i class="bx bx-time"></i> <strong>Lưu ý:</strong><br>
+                            - Chỉ được đặt lịch trong tương lai.<br>
+                            - Hủy lịch trước 24h để được giải phóng slot.<br>
+                            - Vui lòng đến đúng giờ hẹn.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+</section>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // Dữ liệu từ server
+    const doctorsData = /*[[${doctors}]]*/ [];
+    const shiftsData = /*[[${shifts}]]*/ [];
+
+    let selectedDoctor = null;
+    let selectedShift = null;
+    let bookedAppointments = [];
+
+    // Lấy danh sách lịch đã đặt (call API nếu cần)
+    function loadBookedAppointments() {
+        const doctorId = selectedDoctor?.id;
+        const date = document.getElementById("dateInput").value;
+        if (doctorId && date) {
+            fetch(`/api/appointments/doctor/${doctorId}/date/${date}`)
+                .then(res => res.json())
+                .then(data => {
+                    bookedAppointments = data;
+                    renderTimeSlots();
+                })
+                .catch(() => {
+                    bookedAppointments = [];
+                    renderTimeSlots();
+                });
+        } else {
+            renderTimeSlots();
+        }
+    }
+
+    // Set min date = tomorrow
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    document.getElementById("dateInput").min = tomorrow.toISOString().split('T')[0];
+
+    // Nhóm bác sĩ theo chuyên khoa
+    const doctorsBySpecialty = {};
+    doctorsData.forEach(doc => {
+        const specialtyId = doc.specialty.id;
+        if (!doctorsBySpecialty[specialtyId]) {
+            doctorsBySpecialty[specialtyId] = [];
+        }
+        doctorsBySpecialty[specialtyId].push(doc);
+    });
+
+    // Nhóm ca khám theo shift (để lấy giờ)
+    const shiftsMap = {};
+    shiftsData.forEach(shift => {
+        shiftsMap[shift.id] = shift;
+    });
+
+    // Specialty change
+    document.getElementById("specialtySelect").addEventListener("change", function() {
+        const specialtyId = this.value;
+        const doctorSelect = document.getElementById("doctorSelect");
+
+        if (!specialtyId) {
+            doctorSelect.disabled = true;
+            doctorSelect.innerHTML = '<option value="">-- Chọn chuyên khoa trước --</option>';
+            selectedDoctor = null;
+            updateSummary();
+            document.getElementById("timeSlots").innerHTML = '<div class="time-slot disabled">Chọn bác sĩ trước</div>';
+            return;
+        }
+
+        const doctors = doctorsBySpecialty[specialtyId] || [];
+        doctorSelect.disabled = false;
+        doctorSelect.innerHTML = '<option value="">-- Chọn bác sĩ --</option>';
+        doctors.forEach(doc => {
+            doctorSelect.innerHTML += `<option value="${doc.id}" data-fee="${doc.consultationType.price}" data-name="${doc.user.fullName}">${doc.user.fullName} - ${doc.qualification} (${doc.consultationType.price.toLocaleString()}đ)</option>`;
+        });
+
+        const specialtyName = document.getElementById("specialtySelect").options[document.getElementById("specialtySelect").selectedIndex]?.text || "---";
+        document.getElementById("summarySpecialty").innerText = specialtyName;
+        selectedDoctor = null;
+        selectedShift = null;
+        updateSummary();
+    });
+
+    // Doctor change
+    document.getElementById("doctorSelect").addEventListener("change", function() {
+        const selectedOption = this.options[this.selectedIndex];
+        if (this.value) {
+            selectedDoctor = {
+                id: parseInt(this.value),
+                name: selectedOption.getAttribute("data-name"),
+                fee: parseInt(selectedOption.getAttribute("data-fee"))
+            };
+            updateSummary();
+            loadBookedAppointments();
+        } else {
+            selectedDoctor = null;
+            selectedShift = null;
+            updateSummary();
+            document.getElementById("timeSlots").innerHTML = '<div class="time-slot disabled">Chọn bác sĩ trước</div>';
+        }
+    });
+
+    // Date change
+    document.getElementById("dateInput").addEventListener("change", function() {
+        if (selectedDoctor) {
+            loadBookedAppointments();
+        }
+        updateSummary();
+    });
+
+    function renderTimeSlots() {
+        const container = document.getElementById("timeSlots");
+        const date = document.getElementById("dateInput").value;
+
+        if (!selectedDoctor || !date) {
+            container.innerHTML = '<div class="time-slot disabled">Vui lòng chọn bác sĩ và ngày khám</div>';
+            selectedShift = null;
+            updateSummary();
+            return;
+        }
+
+        // Lấy tất cả ca khám
+        const allShifts = shiftsData;
+
+        // Lọc ca đã đặt
+        const bookedShiftIds = bookedAppointments.map(b => b.shiftId);
+
+        const availableShifts = allShifts.filter(shift => !bookedShiftIds.includes(shift.id));
+
+        if (availableShifts.length === 0) {
+            container.innerHTML = '<div class="time-slot disabled">Không còn giờ trống trong ngày này</div>';
+            selectedShift = null;
+            updateSummary();
+            return;
+        }
+
+        container.innerHTML = "";
+        availableShifts.forEach(shift => {
+            const slotDiv = document.createElement("div");
+            slotDiv.className = "time-slot";
+            if (selectedShift?.id === shift.id) slotDiv.classList.add("selected");
+            slotDiv.innerText = shift.shiftName + " (" + shift.startTime + ")";
+            slotDiv.dataset.id = shift.id;
+            slotDiv.onclick = () => {
+                document.querySelectorAll(".time-slot").forEach(el => el.classList.remove("selected"));
+                slotDiv.classList.add("selected");
+                selectedShift = shift;
+                document.getElementById("selectedShiftId").value = shift.id;
+                updateSummary();
+            };
+            container.appendChild(slotDiv);
+        });
+    }
+
+    function updateSummary() {
+        const specialtyName = document.getElementById("summarySpecialty").innerText;
+        const doctorName = selectedDoctor?.name || "---";
+        const date = document.getElementById("dateInput").value || "---";
+        const time = selectedShift?.shiftName + " (" + (selectedShift?.startTime || "") + ")" || "---";
+        const fee = selectedDoctor?.fee || 0;
+
+        document.getElementById("summaryDoctor").innerText = doctorName;
+        document.getElementById("summaryDate").innerText = date;
+        document.getElementById("summaryTime").innerText = time;
+        document.getElementById("summaryFee").innerText = fee ? fee.toLocaleString() + "VNĐ" : "---";
+        document.getElementById("summaryTotal").innerHTML = `Tổng cộng: ${fee ? fee.toLocaleString() + "VNĐ" : "0VNĐ"}`;
+
+        const bookBtn = document.getElementById("bookBtn");
+        if (specialtyName !== "---" && doctorName !== "---" && date !== "---" && time !== "---") {
+            bookBtn.disabled = false;
+        } else {
+            bookBtn.disabled = true;
+        }
+    }
+
+    // Xác nhận trước khi submit
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+        if (!selectedDoctor || !selectedShift) {
+            e.preventDefault();
+            alert("Vui lòng chọn đầy đủ thông tin: bác sĩ, ngày và giờ khám!");
+            return false;
+        }
+
+        const selectedDate = new Date(document.getElementById("dateInput").value);
+        const todayDate = new Date();
+        todayDate.setHours(0, 0, 0, 0);
+        if (selectedDate < todayDate) {
+            e.preventDefault();
+            alert("Không thể đặt lịch trong quá khứ!");
+            return false;
+        }
+
+        return true;
+    });
+
+    updateSummary();
+
+    const switchMode = document.getElementById("switch-mode");
+    if (localStorage.getItem("darkMode") === "true") {
+        if(switchMode) switchMode.checked = true;
+        document.body.classList.add("dark");
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

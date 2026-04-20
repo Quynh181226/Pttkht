@@ -1,0 +1,256 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="vi">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Hồ sơ cá nhân | SmartCare</title>-->
+<!--    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" th:href="@{/css/style1.css}">-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div th:replace="~{fragments/header :: header}"></div>-->
+
+<!--<section class="content">-->
+<!--    <main>-->
+<!--        <div class="head-title">-->
+<!--            <div class="left">-->
+<!--                <h1>Hồ sơ cá nhân</h1>-->
+<!--                <ul class="breadcrumb">-->
+<!--                    <li><a href="#">Hồ sơ</a></li>-->
+<!--                    <li><i class="bx bx-chevron-right"></i></li>-->
+<!--                    <li><a class="active" href="#">Thông tin của tôi</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <button class="btn-new" id="editProfileBtn">-->
+<!--                <i class="bx bxs-edit"></i> Chỉnh sửa-->
+<!--            </button>-->
+<!--        </div>-->
+
+<!--        <div class="profile-container">-->
+<!--            &lt;!&ndash; Avatar &ndash;&gt;-->
+<!--            <div class="profile-avatar">-->
+<!--                <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="avatar" id="avatarImg">-->
+<!--                <h3 id="displayName">Nguyễn Thị A</h3>-->
+<!--                <p id="displayEmail">nguyenthia@email.com</p>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Thông tin &ndash;&gt;-->
+<!--            <div class="profile-info" id="profileInfo">-->
+<!--                <div class="info-row"><div class="info-label">Họ tên:</div><div id="viewName" class="info-value">Nguyễn Thị A</div></div>-->
+<!--                <div class="info-row"><div class="info-label">Email:</div><div id="viewEmail" class="info-value">nguyenthia@email.com</div></div>-->
+<!--                <div class="info-row"><div class="info-label">Số điện thoại:</div><div id="viewPhone" class="info-value">0912345678</div></div>-->
+<!--                <div class="info-row"><div class="info-label">Ngày sinh:</div><div id="viewBirth" class="info-value">15/08/1995</div></div>-->
+<!--                <div class="info-row"><div class="info-label">Giới tính:</div><div id="viewGender" class="info-value">Nữ</div></div>-->
+<!--                <div class="info-row"><div class="info-label">Địa chỉ:</div><div id="viewAddress" class="info-value">123 Đường Lê Lợi, Quận 1, TP.HCM</div></div>-->
+<!--                <div class="info-row"><div class="info-label">Số BHYT:</div><div id="viewInsurance" class="info-value">HT123456789</div></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </main>-->
+<!--</section>-->
+
+<!--<script>-->
+<!--    let isEditMode = false;-->
+<!--    let profileData = {-->
+<!--        name: "Nguyễn Thị A",-->
+<!--        email: "nguyenthia@email.com",-->
+<!--        phone: "0912345678",-->
+<!--        birth: "1995-08-15",-->
+<!--        gender: "Nữ",-->
+<!--        address: "123 Đường Lê Lợi, Quận 1, TP.HCM",-->
+<!--        insurance: "HT123456789"-->
+<!--    };-->
+
+<!--    function displayProfile() {-->
+<!--        document.getElementById("viewName").innerText = profileData.name;-->
+<!--        document.getElementById("viewEmail").innerText = profileData.email;-->
+<!--        document.getElementById("viewPhone").innerText = profileData.phone;-->
+<!--        document.getElementById("viewBirth").innerText = formatDate(profileData.birth);-->
+<!--        document.getElementById("viewGender").innerText = profileData.gender;-->
+<!--        document.getElementById("viewAddress").innerText = profileData.address;-->
+<!--        document.getElementById("viewInsurance").innerText = profileData.insurance;-->
+<!--        document.getElementById("displayName").innerText = profileData.name;-->
+<!--        document.getElementById("displayEmail").innerText = profileData.email;-->
+<!--    }-->
+
+<!--    function formatDate(dateStr) {-->
+<!--        if (!dateStr) return "";-->
+<!--        let parts = dateStr.split("-");-->
+<!--        return `${parts[2]}/${parts[1]}/${parts[0]}`;-->
+<!--    }-->
+
+<!--    function enableEdit() {-->
+<!--        let infoDiv = document.getElementById("profileInfo");-->
+<!--        infoDiv.classList.add("edit-mode");-->
+<!--        infoDiv.innerHTML = `-->
+<!--            <div class="info-row"><div class="info-label">Họ tên:</div><input type="text" id="editName" value="${profileData.name}"></div>-->
+<!--            <div class="info-row"><div class="info-label">Email:</div><input type="email" id="editEmail" value="${profileData.email}"></div>-->
+<!--            <div class="info-row"><div class="info-label">Số điện thoại:</div><input type="tel" id="editPhone" value="${profileData.phone}"></div>-->
+<!--            <div class="info-row"><div class="info-label">Ngày sinh:</div><input type="date" id="editBirth" value="${profileData.birth}"></div>-->
+<!--            <div class="info-row"><div class="info-label">Giới tính:</div>-->
+<!--                <select id="editGender">-->
+<!--                    <option value="Nam" ${profileData.gender === "Nam" ? "selected" : ""}>Nam</option>-->
+<!--                    <option value="Nữ" ${profileData.gender === "Nữ" ? "selected" : ""}>Nữ</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div class="info-row"><div class="info-label">Địa chỉ:</div><input type="text" id="editAddress" value="${profileData.address}"></div>-->
+<!--            <div class="info-row"><div class="info-label">Số BHYT:</div><input type="text" id="editInsurance" value="${profileData.insurance}"></div>-->
+<!--            <div style="display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end;">-->
+<!--                <button class="secondary-btn" id="cancelEditBtn">Hủy</button>-->
+<!--                <button class="primary-btn" id="saveEditBtn">Lưu thay đổi</button>-->
+<!--            </div>-->
+<!--        `;-->
+
+<!--        document.getElementById("cancelEditBtn").onclick = () => location.reload();-->
+<!--        document.getElementById("saveEditBtn").onclick = saveProfile;-->
+<!--        document.getElementById("editProfileBtn").innerText = "Đang chỉnh sửa...";-->
+<!--        document.getElementById("editProfileBtn").disabled = true;-->
+<!--    }-->
+
+<!--    function saveProfile() {-->
+<!--        profileData.name = document.getElementById("editName").value;-->
+<!--        profileData.email = document.getElementById("editEmail").value;-->
+<!--        profileData.phone = document.getElementById("editPhone").value;-->
+<!--        profileData.birth = document.getElementById("editBirth").value;-->
+<!--        profileData.gender = document.getElementById("editGender").value;-->
+<!--        profileData.address = document.getElementById("editAddress").value;-->
+<!--        profileData.insurance = document.getElementById("editInsurance").value;-->
+
+<!--        localStorage.setItem("patientProfile", JSON.stringify(profileData));-->
+<!--        alert("✅ Cập nhật hồ sơ thành công!");-->
+<!--        location.reload();-->
+<!--    }-->
+
+<!--    // Load dữ liệu từ localStorage-->
+<!--    let savedProfile = localStorage.getItem("patientProfile");-->
+<!--    if (savedProfile) {-->
+<!--        profileData = JSON.parse(savedProfile);-->
+<!--    }-->
+
+<!--    displayProfile();-->
+<!--    document.getElementById("editProfileBtn").onclick = enableEdit;-->
+
+<!--    // Dark mode-->
+<!--    const switchMode = document.getElementById("switch-mode");-->
+<!--    if (localStorage.getItem("darkMode") === "true") {-->
+<!--        document.body.classList.add("dark");-->
+<!--        if (switchMode) switchMode.checked = true;-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ cá nhân | SmartCare</title>
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style1.css}">
+    <style>
+        .content { margin: 40px; max-width: 800px; }
+        .profile-container { background: white; border-radius: 20px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .profile-avatar { text-align: center; margin-bottom: 32px; }
+        .profile-avatar img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; }
+        .info-row { display: flex; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .info-label { width: 140px; font-weight: 600; }
+        .info-value { flex: 1; color: #333; }
+        .btn-new { padding: 10px 20px; border: 2px solid #E5101B; background: transparent; color: #E5101B; border-radius: 8px; cursor: pointer; }
+        .btn-new:hover { background: #E5101B; color: white; }
+        .btn-save { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+        .btn-cancel { background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+        .head-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .head-title .left h1 { font-size: 36px; font-weight: 600; }
+        .breadcrumb { display: flex; align-items: center; gap: 16px; }
+        .breadcrumb li { list-style: none; }
+        .breadcrumb li a { color: #999; text-decoration: none; }
+        .edit-mode input, .edit-mode select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; }
+        .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="content">
+    <main>
+        <div class="head-title">
+            <div class="left">
+                <h1>Hồ sơ cá nhân</h1>
+                <ul class="breadcrumb">
+                    <li><a href="#">Hồ sơ</a></li>
+                    <li><i class="bx bx-chevron-right"></i></li>
+                    <li><a class="active" href="#">Thông tin của tôi</a></li>
+                </ul>
+            </div>
+            <button class="btn-new" id="editBtn"><i class="bx bxs-edit"></i> Chỉnh sửa</button>
+        </div>
+
+        <div class="profile-container">
+            <div class="profile-avatar">
+                <img th:src="${user.avatarUrl != null ? user.avatarUrl : 'https://randomuser.me/api/portraits/lego/1.jpg'}" alt="avatar">
+                <h3 th:text="${user.fullName}">User</h3>
+                <p th:text="${user.email}">email@example.com</p>
+            </div>
+
+            <!-- Chế độ xem (view mode) -->
+            <div id="viewMode">
+                <div class="info-row"><div class="info-label">Họ tên:</div><div class="info-value" th:text="${user.fullName}"></div></div>
+                <div class="info-row"><div class="info-label">Email:</div><div class="info-value" th:text="${user.email}"></div></div>
+                <div class="info-row"><div class="info-label">SĐT:</div><div class="info-value" th:text="${user.phone}"></div></div>
+                <div class="info-row"><div class="info-label">Ngày sinh:</div><div class="info-value" th:text="${#temporals.format(user.dateOfBirth, 'dd/MM/yyyy')}"></div></div>
+                <div class="info-row"><div class="info-label">Giới tính:</div><div class="info-value" th:text="${user.gender.name() == 'male' ? 'Nam' : (user.gender.name() == 'female' ? 'Nữ' : 'Khác')}"></div></div>
+                <div class="info-row"><div class="info-label">Địa chỉ:</div><div class="info-value" th:text="${user.streetAddress != null ? user.streetAddress : ''}"></div></div>
+                <div class="info-row"><div class="info-label">BHYT:</div><div class="info-value" th:text="${user.insuranceNumber}"></div></div>
+            </div>
+
+            <!-- Chế độ chỉnh sửa (edit mode) - ẩn ban đầu -->
+            <form id="editMode" th:action="@{/profile/update}" method="post" style="display: none;">
+                <div class="info-row"><div class="info-label">Họ tên:</div><input type="text" name="fullName" th:value="${user.fullName}" class="info-value"></div>
+                <div class="info-row"><div class="info-label">Email:</div><input type="email" name="email" th:value="${user.email}" class="info-value"></div>
+                <div class="info-row"><div class="info-label">SĐT:</div><input type="tel" name="phone" th:value="${user.phone}" class="info-value"></div>
+                <div class="info-row"><div class="info-label">Ngày sinh:</div><input type="date" name="dateOfBirth" th:value="${#temporals.format(user.dateOfBirth, 'yyyy-MM-dd')}" class="info-value"></div>
+                <div class="info-row"><div class="info-label">Giới tính:</div>
+                    <select name="gender" class="info-value">
+                        <option value="male" th:selected="${user.gender.name() == 'male'}">Nam</option>
+                        <option value="female" th:selected="${user.gender.name() == 'female'}">Nữ</option>
+                        <option value="other" th:selected="${user.gender.name() == 'other'}">Khác</option>
+                    </select>
+                </div>
+                <div class="info-row"><div class="info-label">Tỉnh/Thành:</div><input type="text" name="province" th:value="${user.province}" class="info-value"></div>
+                <div class="info-row"><div class="info-label">Quận/Huyện:</div><input type="text" name="district" th:value="${user.district}" class="info-value"></div>
+                <div class="info-row"><div class="info-label">Phường/Xã:</div><input type="text" name="ward" th:value="${user.ward}" class="info-value"></div>
+                <div class="info-row"><div class="info-label">Địa chỉ:</div><input type="text" name="streetAddress" th:value="${user.streetAddress}" class="info-value"></div>
+                <div class="info-row"><div class="info-label">BHYT:</div><input type="text" name="insuranceNumber" th:value="${user.insuranceNumber}" class="info-value"></div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancelBtn">Hủy</button>
+                    <button type="submit" class="btn-save">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</section>
+
+<script>
+    const editBtn = document.getElementById('editBtn');
+    const viewMode = document.getElementById('viewMode');
+    const editMode = document.getElementById('editMode');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    editBtn.onclick = () => {
+        viewMode.style.display = 'none';
+        editMode.style.display = 'block';
+        editBtn.style.display = 'none';
+    };
+    cancelBtn.onclick = () => {
+        viewMode.style.display = 'block';
+        editMode.style.display = 'none';
+        editBtn.style.display = 'inline-block';
+    };
+
+    const switchMode = document.getElementById("switch-mode");
+    if (localStorage.getItem("darkMode") === "true") { if(switchMode) switchMode.checked = true; document.body.classList.add("dark"); }
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer Fragment</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+<div th:fragment="footer" class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>Bệnh viện Smart Care</h4>
+                <p>Cs1: 106B Đ. Trần Phú, P. Mộ Lao, Hà Đông, Hà Nội</p>
+                <p>Cs2: 108B Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
+                <p>Hotline: 1900 6951</p>
+                <p>Email: contact@dalieu.vn</p>
+            </div>
+            <div>
+                <h4>Giờ làm việc</h4>
+                <p>Thứ 2 - Thứ 6: 7h30 - 16h30</p>
+                <p>Thứ 7: 7h30 - 12h00</p>
+                <p>Chủ nhật: Nghỉ</p>
+            </div>
+            <div>
+                <h4>Liên kết nhanh</h4>
+                <a href="/book">Đặt lịch khám</a>
+                <a href="/appointments">Tra cứu lịch hẹn</a>
+                <a href="/departments">Chuyên khoa</a>
+                <a href="/doctors">Đội ngũ bác sĩ</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Bệnh viện Smart Care. Tất cả các quyền được bảo lưu.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

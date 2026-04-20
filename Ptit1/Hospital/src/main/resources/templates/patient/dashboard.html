@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<!--<link rel="stylesheet" href="style1.css">-->
+<link rel="stylesheet" th:href="@{/css/style1.css}">
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<main>
+    <section class="hero">
+        <div class="container hero-grid">
+            <div>
+                <p class="section-title small">Chăm sóc sức khỏe, kiểm soát bệnh lý</p>
+                <h1>Khám sức khỏe chủ động</h1>
+                <p>Đội ngũ bác sĩ giỏi, trang thiết bị hiện đại, quy trình khám chuyên nghiệp và tận tâm.</p>
+                <div class="hero-actions">
+                    <a href="/books" class="btn btn-primary">Đặt lịch khám ngay</a>
+<!--                    <a href="/search-appointment" class="btn btn-outline">Tra cứu lịch</a>-->
+                </div>
+            </div>
+            <div class="hero-media">
+                <img th:src="@{/images/landing/hero.webp}" src="images/landing/hero.webp" alt="Đội ngũ bác sĩ" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/hero.DBrI5Vyu_23uRpl.webp';">
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container section-center">
+            <p class="section-title small">Hệ thống y tế </p>
+            <h2 class="feature-title">Khám sức khỏe uy tín</h2>
+            <p class="section-lead">Dịch vụ khám chữa bệnh chất lượng cao, đội ngũ bác sĩ chuyên môn vững và quy trình điều trị chuẩn hóa.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="image-grid">
+                <div class="image-card">
+                    <img th:src="@{/images/landing/f1-1.webp}" src="images/landing/f1-1.webp" alt="Khám chuyên khoa" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/F1.1.DCg1KVPl_Z1lv5nH.webp';">
+                    <div class="image-card-body">
+                        <h4>Khám chuyên khoa chất lượng</h4>
+                        <p>Hệ thống phòng khám hiện đại, đa dạng chuyên khoa và quy trình tiếp nhận nhanh gọn, giúp bệnh nhân được tư vấn đúng chuyên môn ngay từ đầu.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img th:src="@{/images/landing/f1-2.webp}" src="images/landing/f1-2.webp" alt="Đội ngũ bác sĩ" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/F1.2.D22gmnlA_Z1ACka3.webp';">
+                    <div class="image-card-body">
+                        <h4>Đội ngũ bác sĩ giàu kinh nghiệm</h4>
+                        <p>Bác sĩ chuyên khoa giàu kinh nghiệm, thăm khám kỹ lưỡng, đưa ra phác đồ điều trị cá nhân hóa và theo dõi sát quá trình phục hồi.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img th:src="@{/images/landing/f1-3.webp}" src="images/landing/f1-3.webp" alt="Chăm sóc bệnh nhân" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/F1.3.hBrW46xm_FEczU.webp';">
+                    <div class="image-card-body">
+                        <h4>Chăm sóc toàn diện</h4>
+                        <p>Không gian thân thiện, hỗ trợ theo dõi sức khỏe trước và sau điều trị, đảm bảo người bệnh an tâm trong suốt quá trình thăm khám.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img th:src="@{/images/landing/f1-4.webp}" src="images/landing/f1-4.webp" alt="Khám sức khỏe tổng quát" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/F1.4.DPlKDBtM_ZcnIoI.webp';">
+                    <div class="image-card-body">
+                        <h4>Khám sức khỏe tổng quát</h4>
+                        <p>Đánh giá sức khỏe toàn diện theo độ tuổi và giới tính, phát hiện sớm nguy cơ bệnh lý để có kế hoạch điều trị kịp thời.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img th:src="@{/images/landing/kh1.webp}" src="images/landing/kh1.webp" alt="Khách hàng tin tưởng" loading="lazy">
+                    <div class="image-card-body">
+                        <h4>Khách hàng tin tưởng</h4>
+                        <p>Chăm sóc chu đáo, tư vấn rõ ràng từng bước, hỗ trợ đặt lịch linh hoạt và luôn lắng nghe phản hồi từ người bệnh.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img th:src="@{/images/landing/f4.webp}" src="images/landing/f4.webp" alt="Không gian khám chữa" loading="lazy">
+                    <div class="image-card-body">
+                        <h4>Không gian khám chữa</h4>
+                        <p>Không gian sạch sẽ, tiện nghi, bố trí khoa học theo luồng khám, giúp giảm thời gian chờ và nâng cao trải nghiệm.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img th:src="@{/images/landing/kh3.webp}" src="images/landing/kh3.webp" alt="Dịch vụ chăm sóc" loading="lazy">
+                    <div class="image-card-body">
+                        <h4>Dịch vụ chăm sóc</h4>
+                        <p>Đội ngũ điều dưỡng và hỗ trợ chuyên nghiệp, hướng dẫn tận tình từ tiếp đón đến chăm sóc sau khám.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Chuyên khoa của chúng tôi</h2>
+            <p class="section-lead">Hệ thống chuyên khoa tại bệnh viện được xây dựng toàn diện, đáp ứng đa dạng nhu cầu khám chữa bệnh của người dân với quy trình vận hành khép kín, khoa học và đạt chuẩn y tế hiện đại. Mỗi chuyên khoa đều được đầu tư bài bản về cơ sở vật chất, trang thiết bị tiên tiến cùng đội ngũ bác sĩ giàu kinh nghiệm, tận tâm trong từng khâu thăm khám và điều trị.
+
+                Chúng tôi phát triển các chuyên khoa dựa trên thế mạnh điều trị chuyên sâu, kết hợp giữa chẩn đoán lâm sàng và cận lâm sàng nhằm đảm bảo độ chính xác cao trong việc phát hiện bệnh lý. Quy trình khám được tối ưu hóa giúp rút ngắn thời gian chờ đợi, đồng thời vẫn đảm bảo đầy đủ các bước cần thiết để theo dõi và đánh giá tình trạng sức khỏe một cách toàn diện.
+
+                Bên cạnh đó, hệ thống hồ sơ bệnh án điện tử và dịch vụ chăm sóc sau điều trị được chú trọng, giúp bệnh nhân dễ dàng theo dõi tiến trình hồi phục cũng như nhận được sự hỗ trợ kịp thời từ đội ngũ y tế. Chúng tôi luôn đặt mục tiêu đồng hành lâu dài cùng người bệnh trong suốt quá trình điều trị và phục hồi sức khỏe.
+
+                Quý khách có thể chủ động lựa chọn chuyên khoa phù hợp với nhu cầu để được tư vấn sớm, xây dựng phác đồ điều trị cá nhân hóa và đạt hiệu quả tối ưu nhất. Sự hài lòng và sức khỏe của bệnh nhân chính là ưu tiên hàng đầu trong mọi hoạt động của chúng tôi.</p>
+            <div class="grid-3">
+                <div class="card" th:each="dept : ${departments}">
+                    <div class="card-body">
+                        <h3 th:text="${dept.name}">Tên khoa</h3>
+                        <p th:text="${dept.description}">Mô tả khoa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="form-card wide">
+                <h2 style="text-align:center; color:#1e3a5f; margin-bottom:16px;">Đặt lịch nhanh</h2>
+                <p style="text-align:center; margin-bottom:24px; color:#4b5563;">Chọn chuyên khoa để bắt đầu đặt lịch, hệ thống sẽ gợi ý bác sĩ phù hợp.</p>
+                <form method="get" action="/book">
+                    <input type="hidden" name="step" value="2">
+                    <div class="form-group">
+                        <label>Chuyên khoa *</label>
+                        <select name="deptId" required class="form-control">
+                            <option value="">-- Chọn khoa --</option>
+                            <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">Tiếp tục đặt lịch</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Đội ngũ bác sĩ</h2>
+            <p class="section-lead">Đội ngũ bác sĩ của chúng tôi quy tụ những chuyên gia đầu ngành, có trình độ chuyên môn cao và nhiều năm kinh nghiệm trong lĩnh vực khám chữa bệnh. Các bác sĩ không chỉ được đào tạo bài bản tại các trường đại học y khoa uy tín trong và ngoài nước mà còn thường xuyên tham gia các chương trình đào tạo, hội thảo khoa học để cập nhật kiến thức và phương pháp điều trị tiên tiến nhất.
+                Với nền tảng kinh nghiệm lâm sàng phong phú, đội ngũ bác sĩ có khả năng chẩn đoán chính xác, đưa ra phác đồ điều trị phù hợp với từng tình trạng bệnh lý cụ thể. Mỗi bệnh nhân khi đến thăm khám đều được tiếp cận với quy trình chăm sóc tận tâm, kỹ lưỡng, đảm bảo an toàn và hiệu quả trong suốt quá trình điều trị.
+                Không chỉ giỏi về chuyên môn, các bác sĩ còn đề cao y đức, luôn lắng nghe và thấu hiểu tâm lý người bệnh. Sự tận tâm, chuyên nghiệp và trách nhiệm trong từng ca khám chữa chính là yếu tố giúp xây dựng niềm tin và mang lại sự an tâm cho bệnh nhân và gia đình.
+                Chúng tôi cam kết không ngừng nâng cao chất lượng đội ngũ y bác sĩ, hướng tới mục tiêu mang lại dịch vụ y tế chuẩn mực, nhân văn và lấy người bệnh làm trung tâm.</p>
+            <div class="doctor-grid">
+                <div class="card" th:each="doc : ${doctors}">
+                    <div class="card-body">
+                        <h3 th:text="${doc.name}">Tên bác sĩ</h3>
+                        <p th:text="${doc.qualification}">Học hàm</p>
+                        <p class="doctor-info">Kinh nghiệm: <span th:text="${doc.experience} + ' năm'"></span></p>
+                        <p class="doctor-info">Phí khám: <span th:text="'${doc.fee} VND'"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Vì sao chọn chúng tôi</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Quy trình chuẩn y khoa</h3>
+                        <p>Mọi hoạt động khám và điều trị đều tuân thủ nghiêm ngặt các hướng dẫn chuyên môn và phác đồ y khoa được cập nhật mới nhất. Quy trình được thiết kế khoa học, rõ ràng, giúp tối ưu thời gian nhưng vẫn đảm bảo đầy đủ các bước cần thiết, mang lại hiệu quả điều trị cao và hạn chế tối đa rủi ro cho người bệnh.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Trang thiết bị hiện đại</h3>
+                        <p>Bệnh viện được trang bị hệ thống máy móc và công nghệ tiên tiến, hỗ trợ quá trình chẩn đoán nhanh chóng và chính xác. Việc ứng dụng công nghệ hiện đại không chỉ giúp phát hiện sớm bệnh lý mà còn nâng cao hiệu quả điều trị, góp phần rút ngắn thời gian hồi phục.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Dịch vụ tận tâm</h3>
+                        <p>Đội ngũ nhân viên y tế luôn sẵn sàng hỗ trợ từ khâu tư vấn, đặt lịch đến chăm sóc sau điều trị. Người bệnh được hướng dẫn chi tiết, theo dõi sát sao và giải đáp mọi thắc mắc trong suốt quá trình điều trị, đảm bảo sự thoải mái và yên tâm tối đa.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Quy trình đặt lịch</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Chọn chuyên khoa</h3>
+                        <p>Chọn khoa phù hợp với tình trạng và nhu cầu khám.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Chọn bác sĩ & thời gian</h3>
+                        <p>Lựa chọn bác sĩ và khung giờ thuận tiện nhất.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Xác nhận thông tin</h3>
+                        <p>Hoàn tất thông tin và nhận xác nhận lịch hẹn.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Tin tức sức khỏe</h2>
+            <p class="section-lead">Cập nhật kiến thức y khoa, hướng dẫn chăm sóc sức khỏe và những lưu ý quan trọng theo mùa. Thông tin được tổng hợp từ đội ngũ chuyên môn nhằm giúp bạn chủ động phòng ngừa bệnh lý và xây dựng lối sống lành mạnh.</p>
+            <div class="grid-3">
+                <div class="card" th:each="article : ${articles}">
+                    <div class="card-body">
+                        <h3 th:text="${article.title}">Tiêu đề</h3>
+                        <p th:text="${article.summary}">Tóm tắt</p>
+                        <small class="card-meta">[[${#temporals.format(article.createdAt, 'dd/MM/yyyy')}]]</small>
+                    </div>
+                </div>
+
+                <!-- Card mẫu 1 -->
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Phòng ngừa bệnh theo mùa</h3>
+                        <p>Thời tiết thay đổi là nguyên nhân khiến các bệnh hô hấp gia tăng. Hãy giữ ấm cơ thể, bổ sung vitamin và hạn chế tiếp xúc với môi trường ô nhiễm.</p>
+                        <small class="card-meta">01/05/2026</small>
+                    </div>
+                </div>
+
+                <!-- Card mẫu 2 -->
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Chế độ dinh dưỡng hợp lý</h3>
+                        <p>Duy trì chế độ ăn cân bằng giữa các nhóm chất, tăng cường rau xanh và trái cây giúp nâng cao sức đề kháng và phòng ngừa nhiều bệnh lý.</p>
+                        <small class="card-meta">02/05/2026</small>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="margin-top:24px;">
+                <div class="card-body">
+                    <h3>Lưu ý chung khi theo dõi sức khỏe</h3>
+                    <p>Duy trì thói quen khám định kỳ 6-12 tháng/lần, chú ý dấu hiệu bất thường và chủ động trao đổi với bác sĩ khi có triệu chứng mới. Chế độ dinh dưỡng cân bằng, vận động đều đặn và ngủ đủ giấc là nền tảng giúp cơ thể hồi phục tốt hơn.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Bác sĩ tiêu biểu</h2>
+            <p class="section-lead">Hình ảnh đội ngũ bác sĩ tiêu biểu trong hệ thống, sẵn sàng tư vấn và điều trị chuyên sâu.</p>
+            <div class="image-grid">
+                <div class="image-card">
+                    <img th:src="@{/images/landing/doctor-1.webp}" src="images/landing/doctor-1.webp" alt="Bác sĩ Phạm Thị Thu Hà" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/Ph%E1%BA%A1m%20Th%E1%BB%8B%20Thu%20H%C3%A0.dsA4BvZF_Z2amWxD.webp';">
+                    <div class="image-card-body">
+                        <h4>Bác sĩ Phạm Thị Thu Hà</h4>
+                        <p>Chuyên khoa da liễu, giàu kinh nghiệm lâm sàng và tư vấn chăm sóc điều trị dài hạn.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img th:src="@{/images/landing/doctor-2.webp}" src="images/landing/doctor-2.webp" alt="Bác sĩ chuyên khoa" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/bs2.BGn4UYNE_ZuYkET.webp';">
+                    <div class="image-card-body">
+                        <h4>Bác sĩ chuyên khoa</h4>
+                        <p>Thăm khám kỹ lưỡng, tư vấn rõ ràng và xây dựng phác đồ phù hợp từng bệnh nhân.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img th:src="@{/images/landing/doctor-3.webp}" src="images/landing/doctor-3.webp" alt="Bác sĩ chuyên sâu" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/bs3.D8bGG1cT_1OkD79.webp';">
+                    <div class="image-card-body">
+                        <h4>Bác sĩ chuyên sâu</h4>
+                        <p>Hỗ trợ điều trị chuyên sâu, theo dõi tiến triển và chăm sóc sau điều trị hiệu quả.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img th:src="@{/images/landing/doctor-4.webp}" src="images/landing/doctor-4.webp" alt="Bác sĩ tư vấn" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/bs4.5d3hHU68_ZQIIFD.webp';">
+                    <div class="image-card-body">
+                        <h4>Bác sĩ tư vấn</h4>
+                        <p>Đồng hành cùng người bệnh trong suốt quá trình điều trị và phục hồi sức khỏe.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

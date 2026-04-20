@@ -1,0 +1,75 @@
+INDEX dùng để:
+
+tăng tốc tìm kiếm, join, filter dữ liệu trong database.
+
+
+
+1.	Message validate:
+a.	Chỉ thông báo 1 trường hợp 1 lần (chưa nhập thì thông báo phải nhập, nhập sai thì mới thông báo không đúng định dạng)
+b.	Message đặt đúng vị trí các trường
+2.	Thực hiện theo database first:
+Chú ý: Quan hệ 1-1 (đọc lại lý thuyết và thiết kế của quan hệ 1-1)
+3.	Thực hiện theo code first:
+Kể cả làm theo database first sau đó mới tạo entity
+-	Giải thích được các annotation được sử dụng trong các entity
+-	Thường là các annotation: fetch, cascade (thế nào là LAZY, thế nào là EAGER, thế là là CASCADETYPE.ALL và tại sao lại dùng các cấu hình đấy)
+4.	Một entity sẽ có quan hệ nào không và quan hệ gì với các entity khác
+
+
+
+
+${ }  → lấy dữ liệu từ Model
+*{ }  → lấy dữ liệu từ object trong form
+@{ }  → tạo URL / route
+#...  → hàm tiện ích Thymeleaf
+
+
+$ → Data từ Controller
+* → Data trong form
+@ → Link URL
+# → Helper functions
+
+
+
+
+@PostMapping("/register")
+public String processRegister(@Valid @ModelAttribute("registerDTO") RegisterDTO registerDTO,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
+
+    // Kiểm tra mật khẩu xác nhận khớp nhau
+    if (!registerDTO.isPasswordMatching()) {
+        bindingResult.rejectValue("confirmPassword", "error.registerDTO", "Mật khẩu xác nhận không khớp");
+    }
+
+    // Kiểm tra tồn tại
+    if (userService.isUsernameExists(registerDTO.getUsername())) {
+        bindingResult.rejectValue("username", "error.registerDTO", "Tên đăng nhập đã tồn tại");
+    }
+
+    if (userService.isEmailExists(registerDTO.getEmail())) {
+        bindingResult.rejectValue("email", "error.registerDTO", "Email đã được đăng ký");
+    }
+
+    if (userService.isPhoneExists(registerDTO.getPhone())) {
+        bindingResult.rejectValue("phone", "error.registerDTO", "Số điện thoại đã được đăng ký");
+    }
+
+    // Nếu có lỗi validation → trả về form
+    if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("registerDTO", registerDTO);
+        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerDTO", bindingResult);
+        return "redirect:/register";
+    }
+
+    // Đăng ký thành công
+    try {
+        userService.registerUser(registerDTO);
+        redirectAttributes.addFlashAttribute("success", "Đăng ký tài khoản thành công! Vui lòng đăng nhập.");
+        return "redirect:/login";
+    } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("error", "Đăng ký thất bại. Vui lòng thử lại sau.");
+        redirectAttributes.addFlashAttribute("registerDTO", registerDTO);
+        return "redirect:/register";
+    }
+}

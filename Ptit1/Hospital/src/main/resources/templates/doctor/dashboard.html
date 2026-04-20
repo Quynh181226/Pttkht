@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Bác sĩ | SmartCare</title>
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .stat-doctor-card h3 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .stat-doctor-card p { font-size: 14px; color: var(--text-muted); margin-top: 8px; }
+    </style>
+</head>
+<body>
+
+<section id="sidebar">
+    <a href="#" class="brand"><i class="bx bx-capsule"></i><span class="text">SmartCare</span></a>
+    <ul class="side-menu top">
+        <li class="active"><a th:href="@{/doctor/dashboard}"><i class="bx bxs-dashboard"></i><span class="text">Dashboard</span></a></li>
+        <li><a th:href="@{/doctor/waiting-list}"><i class="bx bxs-group"></i><span class="text">Chờ khám</span></a></li>
+        <li><a th:href="@{/doctor/medical-history}"><i class="bx bxs-folder-open"></i><span class="text">Bệnh nhân đã khám</span></a></li>
+    </ul>
+    <ul class="side-menu">
+        <li><a href="#"><i class="bx bxs-cog"></i><span class="text">Cài đặt</span></a></li>
+        <li><a th:href="@{/logout}"><i class="bx bxs-log-out-circle"></i><span class="text">Đăng xuất</span></a></li>
+    </ul>
+</section>
+
+<section id="content">
+    <nav>
+        <i class="bx bx-menu"></i>
+        <div class="logo-admin">
+            <input type="checkbox" id="switch-mode" hidden><label for="switch-mode" class="switch-mode"></label>
+            <a href="#" class="notification"><i class="bx bxs-bell"></i><span class="num">3</span></a>
+            <div class="profile-dropdown" style="position: relative;">
+                <a href="#" class="profile" id="profileBtn">
+                    <img th:src="${session.avatarUrl != null ? session.avatarUrl : 'https://randomuser.me/api/portraits/men/32.jpg'}" alt="avatar">
+                </a>
+                <div id="userMenuContainer" style="position: absolute; top: 45px; right: 0; z-index: 100; display: none;">
+                    <div th:replace="~{fragments/user-menu :: userMenu}"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="head-title">
+            <div class="left"><h1>Dashboard Bác sĩ</h1><ul class="breadcrumb"><li><a href="#">Dashboard</a></li><li><i class="bx bx-chevron-right"></i></li><li><a class="active" href="#">Home</a></li></ul></div>
+            <div class="profile-info"><span class="text-muted">Xin chào, <span th:text="${session.userName}"></span></span></div>
+        </div>
+
+        <div class="box-info-wrapper" style="margin-top:0">
+            <ul class="box-info">
+                <li><i class="bx bxs-group"></i><div class="text"><h3 th:text="${todayAppointments.size()}">0</h3><p>Lịch khám hôm nay</p></div></li>
+                <li><i class="bx bxs-time"></i><div class="text"><h3 th:text="${pendingCount}">0</h3><p>Đang chờ khám</p></div></li>
+                <li><i class="bx bxs-folder-open"></i><div class="text"><h3 th:text="${completedCount}">0</h3><p>Đã khám hôm nay</p></div></li>
+            </ul>
+        </div>
+    </main>
+</section>
+
+<script>
+    const profileBtn = document.getElementById('profileBtn');
+    const userMenuContainer = document.getElementById('userMenuContainer');
+    if (profileBtn && userMenuContainer) {
+        profileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            userMenuContainer.style.display = userMenuContainer.style.display === 'block' ? 'none' : 'block';
+        });
+        document.addEventListener('click', () => { userMenuContainer.style.display = 'none'; });
+        userMenuContainer.addEventListener('click', (e) => { e.stopPropagation(); });
+    }
+
+    const switchMode = document.getElementById("switch-mode");
+    if (localStorage.getItem("darkMode") === "true") { switchMode.checked = true; document.body.classList.add("dark"); }
+    switchMode.addEventListener("change", () => { document.body.classList.toggle("dark"); localStorage.setItem("darkMode", switchMode.checked); });
+    const menuBar = document.querySelector("#content nav .bx-menu"); const sidebar = document.getElementById("sidebar");
+    if (localStorage.getItem("sidebarHide") === "true") sidebar.classList.add("hide");
+    menuBar.addEventListener("click", () => { sidebar.classList.toggle("hide"); localStorage.setItem("sidebarHide", sidebar.classList.contains("hide")); });
+</script>
+</body>
+</html>

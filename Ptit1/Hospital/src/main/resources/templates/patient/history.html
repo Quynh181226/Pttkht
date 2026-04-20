@@ -1,0 +1,355 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="vi">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Lịch sử khám | SmartCare</title>-->
+<!--    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" th:href="@{/css/style1.css}">-->
+
+<!--    <style>-->
+<!--        /* CSS cho trang lịch sử khám */-->
+<!--        .content {-->
+<!--            margin: 40px;-->
+<!--        }-->
+
+<!--        .table-data {-->
+<!--            margin-top: 24px;-->
+<!--        }-->
+
+<!--        .order {-->
+<!--            background: white;-->
+<!--            border-radius: 20px;-->
+<!--            padding: 24px;-->
+<!--            overflow-x: auto;-->
+<!--            box-shadow: 0 1px 3px rgba(0,0,0,0.1);-->
+<!--        }-->
+
+<!--        .order .head {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 16px;-->
+<!--            margin-bottom: 24px;-->
+<!--            flex-wrap: wrap;-->
+<!--        }-->
+
+<!--        .order .head h3 {-->
+<!--            margin-right: auto;-->
+<!--            font-size: 24px;-->
+<!--            font-weight: 600;-->
+<!--        }-->
+
+<!--        .order table {-->
+<!--            width: 100%;-->
+<!--            border-collapse: collapse;-->
+<!--            background: white;-->
+<!--            border-radius: 12px;-->
+<!--            overflow: hidden;-->
+<!--            min-width: 600px;-->
+<!--        }-->
+
+<!--        .order table th {-->
+<!--            padding: 12px;-->
+<!--            font-size: 14px;-->
+<!--            text-align: left;-->
+<!--            border-bottom: 1px solid #eee;-->
+<!--        }-->
+
+<!--        .order table td {-->
+<!--            padding: 16px 12px;-->
+<!--        }-->
+
+<!--        .order table tbody tr:hover {-->
+<!--            background: #f5f5f5;-->
+<!--        }-->
+
+<!--        .status-active {-->
+<!--            background-color: #d4edda;-->
+<!--            border: 1px solid #90a56a;-->
+<!--            color: #2e7d32;-->
+<!--            padding: 4px 12px;-->
+<!--            display: inline-block;-->
+<!--            border-radius: 20px;-->
+<!--            font-size: 12px;-->
+<!--            font-weight: 500;-->
+<!--        }-->
+
+<!--        .status-waiting {-->
+<!--            background-color: #fff3cd;-->
+<!--            border: 1px solid #ffeaa7;-->
+<!--            color: #856404;-->
+<!--            padding: 4px 12px;-->
+<!--            display: inline-block;-->
+<!--            border-radius: 20px;-->
+<!--            font-size: 12px;-->
+<!--            font-weight: 500;-->
+<!--        }-->
+
+<!--        .edit-btn {-->
+<!--            padding: 6px 14px;-->
+<!--            border-radius: 20px;-->
+<!--            display: inline-flex;-->
+<!--            align-items: center;-->
+<!--            gap: 6px;-->
+<!--            font-size: 13px;-->
+<!--            font-weight: 500;-->
+<!--            border: none;-->
+<!--            cursor: pointer;-->
+<!--            background: #E5101B;-->
+<!--            color: white;-->
+<!--            transition: 0.3s ease;-->
+<!--        }-->
+
+<!--        .edit-btn:hover {-->
+<!--            background: #b80f18;-->
+<!--        }-->
+
+<!--        .pagination {-->
+<!--            display: flex;-->
+<!--            gap: 0;-->
+<!--            border: 1px solid #E5101B;-->
+<!--            border-radius: 6px;-->
+<!--            overflow-x: auto;-->
+<!--            width: fit-content;-->
+<!--            margin: 24px auto 0;-->
+<!--        }-->
+
+<!--        .pagination button {-->
+<!--            padding: 8px 14px;-->
+<!--            background-color: white;-->
+<!--            color: #E5101B;-->
+<!--            cursor: pointer;-->
+<!--            border: none;-->
+<!--            transition: 0.3s;-->
+<!--        }-->
+
+<!--        .pagination button:hover {-->
+<!--            background-color: #E5101B;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .pagination button.active-page {-->
+<!--            background-color: #E5101B;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .head-title {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: space-between;-->
+<!--            flex-wrap: wrap;-->
+<!--            margin-bottom: 24px;-->
+<!--        }-->
+
+<!--        .head-title .left h1 {-->
+<!--            font-size: 36px;-->
+<!--            font-weight: 600;-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+
+<!--        .breadcrumb {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 16px;-->
+<!--            flex-wrap: wrap;-->
+<!--        }-->
+
+<!--        .breadcrumb li {-->
+<!--            list-style: none;-->
+<!--        }-->
+
+<!--        .breadcrumb li a {-->
+<!--            color: #999;-->
+<!--            text-decoration: none;-->
+<!--        }-->
+
+<!--        .breadcrumb li a.active {-->
+<!--            color: #E5101B;-->
+<!--        }-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .content {-->
+<!--                margin: 20px;-->
+<!--            }-->
+<!--            .head-title .left h1 {-->
+<!--                font-size: 24px;-->
+<!--            }-->
+<!--            .order {-->
+<!--                padding: 16px;-->
+<!--            }-->
+<!--            .order .head h3 {-->
+<!--                font-size: 18px;-->
+<!--            }-->
+<!--            .pagination button {-->
+<!--                padding: 6px 10px;-->
+<!--                font-size: 12px;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--&lt;!&ndash; Header fragment &ndash;&gt;-->
+<!--<div th:replace="~{fragments/header :: header}"></div>-->
+
+<!--<section class="content">-->
+<!--    <main>-->
+<!--        <div class="head-title">-->
+<!--            <div class="left">-->
+<!--                <h1>Lịch sử khám bệnh</h1>-->
+<!--                <ul class="breadcrumb">-->
+<!--                    <li><a href="#">Khám</a></li>-->
+<!--                    <li><i class="bx bx-chevron-right"></i></li>-->
+<!--                    <li><a class="active" href="#">Lịch sử</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="table-data">-->
+<!--            <div class="order">-->
+<!--                <div class="head">-->
+<!--                    <h3>Danh sách các lần khám</h3>-->
+<!--                    <i class="bx bx-search"></i>-->
+<!--                    <i class="bx bx-filter"></i>-->
+<!--                </div>-->
+<!--                <table>-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Ngày khám</th>-->
+<!--                        <th>Bác sĩ</th>-->
+<!--                        <th>Chuyên khoa</th>-->
+<!--                        <th>Chẩn đoán</th>-->
+<!--                        <th>Đơn thuốc</th>-->
+<!--                        <th>Trạng thái</th>-->
+<!--                        <th>Chi tiết</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody id="tableBody"></tbody>-->
+<!--                </table>-->
+<!--                <div class="pagination" id="pagination"></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </main>-->
+<!--</section>-->
+
+<!--<script>-->
+<!--    let medicalRecords = [-->
+<!--        { id: 1, date: "20/10/2025", doctor: "BS. Nguyễn Văn An", specialty: "Tim mạch", diagnosis: "Cúm A", symptoms: "Sốt, ho, mệt mỏi", prescription: "Paracetamol (2 viên), Vitamin C (1 gói)", status: "dispensed" },-->
+<!--        { id: 2, date: "05/11/2025", doctor: "BS. Trần Thị Bình", specialty: "Nhi khoa", diagnosis: "Viêm họng cấp", symptoms: "Đau họng, sốt nhẹ", prescription: "Amoxicillin (1 gói)", status: "dispensed" },-->
+<!--        { id: 3, date: "10/12/2025", doctor: "BS. Hoàng Văn E", specialty: "Cơ xương khớp", diagnosis: "Thoái hóa cột sống", symptoms: "Đau lưng, tê bì", prescription: "Ibuprofen (30 viên), Vitamin B (20 viên)", status: "pending" }-->
+<!--    ];-->
+<!--    let currentPage = 1, rowsPerPage = 5;-->
+
+<!--    function renderTable() {-->
+<!--        let totalPages = Math.ceil(medicalRecords.length / rowsPerPage);-->
+<!--        if(currentPage > totalPages) currentPage = totalPages || 1;-->
+<!--        let start = (currentPage-1)*rowsPerPage;-->
+<!--        let pageData = medicalRecords.slice(start, start+rowsPerPage);-->
+<!--        let tbody = document.getElementById("tableBody");-->
+<!--        tbody.innerHTML = "";-->
+<!--        pageData.forEach(record => {-->
+<!--            let statusHtml = record.status === "dispensed" ? '<span class="status-active">Đã cấp phát</span>' : '<span class="status-waiting">Chờ cấp phát</span>';-->
+<!--            tbody.innerHTML += `-->
+<!--                <tr>-->
+<!--                    <td>${record.date}</td>-->
+<!--                    <td>${record.doctor}</td>-->
+<!--                    <td>${record.specialty}</td>-->
+<!--                    <td>${record.diagnosis}</td>-->
+<!--                    <td>${record.prescription}</td>-->
+<!--                    <td>${statusHtml}</td>-->
+<!--                    <td class="action"><button class="edit-btn" onclick="viewDetail(${record.id})"><i class="bx bxs-show"></i> Xem</button></td>-->
+<!--                </tr>-->
+<!--            `;-->
+<!--        });-->
+<!--        let pagDiv = document.getElementById("pagination");-->
+<!--        pagDiv.innerHTML = "";-->
+<!--        for(let i=1; i<=totalPages; i++) {-->
+<!--            let btn = document.createElement("button");-->
+<!--            btn.innerText = i;-->
+<!--            if(i === currentPage) btn.classList.add("active-page");-->
+<!--            btn.onclick = () => { currentPage = i; renderTable(); };-->
+<!--            pagDiv.appendChild(btn);-->
+<!--        }-->
+<!--    }-->
+
+<!--    function viewDetail(id) {-->
+<!--        let record = medicalRecords.find(r => r.id === id);-->
+<!--        if(record) {-->
+<!--            alert(`📋 CHI TIẾT BỆNH ÁN\n\n📅 Ngày: ${record.date}\n👨‍⚕️ Bác sĩ: ${record.doctor}\n🏥 Chuyên khoa: ${record.specialty}\n🩺 Triệu chứng: ${record.symptoms}\n📝 Chẩn đoán: ${record.diagnosis}\n💊 Đơn thuốc: ${record.prescription}\n✅ Trạng thái: ${record.status === "dispensed" ? "Đã cấp phát" : "Chờ cấp phát"}`);-->
+<!--        }-->
+<!--    }-->
+
+<!--    renderTable();-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử khám | SmartCare</title>
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style1.css}">
+    <style>
+        .content { margin: 40px; }
+        .order { background: white; border-radius: 20px; padding: 24px; overflow-x: auto; }
+        .order table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        .order table th, .order table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        .status-completed { background: #d4edda; color: #2e7d32; padding: 4px 12px; border-radius: 20px; display: inline-block; font-size: 12px; }
+        .head-title { margin-bottom: 24px; }
+        .head-title .left h1 { font-size: 36px; font-weight: 600; }
+        .breadcrumb { display: flex; align-items: center; gap: 16px; }
+        .breadcrumb li { list-style: none; }
+        .breadcrumb li a { color: #999; text-decoration: none; }
+        .breadcrumb li a.active { color: #E5101B; }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="content">
+    <main>
+        <div class="head-title">
+            <div class="left">
+                <h1>Lịch sử khám bệnh</h1>
+                <ul class="breadcrumb">
+                    <li><a href="#">Khám</a></li>
+                    <li><i class="bx bx-chevron-right"></i></li>
+                    <li><a class="active" href="#">Lịch sử</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="order">
+            <h3>Danh sách các lần khám</h3>
+            <table>
+                <thead>
+                <tr><th>Ngày khám</th><th>Bác sĩ</th><th>Chuyên khoa</th><th>Lý do</th><th>Trạng thái</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="a : ${appointments}">
+                    <td th:text="${#temporals.format(a.appointmentDate, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${a.doctor.user.fullName}"></td>
+                    <td th:text="${a.doctor.specialty.name}"></td>
+                    <td th:text="${a.reason}"></td>
+                    <td><span class="status-completed">Đã khám</span></td>
+                </tr>
+                <tr th:if="${appointments.isEmpty()}">
+                    <td colspan="5" style="text-align:center">Chưa có lịch sử khám nào</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</section>
+
+<script>
+    const switchMode = document.getElementById("switch-mode");
+    if (localStorage.getItem("darkMode") === "true") { if(switchMode) switchMode.checked = true; document.body.classList.add("dark"); }
+</script>
+</body>
+</html>

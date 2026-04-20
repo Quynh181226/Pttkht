@@ -1,0 +1,407 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="vi">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Lịch hẹn của tôi | SmartCare</title>-->
+<!--    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" th:href="@{/css/style1.css}">-->
+
+<!--    <style>-->
+<!--        /* CSS cho trang lịch hẹn */-->
+<!--        .content {-->
+<!--            margin: 40px;-->
+<!--        }-->
+
+<!--        .table-data {-->
+<!--            margin-top: 24px;-->
+<!--        }-->
+
+<!--        .order {-->
+<!--            background: white;-->
+<!--            border-radius: 20px;-->
+<!--            padding: 24px;-->
+<!--            overflow-x: auto;-->
+<!--            box-shadow: 0 1px 3px rgba(0,0,0,0.1);-->
+<!--        }-->
+
+<!--        .order .head {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 16px;-->
+<!--            margin-bottom: 24px;-->
+<!--            flex-wrap: wrap;-->
+<!--        }-->
+
+<!--        .order .head h3 {-->
+<!--            margin-right: auto;-->
+<!--            font-size: 24px;-->
+<!--            font-weight: 600;-->
+<!--        }-->
+
+<!--        .order table {-->
+<!--            width: 100%;-->
+<!--            border-collapse: collapse;-->
+<!--            background: white;-->
+<!--            border-radius: 12px;-->
+<!--            overflow: hidden;-->
+<!--            min-width: 600px;-->
+<!--        }-->
+
+<!--        .order table th {-->
+<!--            padding: 12px;-->
+<!--            font-size: 14px;-->
+<!--            text-align: left;-->
+<!--            border-bottom: 1px solid #eee;-->
+<!--        }-->
+
+<!--        .order table td {-->
+<!--            padding: 16px 12px;-->
+<!--        }-->
+
+<!--        .order table tbody tr:hover {-->
+<!--            background: #f5f5f5;-->
+<!--        }-->
+
+<!--        .status-active {-->
+<!--            background-color: #d4edda;-->
+<!--            border: 1px solid #90a56a;-->
+<!--            color: #2e7d32;-->
+<!--            padding: 4px 12px;-->
+<!--            display: inline-block;-->
+<!--            border-radius: 20px;-->
+<!--            font-size: 12px;-->
+<!--            font-weight: 500;-->
+<!--        }-->
+
+<!--        .status-locked {-->
+<!--            background-color: #eceff1;-->
+<!--            border: 1px solid #90a4ae;-->
+<!--            color: #546e7a;-->
+<!--            padding: 4px 12px;-->
+<!--            display: inline-block;-->
+<!--            border-radius: 20px;-->
+<!--            font-size: 12px;-->
+<!--            font-weight: 500;-->
+<!--        }-->
+
+<!--        .delete-btn {-->
+<!--            padding: 6px 14px;-->
+<!--            border-radius: 20px;-->
+<!--            display: inline-flex;-->
+<!--            align-items: center;-->
+<!--            gap: 6px;-->
+<!--            font-size: 13px;-->
+<!--            font-weight: 500;-->
+<!--            border: none;-->
+<!--            cursor: pointer;-->
+<!--            background: #dc2626;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .delete-btn:hover {-->
+<!--            background: #b91c1c;-->
+<!--        }-->
+
+<!--        .pagination {-->
+<!--            display: flex;-->
+<!--            gap: 0;-->
+<!--            border: 1px solid #E5101B;-->
+<!--            border-radius: 6px;-->
+<!--            overflow-x: auto;-->
+<!--            width: fit-content;-->
+<!--            margin: 24px auto 0;-->
+<!--        }-->
+
+<!--        .pagination button {-->
+<!--            padding: 8px 14px;-->
+<!--            background-color: white;-->
+<!--            color: #E5101B;-->
+<!--            cursor: pointer;-->
+<!--            border: none;-->
+<!--            transition: 0.3s;-->
+<!--        }-->
+
+<!--        .pagination button:hover {-->
+<!--            background-color: #E5101B;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .pagination button.active-page {-->
+<!--            background-color: #E5101B;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .btn-new {-->
+<!--            padding: 10px 20px;-->
+<!--            border-radius: 5px;-->
+<!--            font-size: 16px;-->
+<!--            border: 2px solid #E5101B;-->
+<!--            color: #E5101B;-->
+<!--            background: transparent;-->
+<!--            transition: 0.3s ease;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        .btn-new:hover {-->
+<!--            background: #E5101B;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .head-title {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: space-between;-->
+<!--            flex-wrap: wrap;-->
+<!--            margin-bottom: 24px;-->
+<!--        }-->
+
+<!--        .head-title .left h1 {-->
+<!--            font-size: 36px;-->
+<!--            font-weight: 600;-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+
+<!--        .breadcrumb {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 16px;-->
+<!--            flex-wrap: wrap;-->
+<!--        }-->
+
+<!--        .breadcrumb li {-->
+<!--            list-style: none;-->
+<!--        }-->
+
+<!--        .breadcrumb li a {-->
+<!--            color: #999;-->
+<!--            text-decoration: none;-->
+<!--        }-->
+
+<!--        .breadcrumb li a.active {-->
+<!--            color: #E5101B;-->
+<!--        }-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .content {-->
+<!--                margin: 20px;-->
+<!--            }-->
+<!--            .head-title .left h1 {-->
+<!--                font-size: 24px;-->
+<!--            }-->
+<!--            .btn-new {-->
+<!--                padding: 8px 16px;-->
+<!--                font-size: 14px;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--&lt;!&ndash; Header fragment &ndash;&gt;-->
+<!--<div th:replace="~{fragments/header :: header}"></div>-->
+
+<!--<section class="content">-->
+<!--    <main>-->
+<!--        <div class="head-title">-->
+<!--            <div class="left">-->
+<!--                <h1>Lịch hẹn của tôi</h1>-->
+<!--                <ul class="breadcrumb">-->
+<!--                    <li><a href="#">Lịch hẹn</a></li>-->
+<!--                    <li><i class="bx bx-chevron-right"></i></li>-->
+<!--                    <li><a class="active" href="#">Danh sách</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <button class="btn-new" onclick="location.href='/books'">-->
+<!--                <i class="bx bxs-plus-square"></i> Đặt lịch mới-->
+<!--            </button>-->
+<!--        </div>-->
+
+<!--        <div class="table-data">-->
+<!--            <div class="order">-->
+<!--                <div class="head">-->
+<!--                    <h3>Danh sách lịch hẹn</h3>-->
+<!--                    <i class="bx bx-search"></i>-->
+<!--                    <i class="bx bx-filter"></i>-->
+<!--                </div>-->
+<!--                <table>-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>ID</th>-->
+<!--                        <th>Ngày</th>-->
+<!--                        <th>Giờ</th>-->
+<!--                        <th>Bác sĩ</th>-->
+<!--                        <th>Chuyên khoa</th>-->
+<!--                        <th>Phí khám</th>-->
+<!--                        <th>Trạng thái</th>-->
+<!--                        <th>Thao tác</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody id="tableBody"></tbody>-->
+<!--                </table>-->
+<!--                <div class="pagination" id="pagination"></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </main>-->
+<!--</section>-->
+
+<!--<script>-->
+<!--    let appointments = JSON.parse(localStorage.getItem("myAppointments") || "[]");-->
+<!--    let currentPage = 1, rowsPerPage = 5;-->
+
+<!--    function renderTable() {-->
+<!--        let totalPages = Math.ceil(appointments.length / rowsPerPage);-->
+<!--        if(currentPage > totalPages) currentPage = totalPages || 1;-->
+<!--        let start = (currentPage-1)*rowsPerPage;-->
+<!--        let pageData = appointments.slice(start, start+rowsPerPage);-->
+<!--        let tbody = document.getElementById("tableBody");-->
+<!--        tbody.innerHTML = "";-->
+<!--        pageData.forEach(a => {-->
+<!--            let canCancel = new Date(a.date) > new Date();-->
+<!--            let statusHtml = a.status === "confirmed" ? '<span class="status-active">Chờ khám</span>' : '<span class="status-locked">Đã hủy</span>';-->
+<!--            tbody.innerHTML += `-->
+<!--                <tr>-->
+<!--                    <td>${a.id}</td>-->
+<!--                    <td>${a.date}</td>-->
+<!--                    <td>${a.time}</td>-->
+<!--                    <td>${a.doctor}</td>-->
+<!--                    <td>${a.specialty}</td>-->
+<!--                    <td>${a.fee.toLocaleString()}đ</td>-->
+<!--                    <td>${statusHtml}</td>-->
+<!--                    <td class="action">${canCancel && a.status === "confirmed" ? `<button class="delete-btn" onclick="cancelAppointment(${a.id})"><i class="bx bxs-x-circle"></i> Hủy</button>` : '<span style="color:#aaa">-&#45;&#45;</span>'}</td>-->
+<!--                </tr>-->
+<!--            `;-->
+<!--        });-->
+<!--        let pagDiv = document.getElementById("pagination");-->
+<!--        pagDiv.innerHTML = "";-->
+<!--        for(let i=1; i<=totalPages; i++) {-->
+<!--            let btn = document.createElement("button");-->
+<!--            btn.innerText = i;-->
+<!--            if(i === currentPage) btn.classList.add("active-page");-->
+<!--            btn.onclick = () => { currentPage = i; renderTable(); };-->
+<!--            pagDiv.appendChild(btn);-->
+<!--        }-->
+<!--    }-->
+
+<!--    function cancelAppointment(id) {-->
+<!--        let appointment = appointments.find(a => a.id === id);-->
+<!--        if(!appointment) return;-->
+<!--        let today = new Date();-->
+<!--        let examDate = new Date(appointment.date);-->
+<!--        let hoursDiff = (examDate - today) / (1000 * 60 * 60);-->
+<!--        if(hoursDiff < 24) {-->
+<!--            alert("❌ Chỉ có thể hủy lịch trước thời điểm khám ít nhất 24 giờ.");-->
+<!--            return;-->
+<!--        }-->
+<!--        if(confirm(`Bạn có chắc muốn hủy lịch hẹn ngày ${appointment.date} lúc ${appointment.time} với BS. ${appointment.doctor}?`)) {-->
+<!--            appointment.status = "cancelled";-->
+<!--            localStorage.setItem("myAppointments", JSON.stringify(appointments));-->
+<!--            alert("✅ Đã hủy lịch hẹn thành công! Khung giờ này đã được giải phóng.");-->
+<!--            renderTable();-->
+<!--        }-->
+<!--    }-->
+
+<!--    renderTable();-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch hẹn của tôi | SmartCare</title>
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style1.css}">
+    <style>
+        .content { margin: 40px; }
+        .table-data { margin-top: 24px; }
+        .order { background: white; border-radius: 20px; padding: 24px; overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .order .head { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+        .order .head h3 { margin-right: auto; font-size: 24px; font-weight: 600; }
+        .order table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        .order table th { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        .order table td { padding: 16px 12px; }
+        .order table tbody tr:hover { background: #f5f5f5; }
+        .status-pending { background: #fff3cd; color: #856404; padding: 4px 12px; display: inline-block; border-radius: 20px; font-size: 12px; }
+        .status-completed { background: #d4edda; color: #2e7d32; padding: 4px 12px; display: inline-block; border-radius: 20px; font-size: 12px; }
+        .status-cancelled { background: #eceff1; color: #546e7a; padding: 4px 12px; display: inline-block; border-radius: 20px; font-size: 12px; }
+        .delete-btn { background: #dc2626; color: white; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; }
+        .delete-btn:hover { background: #b91c1c; }
+        .btn-new { padding: 10px 20px; border-radius: 5px; border: 2px solid #E5101B; color: #E5101B; background: transparent; cursor: pointer; }
+        .btn-new:hover { background: #E5101B; color: white; }
+        .head-title { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 24px; }
+        .head-title .left h1 { font-size: 36px; font-weight: 600; margin-bottom: 10px; }
+        .breadcrumb { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .breadcrumb li { list-style: none; }
+        .breadcrumb li a { color: #999; text-decoration: none; }
+        .breadcrumb li a.active { color: #E5101B; }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="content">
+    <main>
+        <div class="head-title">
+            <div class="left">
+                <h1>Lịch hẹn của tôi</h1>
+                <ul class="breadcrumb">
+                    <li><a href="#">Lịch hẹn</a></li>
+                    <li><i class="bx bx-chevron-right"></i></li>
+                    <li><a class="active" href="#">Danh sách</a></li>
+                </ul>
+            </div>
+            <button class="btn-new" onclick="location.href='/books'">
+                <i class="bx bxs-plus-square"></i> Đặt lịch mới
+            </button>
+        </div>
+
+        <div class="table-data">
+            <div class="order">
+                <div class="head"><h3>Danh sách lịch hẹn</h3></div>
+                <table>
+                    <thead>
+                    <tr><th>ID</th><th>Ngày</th><th>Giờ</th><th>Bác sĩ</th><th>Chuyên khoa</th><th>Phí khám</th><th>Trạng thái</th><th>Thao tác</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="a : ${appointments}">
+                        <td th:text="${a.id}"></td>
+                        <td th:text="${#temporals.format(a.appointmentDate, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${a.appointmentTime}"></td>
+                        <td th:text="${a.doctor.user.fullName}"></td>
+                        <td th:text="${a.doctor.specialty.name}"></td>
+                        <td th:text="${#numbers.formatDecimal(a.totalFee, 0, 0, 'COMMA')} + 'đ'"></td>
+                        <td>
+                            <span th:if="${a.status.name() == 'pending'}" class="status-pending">Chờ khám</span>
+                            <span th:if="${a.status.name() == 'completed'}" class="status-completed">Đã khám</span>
+                            <span th:if="${a.status.name() == 'cancelled'}" class="status-cancelled">Đã hủy</span>
+                        </td>
+                        <td>
+                            <form th:if="${a.status.name() == 'pending'}" th:action="@{/appointments/cancel/{id}(id=${a.id})}" method="post" style="display:inline">
+                                <button type="submit" class="delete-btn" onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn này?')">
+                                    <i class="bx bxs-x-circle"></i> Hủy
+                                </button>
+                            </form>
+                            <span th:unless="${a.status.name() == 'pending'}" style="color:#aaa">---</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${appointments.isEmpty()}">
+                        <td colspan="8" style="text-align:center">Bạn chưa có lịch hẹn nào</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</section>
+
+<script>
+    const switchMode = document.getElementById("switch-mode");
+    if (localStorage.getItem("darkMode") === "true") { if(switchMode) switchMode.checked = true; document.body.classList.add("dark"); }
+</script>
+</body>
+</html>

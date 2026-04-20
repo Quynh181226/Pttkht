@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch hẹn | SmartCare Admin</title>
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .status-active { background: #d4edda; color: #2e7d32; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+        .status-waiting { background: #fff3cd; color: #856404; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+        .status-locked { background: #eceff1; color: #546e7a; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+        .action-cell { white-space: nowrap; }
+
+        /* Modal CSS */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-container {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 { margin: 0; font-size: 18px; font-weight: 600; }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        .modal-close:hover { color: #333; }
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: calc(85vh - 120px);
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .info-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .info-item strong {
+            display: block;
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+        .info-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 16px 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #E5101B;
+        }
+        body.dark .modal-container { background: #2d2d2d; }
+        body.dark .modal-header { border-bottom-color: #404040; }
+        body.dark .info-item { border-bottom-color: #404040; }
+        .side-menu li a svg{
+            font-size: 16px;
+            min-width: 24px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .pagination-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 32px 0;
+        }
+
+        .pagination-pages {
+            display: flex;
+        }
+
+        .pagination-btn,
+        .pagination-page {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-decoration: none;
+        }
+
+        .pagination-btn:hover,
+        .pagination-page:hover {
+            background: #f3f4f6;
+        }
+
+        .pagination-btn i {
+            color: #000;
+        }
+
+        .prev-btn {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .next-btn {
+            border-radius: 0 8px 8px 0;
+        }
+
+        .pagination-page {
+            color: #80A1BA;
+        }
+
+        .pagination-page.active {
+            background: #6B7597;
+            color: white;
+            border-color: #6B7597;
+        }
+
+        .pagination-btn.disabled {
+            cursor: not-allowed;
+            background: #f3f4f6;
+        }
+
+        .pagination-btn.disabled i {
+            color: rgb(156 163 175);
+        }
+
+        .btn1{
+            height: 25px;
+            /*width: 25px;*/
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<section id="sidebar">
+    <a href="#" class="brand"><i class="bx bx-capsule"></i><span class="text">SmartCare</span></a>
+    <ul class="side-menu top">
+        <li>
+            <a th:href="@{/admin/dashboard}">
+                <i class="bx bxs-dashboard"></i>
+                <span class="text">Dashboard</span>
+            </a>
+        </li>
+
+        <!-- CHUYÊN KHOA -->
+        <li>
+            <a th:href="@{/admin/specialties}">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="20"
+                     height="20"
+                     viewBox="0 0 24 24"
+                     fill="currentColor"
+                     style="min-width: 20px;">
+                    <path d="M7 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8M17 3a4 4 0 1 0 0 8 4 4 0 1 0 0-8M7 13a4 4 0 1 0 0 8 4 4 0 1 0 0-8M18 13h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/>
+                </svg>
+                <span class="text">Chuyên khoa</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/admin/doctors}">
+                <i class="bx bxs-user-badge"></i>
+                <span class="text">Bác sĩ</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/admin/medicines}">
+                <i class="bx bxs-capsule"></i>
+                <span class="text">Thuốc</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/admin/prescriptions}">
+                <i class="bx bxs-receipt"></i>
+                <span class="text">Đơn thuốc</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/admin/users}">
+                <i class="bx bxs-group"></i>
+                <span class="text">Bệnh nhân</span>
+            </a>
+        </li>
+
+        <!-- LỊCH HẸN -->
+        <li class="active">
+            <a th:href="@{/admin/appointments}">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="20"
+                     height="20"
+                     viewBox="0 0 24 24"
+                     fill="currentColor"
+                     style="min-width: 20px;">
+                    <path d="M4 2H2v19c0 .55.45 1 1 1h19v-2H4z"></path>
+                    <path d="M7 10h11c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1H7c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1m10-2h-5V6h5zM8 6h2v2H8zM21 12H7c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1M8 14h6v2H8zm12 2h-4v-2h4z"></path>
+                </svg>
+                <span class="text">Lịch hẹn</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/admin/statistics}">
+                <i class="bx bxs-chart"></i>
+                <span class="text">Thống kê</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="side-menu">
+        <li><a href="#"><i class="bx bxs-cog"></i><span class="text">Cài đặt</span></a></li>
+        <li><a th:href="@{/logout}"><i class="bx bxs-log-out-circle"></i><span class="text">Đăng xuất</span></a></li>
+    </ul>
+</section>
+
+<section id="content">
+    <nav>
+        <i class="bx bx-menu"></i>
+        <div class="logo-admin">
+            <input type="checkbox" id="switch-mode" hidden><label for="switch-mode" class="switch-mode"></label>
+            <a href="#" class="notification"><i class="bx bxs-bell"></i><span class="num">8</span></a>
+            <div class="profile-dropdown">
+                <a href="#" class="profile" id="profileBtn">
+                    <img th:src="${avatarUrl != null ? avatarUrl : 'https://randomuser.me/api/portraits/men/32.jpg'}" alt="avatar">
+                </a>
+                <div id="userMenuContainer" class="user-menu-dropdown" style="display: none;">
+                    <div th:replace="~{fragments/user-menu :: userMenu}"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="head-title">
+            <div class="left"><h1>Quản lý lịch hẹn</h1><ul class="breadcrumb"><li><a href="#">Lịch hẹn</a></li><li><i class="bx bx-chevron-right"></i></li><li><a class="active" href="#">Danh sách</a></li></ul></div>
+        </div>
+
+        <form th:action="@{/admin/appointments}" method="get" class="form-input">
+            <input type="search" name="keyword" th:value="${param.keyword}" placeholder="Tìm kiếm theo bệnh nhân hoặc bác sĩ...">
+            <button type="submit"><i class="bx bx-search"></i></button>
+        </form>
+
+        <div class="table-data">
+            <div class="order">
+                <div class="head"><h3>Danh sách lịch hẹn</h3></div>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Mã đặt lịch</th>
+                            <th>Bệnh nhân</th>
+                            <th>Bác sĩ</th>
+                            <th>Ngày khám</th>
+                            <th>Giờ</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="a : ${appointments}">
+                            <td th:text="${a.id}"></td>
+                            <td th:text="${a.bookingCode}"></td>
+                            <td th:text="${a.patient.fullName}"></td>
+                            <td th:text="${a.doctor.user.fullName}"></td>
+                            <td th:text="${#temporals.format(a.appointmentDate, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${a.appointmentTime}"></td>
+                            <td>
+                                <span class="status-waiting" th:if="${a.status.name() == 'pending'}">Chờ khám</span>
+                                <span class="status-active" th:if="${a.status.name() == 'completed'}">Đã khám</span>
+                                <span class="status-locked" th:if="${a.status.name() == 'cancelled'}">Đã hủy</span>
+                            </td>
+                            <td class="action-cell">
+                                <button class="edit-btn view-detail-btn"
+                                        th:data-id="${a.id}"
+                                        th:data-bookingcode="${a.bookingCode}"
+                                        th:data-date="${#temporals.format(a.appointmentDate, 'dd/MM/yyyy')}"
+                                        th:data-time="${a.appointmentTime}"
+                                        th:data-status="${a.status.name()}"
+                                        th:data-patient="${a.patient.fullName}"
+                                        th:data-patientphone="${a.patient.phone}"
+                                        th:data-patientemail="${a.patient.email}"
+                                        th:data-doctor="${a.doctor.user.fullName}"
+                                        th:data-specialty="${a.doctor.specialty.name}"
+                                        th:data-fee="${a.totalFee}"
+                                        th:data-reason="${a.reason}"
+                                        th:data-note="${a.patientNote}">
+                                    <i class="bx bxs-show btn1"></i> Chi tiết
+                                </button>
+                            </td>
+                        </tr>
+                        <tr th:if="${appointments.isEmpty()}">
+                            <td colspan="8" style="text-align:center; padding:40px;">Không có dữ liệu lịch hẹn<\/td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:if="${totalPages > 1}" class="pagination-wrapper">
+
+                    <!-- Prev -->
+                    <a th:href="@{/admin/appointments(page=${currentPage - 1}, keyword=${param.keyword})}"
+                       th:classappend="${currentPage == 0} ? 'disabled'"
+                       class="pagination-btn prev-btn">
+
+                        <i class="fa fa-chevron-left"></i>
+                    </a>
+
+                    <!-- Page numbers -->
+                    <div class="pagination-pages">
+                        <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                           th:href="@{/admin/appointments(page=${i}, keyword=${param.keyword})}"
+                           th:text="${i + 1}"
+                           th:classappend="${i == currentPage} ? ' active'"
+                           class="pagination-page">
+                        </a>
+                    </div>
+
+                    <!-- Next -->
+                    <a th:href="@{/admin/appointments(page=${currentPage + 1}, keyword=${param.keyword})}"
+                       th:classappend="${currentPage == totalPages - 1} ? 'disabled'"
+                       class="pagination-btn next-btn">
+
+                        <i class="fa fa-chevron-right"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </main>
+</section>
+
+<!-- MODAL CHI TIẾT LỊCH HẸN -->
+<div id="detailModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3>Chi tiết lịch hẹn</h3>
+            <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="info-grid">
+                <div class="info-item"><strong>Mã đặt lịch</strong><span id="detailBookingCode"></span></div>
+                <div class="info-item"><strong>Ngày khám</strong><span id="detailDate"></span></div>
+                <div class="info-item"><strong>Giờ khám</strong><span id="detailTime"></span></div>
+                <div class="info-item"><strong>Trạng thái</strong><span id="detailStatus"></span></div>
+            </div>
+
+            <div class="section-title">Thông tin bệnh nhân</div>
+            <div class="info-grid">
+                <div class="info-item"><strong>Họ tên</strong><span id="detailPatient"></span></div>
+                <div class="info-item"><strong>Số điện thoại</strong><span id="detailPhone"></span></div>
+                <div class="info-item"><strong>Email</strong><span id="detailEmail"></span></div>
+            </div>
+
+            <div class="section-title">Thông tin bác sĩ</div>
+            <div class="info-grid">
+                <div class="info-item"><strong>Bác sĩ</strong><span id="detailDoctor"></span></div>
+                <div class="info-item"><strong>Chuyên khoa</strong><span id="detailSpecialty"></span></div>
+                <div class="info-item"><strong>Phí khám</strong><span id="detailFee"></span></div>
+            </div>
+
+            <div class="section-title">Thông tin thêm</div>
+            <div class="info-grid">
+                <div class="info-item"><strong>Lý do khám</strong><span id="detailReason"></span></div>
+                <div class="info-item"><strong>Ghi chú</strong><span id="detailNote"></span></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeDetailModal()">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function closeDetailModal() {
+        document.getElementById('detailModal').classList.remove('active');
+    }
+
+    // Mở modal chi tiết
+    document.querySelectorAll('.view-detail-btn').forEach(function(btn) {
+        btn.onclick = function() {
+            document.getElementById('detailBookingCode').innerText = this.getAttribute('data-bookingcode') || '';
+            document.getElementById('detailDate').innerText = this.getAttribute('data-date') || '';
+            document.getElementById('detailTime').innerText = this.getAttribute('data-time') || '';
+
+            let status = this.getAttribute('data-status');
+            let statusText = status === 'pending' ? 'Chờ khám' : (status === 'completed' ? 'Đã khám' : 'Đã hủy');
+            let statusColor = status === 'pending' ? '#f39c12' : (status === 'completed' ? '#27ae60' : '#e74c3c');
+            document.getElementById('detailStatus').innerHTML = `<span style="color:${statusColor}">${statusText}</span>`;
+
+            document.getElementById('detailPatient').innerText = this.getAttribute('data-patient') || '';
+            document.getElementById('detailPhone').innerText = this.getAttribute('data-patientphone') || '';
+            document.getElementById('detailEmail').innerText = this.getAttribute('data-patientemail') || '';
+            document.getElementById('detailDoctor').innerText = this.getAttribute('data-doctor') || '';
+            document.getElementById('detailSpecialty').innerText = this.getAttribute('data-specialty') || '';
+
+            let fee = this.getAttribute('data-fee');
+            document.getElementById('detailFee').innerText = fee ? parseInt(fee).toLocaleString() + 'đ' : '0đ';
+
+            document.getElementById('detailReason').innerText = this.getAttribute('data-reason') || 'Không có';
+            document.getElementById('detailNote').innerText = this.getAttribute('data-note') || 'Không có';
+
+            document.getElementById('detailModal').classList.add('active');
+        };
+    });
+
+    // User menu dropdown
+    const profileBtn = document.getElementById('profileBtn');
+    const userMenu = document.getElementById('userMenuContainer');
+    if (profileBtn && userMenu) {
+        profileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+        });
+        document.addEventListener('click', () => userMenu.style.display = 'none');
+        userMenu.addEventListener('click', e => e.stopPropagation());
+    }
+
+    // Dark mode
+    const switchMode = document.getElementById('switch-mode');
+    if (localStorage.getItem('darkMode') === 'true') {
+        switchMode.checked = true;
+        document.body.classList.add('dark');
+    }
+    switchMode?.addEventListener('change', () => {
+        document.body.classList.toggle('dark');
+        localStorage.setItem('darkMode', switchMode.checked);
+    });
+
+    // Sidebar collapse
+    const menuBar = document.querySelector('#content nav .bx-menu');
+    const sidebar = document.getElementById('sidebar');
+    if (localStorage.getItem('sidebarHide') === 'true') sidebar.classList.add('hide');
+    menuBar?.addEventListener('click', () => {
+        sidebar.classList.toggle('hide');
+        localStorage.setItem('sidebarHide', sidebar.classList.contains('hide'));
+    });
+</script>
+</body>
+</html>
