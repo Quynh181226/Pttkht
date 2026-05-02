@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Đặt lịch khám</h1>
+            <p>Vui lòng chọn chuyên khoa, bác sĩ và thời gian phù hợp để đặt lịch.</p>
+        </div>
+        <div class="page-hero-actions">
+            <a href="/search-appointment" class="btn btn-outline">Tra cứu lịch</a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card wide">
+        <h2 style="text-align:center; color:#1e3a5f; margin-bottom:30px;">Đặt lịch khám trực tuyến</h2>
+
+        <!-- Step Indicator -->
+        <div class="steps">
+            <div class="step" th:classappend="${step == 1} ? 'active'" th:text="'1. Chọn khoa'">1</div>
+            <div class="step" th:classappend="${step == 2} ? 'active'" th:text="'2. Chọn bác sĩ'">2</div>
+            <div class="step" th:classappend="${step == 3} ? 'active'" th:text="'3. Chọn ngày giờ'">3</div>
+            <div class="step" th:classappend="${step == 4} ? 'active'" th:text="'4. Thông tin bệnh nhân'">4</div>
+        </div>
+
+        <!-- Step 1: Select Department -->
+        <div th:if="${step == 1}">
+            <form method="get" action="/book">
+                <input type="hidden" name="step" value="2">
+                <div class="form-group">
+                    <label>Chuyên khoa *</label>
+                    <select name="deptId" required class="form-control">
+                        <option value="">-- Chọn khoa --</option>
+                        <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Tiếp theo</button>
+            </form>
+        </div>
+
+        <!-- Step 2: Select Doctor -->
+        <div th:if="${step == 2}">
+            <form method="get" action="/book">
+                <input type="hidden" name="step" value="3">
+                <input type="hidden" name="deptId" th:value="${deptId}">
+                <div class="form-group">
+                    <label>Bác sĩ *</label>
+                    <select name="doctorId" required class="form-control">
+                        <option value="">-- Chọn bác sĩ --</option>
+                        <option th:each="doc : ${doctors}" th:value="${doc.id}"
+                                th:text="${doc.name} + ' - ' + ${doc.qualification} + ' (' + ${doc.experience} + ' năm kinh nghiệm)'"></option>
+                    </select>
+                </div>
+                <div style="display:flex; gap:15px;">
+                    <a href="/book?step=1" class="btn btn-outline" style="flex:1; text-align:center;">Quay lại</a>
+                    <button type="submit" class="btn btn-primary" style="flex:1;">Tiếp theo</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Step 3: Select Date and Slot -->
+        <div th:if="${step == 3}">
+            <form method="get" action="/book">
+                <input type="hidden" name="step" value="4">
+                <input type="hidden" name="doctorId" th:value="${doctorId}">
+                <input type="hidden" name="deptId" th:value="${deptId}">
+                <div class="form-group">
+                    <label>Ngày khám *</label>
+                    <input type="date" name="date" required class="form-control" th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}">
+                </div>
+                <div class="form-group">
+                    <label>Ca khám *</label>
+                    <select name="slot" required class="form-control">
+                        <option value="MORNING">Sáng (7h30 - 11h30)</option>
+                        <option value="AFTERNOON">Chiều (13h30 - 16h30)</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap:15px;">
+                    <a th:href="'/book?step=2&deptId=' + ${deptId}" class="btn btn-outline" style="flex:1; text-align:center;">Quay lại</a>
+                    <button type="submit" class="btn btn-primary" style="flex:1;">Tiếp theo</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Step 4: Patient Information -->
+        <div th:if="${step == 4}">
+            <form id="bookingForm" action="/book/submit" method="post">
+                <input type="hidden" name="doctorId" th:value="${doctorId}">
+                <input type="hidden" name="departmentId" th:value="${deptId}">
+                <input type="hidden" name="appointmentDate" th:value="${selectedDate}">
+                <input type="hidden" name="slot" th:value="${selectedSlot}">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Họ và tên *</label>
+                        <input type="text" name="patientName" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại *</label>
+                        <input type="tel" id="patientPhone" name="patientPhone" required class="form-control"
+                               placeholder="10-15 chữ số" pattern="\d{10,15}">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="patientEmail" name="patientEmail" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày sinh</label>
+                        <input type="date" name="patientDob" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Giới tính</label>
+                        <select name="patientGender" class="form-control">
+                            <option value="MALE">Nam</option>
+                            <option value="FEMALE">Nữ</option>
+                            <option value="OTHER">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ</label>
+                        <input type="text" name="patientAddress" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>CCCD/CMND</label>
+                        <input type="text" name="identityNo" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Số BHYT</label>
+                        <input type="text" name="insuranceNo" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Triệu chứng / Lý do khám</label>
+                    <textarea name="symptoms" rows="4" class="form-control" placeholder="Mô tả triệu chứng của bạn..."></textarea>
+                </div>
+
+                <div style="display:flex; gap:15px; margin-top:25px;">
+                    <a th:href="'/book?step=3&doctorId=' + ${doctorId} + '&deptId=' + ${deptId}"
+                       class="btn btn-outline" style="flex:1; text-align:center;">Quay lại</a>
+                    <button type="submit" class="btn btn-primary" style="flex:1;">Xác nhận đặt lịch</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

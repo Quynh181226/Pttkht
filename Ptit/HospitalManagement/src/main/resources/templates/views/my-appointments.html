@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <h2>Lịch sử khám của tôi</h2>
+    <div th:if="${#lists.isEmpty(appointments)}">Bạn chưa có lịch sử khám bệnh nào.</div>
+    <div th:unless="${#lists.isEmpty(appointments)}">
+        <table>...</table>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

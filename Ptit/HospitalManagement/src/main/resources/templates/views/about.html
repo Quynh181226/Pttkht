@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Giới thiệu</h1>
+            <p></p>
+        </div>
+        <div class="page-hero-actions">
+            <a href="/book" class="btn btn-primary">Đặt lịch khám</a>
+            <a href="/departments" class="btn btn-outline">Xem chuyên khoa</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Sứ mệnh của chúng tôi</h2>
+        <p class="section-lead">Chúng tôi hướng đến việc mang lại dịch vụ y tế chất lượng cao, an toàn và tận tâm, giúp mỗi bệnh nhân không chỉ điều trị hiệu quả mà còn hiểu rõ hơn về tình trạng sức khỏe của mình để chủ động chăm sóc và phòng ngừa bệnh lý lâu dài.</p>
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Chuyên môn vững</h3>
+                    <p>Đội ngũ bác sĩ giàu kinh nghiệm, được đào tạo chuyên sâu và luôn cập nhật các phác đồ điều trị tiên tiến trong lĩnh vực da liễu. Mỗi bệnh nhân đều được thăm khám kỹ lưỡng, phân tích nguyên nhân bệnh lý và xây dựng hướng điều trị cá nhân hóa nhằm đạt hiệu quả tối ưu.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3>Công nghệ hiện đại</h3>
+                    <p>Hệ thống máy móc và công nghệ chẩn đoán – điều trị được đầu tư đồng bộ, hỗ trợ phát hiện bệnh nhanh chóng và chính xác. Việc ứng dụng các thiết bị hiện đại giúp nâng cao hiệu quả điều trị, giảm thiểu xâm lấn và rút ngắn thời gian hồi phục cho bệnh nhân.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3>Dịch vụ tận tâm</h3>
+                    <p>Chúng tôi cung cấp dịch vụ chăm sóc toàn diện từ tư vấn, thăm khám đến theo dõi sau điều trị. Đội ngũ nhân viên luôn sẵn sàng hỗ trợ, giải đáp thắc mắc và đồng hành cùng bệnh nhân trong suốt quá trình điều trị với thái độ tận tâm và chuyên nghiệp.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Tầm nhìn & giá trị</h2>
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Tầm nhìn</h3>
+                    <p>Trở thành trung tâm da liễu uy tín hàng đầu, hướng tới tiêu chuẩn quốc tế về chất lượng điều trị và dịch vụ chăm sóc sức khỏe. Chúng tôi không ngừng cải tiến để mang lại giá trị bền vững cho cộng đồng.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3>Giá trị cốt lõi</h3>
+                    <ul class="card-list">
+                        <li>An toàn người bệnh là ưu tiên hàng đầu trong mọi hoạt động</li>
+                        <li>Chất lượng chuyên môn là nền tảng phát triển bền vững</li>
+                        <li>Minh bạch, tận tâm và tôn trọng người bệnh</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3>Cam kết</h3>
+                    <p>Chúng tôi cam kết mang đến quy trình tư vấn rõ ràng, phương pháp điều trị phù hợp và theo dõi liên tục hiệu quả sau điều trị, giúp bệnh nhân an tâm trong suốt hành trình chăm sóc sức khỏe của mình.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Không gian & đội ngũ</h2>
+        <p class="section-lead">Hình ảnh đội ngũ bác sĩ và cơ sở vật chất hiện đại phản ánh môi trường khám chữa bệnh chuyên nghiệp, sạch sẽ và thân thiện. Chúng tôi luôn nỗ lực tạo ra không gian thoải mái, giúp bệnh nhân yên tâm trong suốt quá trình thăm khám và điều trị.</p>
+        <div class="image-grid">
+            <div class="image-card">
+                <img th:src="@{/images/about/about-1.jpg}" src="images/about/about-1.jpg" alt="Bác sĩ chuyên khoa" loading="lazy" onerror="this.onerror=null;this.src='https://hongngochospital.vn/undefined/bs_1.jpg';">
+                <div class="image-card-body">
+                    <h4>Đội ngũ bác sĩ</h4>
+                    <p>Bác sĩ có chuyên môn cao, giàu kinh nghiệm lâm sàng, luôn tận tâm tư vấn và theo dõi sát sao tình trạng của từng bệnh nhân nhằm đảm bảo hiệu quả điều trị tốt nhất.</p>
+                </div>
+            </div>
+            <div class="image-card">
+                <img th:src="@{/images/about/about-2.png}" src="images/about/about-2.png" alt="Cơ sở vật chất" loading="lazy" onerror="this.onerror=null;this.src='https://hongngochospital.vn/undefined/benh-vien-hong-ngoc%20%282%29.png';">
+                <div class="image-card-body">
+                    <h4>Cơ sở vật chất</h4>
+                    <p>Không gian khám chữa bệnh được thiết kế hiện đại, sạch sẽ, đảm bảo tiêu chuẩn an toàn và tạo cảm giác thoải mái cho bệnh nhân khi đến thăm khám.</p>
+                </div>
+            </div>
+            <div class="image-card">
+                <img th:src="@{/images/about/about-3.jpg}" src="images/about/about-3.jpg" alt="Trang thiết bị" loading="lazy" onerror="this.onerror=null;this.src='https://hongngochospital.vn/_default_upload_bucket/he-thong-nuoi-cay-phoi.jpg';">
+                <div class="image-card-body">
+                    <h4>Trang thiết bị hiện đại</h4>
+                    <p>Hệ thống máy móc tiên tiến giúp hỗ trợ chẩn đoán nhanh chóng, chính xác và nâng cao hiệu quả điều trị, đáp ứng nhu cầu chăm sóc sức khỏe ngày càng cao.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

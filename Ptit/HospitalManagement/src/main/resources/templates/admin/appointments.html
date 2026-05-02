@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Quản lý lịch hẹn</h1>
+            <p>Theo dõi, xác nhận và cập nhật trạng thái lịch hẹn.</p>
+        </div>
+        <div class="page-hero-actions">
+            <a href="/admin/dashboard" class="btn btn-outline">Quay lại Dashboard</a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+        <h2 style="color:#1e3a5f;">Quản lý lịch hẹn</h2>
+        <a href="/admin/dashboard" class="btn btn-outline">Quay lại</a>
+    </div>
+
+    <div th:if="${message}" class="alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+            <tr><th>Mã</th><th>Bệnh nhân</th><th>SĐT</th><th>Bác sĩ</th><th>Ngày</th><th>Ca</th><th>Trạng thái</th><th>Thao tác</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="app : ${appointments}">
+                <td th:text="${app.appointmentCode}"></td>
+                <td th:text="${app.patientName}"></td>
+                <td th:text="${app.patientPhone}"></td>
+                <td th:text="${app.doctor.name}"></td>
+                <td th:text="${#temporals.format(app.appointmentDate, 'dd/MM/yyyy')}"></td>
+                <td th:text="${app.slot == 'MORNING' ? 'Sáng' : 'Chiều'}"></td>
+                <td>
+                    <form method="post" action="/admin/appointment/update-status" style="display:inline;">
+                        <input type="hidden" name="id" th:value="${app.id}">
+                        <select name="status" onchange="this.form.submit()" class="badge"
+                                style="padding:5px 10px; border-radius:20px; border:1px solid #cbd5e1;">
+                            <option value="PENDING" th:selected="${app.status == 'PENDING'}">Chờ duyệt</option>
+                            <option value="CONFIRMED" th:selected="${app.status == 'CONFIRMED'}">Đã xác nhận</option>
+                            <option value="COMPLETED" th:selected="${app.status == 'COMPLETED'}">Đã khám</option>
+                            <option value="CANCELLED" th:selected="${app.status == 'CANCELLED'}">Đã hủy</option>
+                        </select>
+                    </form>
+                </td>
+                <td><a th:href="'/appointment/detail/' + ${app.id}" class="btn btn-outline" style="padding:4px 12px;">Chi tiết</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

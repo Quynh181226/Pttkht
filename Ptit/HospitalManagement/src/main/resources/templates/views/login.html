@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Đăng nhập</h1>
+            <p>Truy cập hồ sơ sức khỏe, lịch hẹn và các dịch vụ trực tuyến.</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card">
+        <h2 style="text-align:center; color:#1e3a5f;">Đăng nhập</h2>
+
+        <div th:if="${message}" class="alert-success" th:text="${message}"></div>
+        <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label>Số điện thoại</label>
+                <input type="tel" name="phone" required class="form-control" placeholder="Nhập số điện thoại đã đăng ký">
+            </div>
+            <div class="form-group">
+                <label>Mật khẩu</label>
+                <input type="password" name="password" required class="form-control" placeholder="Nhập mật khẩu">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Đăng nhập</button>
+        </form>
+
+        <div style="text-align:center; margin-top: 20px;">
+            <a href="/register">Chưa có tài khoản? Đăng ký ngay</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

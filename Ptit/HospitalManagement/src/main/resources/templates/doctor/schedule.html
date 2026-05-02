@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Lịch khám của tôi</h1>
+            <p>Xem lịch trình khám bệnh và quản lý thời gian làm việc.</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card wide">
+        <h2 style="text-align:center; color:#1e3a5f; margin-bottom:15px">Lịch khám trong tuần</h2>
+
+        <div th:if="${#lists.isEmpty(appointments)}" class="alert-error">
+            Hiện chưa có lịch khám nào được phân công.
+        </div>
+
+        <div th:unless="${#lists.isEmpty(appointments)}" class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Bệnh nhân</th>
+                        <th style="white-space: nowrap;">Số điện thoại</th>
+                        <th style="white-space: nowrap;">Ngày khám</th>
+                        <th>Ca</th>
+                        <th>Triệu chứng</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="app, stat : ${appointments}">
+                        <td th:text="${stat.index + 1}"></td>
+                        <td th:text="${app.patientName}"></td>
+                        <td th:text="${app.patientPhone}"></td>
+                        <td th:text="${#temporals.format(app.appointmentDate, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${app.slot == 'MORNING' ? 'Sáng' : 'Chiều'}"></td>
+                        <td th:text="${app.symptoms} ?: '---'"></td>
+                        <td>
+                            <span th:if="${app.status == 'PENDING'}" class="badge badge-pending">Chờ khám</span>
+                            <span th:if="${app.status == 'CONFIRMED'}" class="badge badge-confirmed">Đã xác nhận</span>
+                            <span th:if="${app.status == 'COMPLETED'}" class="badge badge-completed">Đã khám</span>
+                            <span th:if="${app.status == 'CANCELLED'}" class="badge badge-cancelled">Đã hủy</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

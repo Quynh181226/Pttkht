@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Admin Dashboard</h1>
+            <p>Tổng quan hệ thống lịch hẹn, chuyên khoa, bác sĩ và người dùng.</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <h2 style="color:#1e3a5f; margin-bottom: 30px;">Tổng quan</h2>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="number" th:text="${totalAppointments}">0</div>
+            <div class="label">Tổng lịch hẹn</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" th:text="${totalDepartments}">0</div>
+            <div class="label">Chuyên khoa</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" th:text="${totalDoctors}">0</div>
+            <div class="label">Bác sĩ</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" th:text="${totalUsers}">0</div>
+            <div class="label">Người dùng</div>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <a href="/admin/appointments" class="btn btn-primary">Quản lý lịch hẹn</a>
+        <a href="/admin/departments" class="btn btn-primary">Quản lý khoa</a>
+        <a href="/admin/doctors" class="btn btn-primary">Quản lý bác sĩ</a>
+        <a href="/admin/revenue" class="btn btn-primary">Thống kê doanh thu</a>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

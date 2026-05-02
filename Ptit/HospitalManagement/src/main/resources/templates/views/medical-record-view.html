@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Kết quả khám</h1>
+            <p>Chi tiết chẩn đoán, đơn thuốc và ghi chú của bác sĩ.</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card">
+        <h2 style="text-align:center; color:#1e3a5f;">Kết quả khám bệnh</h2>
+
+        <div th:if="${record}">
+            <table class="detail-table">
+                <tr><td style="font-weight:bold;">Chẩn đoán:</td><td th:text="${record.diagnosis}"></td></tr>
+                <tr><td style="font-weight:bold;">Đơn thuốc:</td><td th:text="${record.prescription} ?: '---'"></td></tr>
+                <tr><td style="font-weight:bold;">Ghi chú:</td><td th:text="${record.notes} ?: '---'"></td></tr>
+                <tr><td style="font-weight:bold;">Ngày khám:</td><td th:text="${#temporals.format(record.createdAt, 'dd/MM/yyyy HH:mm')}"></td></tr>
+            </table>
+        </div>
+
+        <div th:unless="${record}" class="alert-error">
+            Chưa có kết quả khám cho lịch hẹn này.
+        </div>
+
+        <div style="margin-top: 25px; text-align:center;">
+            <a href="/medical-record" class="btn btn-outline">Quay lại hồ sơ</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

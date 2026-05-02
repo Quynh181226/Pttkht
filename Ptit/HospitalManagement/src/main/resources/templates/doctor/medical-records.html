@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Bệnh án cũ</h1>
+            <p>Xem lịch sử khám bệnh của bệnh nhân.</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card wide">
+        <h2 style="text-align:center; color:#1e3a5f; margin-bottom:15px">Danh sách bệnh nhân đã khám</h2>
+
+        <div th:if="${#lists.isEmpty(appointments)}" class="alert-error">
+            Chưa có bệnh nhân nào đã khám.
+        </div>
+
+        <div th:unless="${#lists.isEmpty(appointments)}" class="table-container">
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th style="white-space: nowrap;">Bệnh nhân</th>
+                    <th style="white-space: nowrap;">Số điện thoại</th>
+                    <th style="white-space: nowrap;">Ngày khám</th>
+                    <th>Chẩn đoán</th>
+                    <th>Đơn thuốc</th>
+                    <th style="white-space: nowrap;">Trạng thái</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="app : ${appointments}">
+                    <td th:text="${app.patientName}"></td>
+                    <td th:text="${app.patientPhone}"></td>
+                    <td th:text="${#temporals.format(app.appointmentDate, 'dd/MM/yyyy')}"></td>
+
+                    <!-- Lấy medical_record từ map -->
+                    <td th:text="${recordMap[app.id] != null ? recordMap[app.id].diagnosis : '---'}"></td>
+                    <td th:text="${recordMap[app.id] != null ? recordMap[app.id].prescription : '---'}"></td>
+
+                    <td>
+                        <span class="badge badge-completed">Đã khám</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

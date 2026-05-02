@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Chi tiết lịch hẹn</h1>
+            <p>Thông tin lịch hẹn, bác sĩ và trạng thái khám.</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card">
+        <h2 style="text-align:center; color:#1e3a5f;">Chi tiết lịch hẹn</h2>
+
+        <div th:if="${message}" class="alert-success" th:text="${message}"></div>
+        <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+        <div th:if="${app}">
+            <table class="detail-table">
+                <tr><td style="font-weight:bold;">Mã lịch hẹn:</td><td th:text="${app.appointmentCode}"></td></tr>
+                <tr><td style="font-weight:bold;">Họ tên:</td><td th:text="${app.patientName}"></td></tr>
+                <tr><td style="font-weight:bold;">Số điện thoại:</td><td th:text="${app.patientPhone}"></td></tr>
+                <tr><td style="font-weight:bold;">Email:</td><td th:text="${app.patientEmail} ?: '---'"></td></tr>
+                <tr><td style="font-weight:bold;">Bác sĩ:</td><td th:text="${app.doctor.name}"></td></tr>
+                <tr><td style="font-weight:bold;">Khoa:</td><td th:text="${app.department.name}"></td></tr>
+                <tr><td style="font-weight:bold;">Ngày khám:</td><td th:text="${#temporals.format(app.appointmentDate, 'dd/MM/yyyy')}"></td></tr>
+                <tr><td style="font-weight:bold;">Ca khám:</td><td th:text="${app.slot == 'MORNING' ? 'Sáng (7h30-11h30)' : 'Chiều (13h30-16h30)'}"></td></tr>
+                <tr><td style="font-weight:bold;">Triệu chứng:</td><td th:text="${app.symptoms} ?: '---'"></td></tr>
+                <tr>
+                    <td style="font-weight:bold;">Trạng thái:</td>
+                    <td>
+                        <span th:if="${app.status == 'PENDING'}" class="badge badge-pending">Chờ duyệt</span>
+                        <span th:if="${app.status == 'CONFIRMED'}" class="badge badge-confirmed">Đã xác nhận</span>
+                        <span th:if="${app.status == 'COMPLETED'}" class="badge badge-completed">Đã khám</span>
+                        <span th:if="${app.status == 'CANCELLED'}" class="badge badge-cancelled">Đã hủy</span>
+                    </td>
+                </tr>
+            </table>
+
+            <div th:if="${app.status == 'PENDING' or app.status == 'CONFIRMED'}" style="margin-top: 30px; text-align:center;">
+                <form method="post" th:action="'/appointment/cancel/' + ${app.id}" style="display:inline;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn này không?')">
+                        Hủy lịch hẹn
+                    </button>
+                </form>
+            </div>
+
+            <div style="margin-top: 20px; text-align:center;">
+                <a href="/search-appointment" class="btn btn-outline">Quay lại tra cứu</a>
+            </div>
+        </div>
+
+        <div th:unless="${app}" class="alert-error">
+            Không tìm thấy thông tin lịch hẹn.
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

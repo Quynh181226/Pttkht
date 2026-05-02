@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Quản lý bác sĩ</h1>
+            <p>Cập nhật hồ sơ bác sĩ, chuyên khoa và phí khám.</p>
+        </div>
+        <div class="page-hero-actions">
+            <a href="/admin/dashboard" class="btn btn-outline">Quay lại Dashboard</a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+        <h2 style="color:#1e3a5f;">Quản lý bác sĩ</h2>
+        <a href="/admin/dashboard" class="btn btn-outline">Quay lại</a>
+    </div>
+
+    <div th:if="${message}" class="alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+    <!-- Form thêm bác sĩ -->
+    <div class="form-card" style="margin-bottom: 30px;">
+        <h3>Thêm bác sĩ mới</h3>
+        <form method="post" action="/admin/doctor/add" class="form-row">
+            <div class="form-group"><input type="text" name="name" placeholder="Họ tên bác sĩ" required class="form-control"></div>
+            <div class="form-group">
+                <select name="departmentId" required class="form-control">
+                    <option value="">-- Chọn khoa --</option>
+                    <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
+                </select>
+            </div>
+            <div class="form-group"><input type="text" name="qualification" placeholder="Học hàm, học vị" class="form-control"></div>
+            <div class="form-group"><input type="number" name="experience" placeholder="Số năm kinh nghiệm" class="form-control"></div>
+            <div class="form-group"><input type="number" name="fee" placeholder="Phí khám (VND)" class="form-control"></div>
+            <div class="form-group"><button type="submit" class="btn btn-primary">Thêm bác sĩ</button></div>
+        </form>
+    </div>
+
+    <!-- Danh sách bác sĩ -->
+    <div class="table-container">
+        <table class="data-table">
+            <thead><tr><th>ID</th><th>Họ tên</th><th>Khoa</th><th>Học hàm</th><th style="white-space: nowrap;">Kinh nghiệm</th><th>Phí khám</th><th style="white-space: nowrap;">Thao tác</th></tr></thead>
+            <tbody>
+            <tr th:each="doc : ${doctors}">
+                <td th:text="${doc.id}"></td>
+                <td th:text="${doc.name}"></td>
+                <td th:text="${doc.department.name}"></td>
+                <td th:text="${doc.qualification}"></td>
+                <td th:text="${doc.experience} + ' năm'"></td>
+                <td th:text="${doc.fee} + ' VND'"></td>
+                <td>
+                    <form method="post" th:action="'/admin/doctor/delete/' + ${doc.id}" style="display:inline;"
+                          onsubmit="return confirm('Xóa bác sĩ này sẽ xóa tất cả lịch hẹn liên quan. Tiếp tục?')">
+                        <button type="submit" class="btn btn-danger btn-delete" style="padding:5px 12px;">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <h2>Quản lý bệnh nhân</h2>
+    <div class="table-container">
+        <table class="data-table">
+            <thead><tr><th>ID</th><th>Họ tên</th><th>SĐT</th><th>Email</th><th>Ngày sinh</th><th>Địa chỉ</th><th>Thao tác</th></tr></thead>
+            <tbody>
+            <tr th:each="p : ${patients}">
+                <td th:text="${p.id}"><\/td><td th:text="${p.fullname}"><\/td><td th:text="${p.phone}"><\/td>
+                <td th:text="${p.email}"><\/td><td th:text="${p.dob}"><\/td><td th:text="${p.address}"><\/td>
+                <td><form method="post" th:action="'/admin/patient/delete/' + ${p.id}" onsubmit="return confirm('Xóa?')"><button class="btn btn-danger">Xóa</button></form><\/td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

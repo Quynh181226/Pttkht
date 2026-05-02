@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Tra cứu lịch hẹn</h1>
+            <p>Nhập số điện thoại để kiểm tra lịch hẹn và trạng thái.</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card wide">
+        <h2 style="text-align:center; color:#1e3a5f;">Tra cứu lịch hẹn</h2>
+
+        <div th:if="${message}" class="alert-success" th:text="${message}"></div>
+        <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+        <form method="post" action="/search-appointment">
+            <div class="form-group">
+                <label>Số điện thoại đã đăng ký *</label>
+                <input type="tel" name="phone" required class="form-control" placeholder="Nhập số điện thoại của bạn">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Tra cứu</button>
+        </form>
+
+        <div th:if="${appointments != null}">
+            <hr style="margin: 30px 0;">
+            <h3 style="margin-bottom: 20px;">Kết quả tra cứu</h3>
+            <div th:if="${#lists.isEmpty(appointments)}" class="alert-error">
+                Không tìm thấy lịch hẹn nào cho số điện thoại này.
+            </div>
+            <div th:unless="${#lists.isEmpty(appointments)}" class="table-container">
+                <table class="data-table">
+                    <thead>
+                    <tr><th>Mã lịch hẹn</th><th>Bác sĩ</th><th>Ngày khám</th><th>Ca</th><th>Trạng thái</th><th>Chi tiết</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="app : ${appointments}">
+                        <td th:text="${app.appointmentCode}"></td>
+                        <td th:text="${app.doctor.name}"></td>
+                        <td th:text="${#temporals.format(app.appointmentDate, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${app.slot == 'MORNING' ? 'Sáng' : 'Chiều'}"></td>
+                        <td>
+                            <!-- SỬA: thay biểu thức 3 ngôi bằng th:if -->
+                            <span th:if="${app.status == 'PENDING'}" class="badge badge-pending">Chờ duyệt</span>
+                            <span th:if="${app.status == 'CONFIRMED'}" class="badge badge-confirmed">Đã xác nhận</span>
+                            <span th:if="${app.status == 'COMPLETED'}" class="badge badge-completed">Đã khám</span>
+                            <span th:if="${app.status == 'CANCELLED'}" class="badge badge-cancelled">Đã hủy</span>
+                        </td>
+                        <td><a th:href="'/appointment/detail/' + ${app.id}" class="btn btn-outline" style="padding:6px 15px;">Xem</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

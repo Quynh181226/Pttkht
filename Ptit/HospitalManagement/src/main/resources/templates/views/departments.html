@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Chuyên khoa</h1>
+            <p></p>
+        </div>
+        <div class="page-hero-actions">
+            <a href="/book" class="btn btn-primary">Đặt lịch khám</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Khám theo chuyên khoa</h2>
+        <p class="section-lead">Việc lựa chọn đúng chuyên khoa giúp rút ngắn thời gian chẩn đoán, nâng cao hiệu quả điều trị và đảm bảo người bệnh được chăm sóc đúng hướng ngay từ đầu. Hệ thống chuyên khoa của chúng tôi luôn sẵn sàng hỗ trợ tư vấn và đồng hành cùng bạn trong suốt quá trình điều trị.</p>
+        <div class="grid-3">
+            <div class="card" th:each="dept : ${departments}">
+                <div class="card-body">
+                    <h3 th:text="${dept.name}">Tên khoa</h3>
+                    <p th:text="${dept.description}">Mô tả</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Lợi ích khi khám theo chuyên khoa</h2>
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Chẩn đoán chính xác</h3>
+                    <p>Bệnh nhân được thăm khám bởi bác sĩ chuyên sâu đúng lĩnh vực, kết hợp các phương pháp chẩn đoán hiện đại giúp phát hiện bệnh lý nhanh chóng và chính xác, từ đó đưa ra hướng điều trị hiệu quả.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3>Phác đồ cá nhân hóa</h3>
+                    <p>Mỗi bệnh nhân sẽ được xây dựng lộ trình điều trị riêng biệt dựa trên tình trạng sức khỏe, tiền sử bệnh và nhu cầu cụ thể, giúp tối ưu hiệu quả và hạn chế tối đa tác dụng phụ.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3>Theo dõi lâu dài</h3>
+                    <p>Hệ thống theo dõi và tái khám định kỳ giúp kiểm soát tiến triển bệnh lý, điều chỉnh phương pháp điều trị kịp thời và đảm bảo kết quả ổn định lâu dài cho người bệnh.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Quy trình khám</h2>
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3>1. Đặt lịch</h3>
+                    <p>Người bệnh có thể dễ dàng đăng ký khám trực tuyến thông qua hệ thống hoặc liên hệ tổng đài để được hỗ trợ nhanh chóng. Việc đặt lịch trước giúp tiết kiệm thời gian và chủ động trong kế hoạch khám chữa bệnh.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3>2. Thăm khám</h3>
+                    <p>Bác sĩ chuyên khoa tiến hành thăm khám lâm sàng, lắng nghe triệu chứng và tư vấn chi tiết. Trong trường hợp cần thiết, bệnh nhân sẽ được chỉ định thực hiện các xét nghiệm hoặc chẩn đoán cận lâm sàng để đảm bảo độ chính xác.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3>3. Điều trị & theo dõi</h3>
+                    <p>Sau khi có kết quả, bác sĩ sẽ đưa ra phác đồ điều trị phù hợp và hướng dẫn chi tiết. Bệnh nhân được theo dõi xuyên suốt quá trình điều trị, tái khám định kỳ để đánh giá hiệu quả và điều chỉnh khi cần thiết.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Thống kê doanh thu theo khoa</h1>
+            <p>Theo dõi hiệu quả hoạt động của từng bác sĩ theo khoảng thời gian.</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card" style="margin-bottom: 30px;">
+        <form method="get" class="form-row">
+            <div class="form-group">
+                <label>Chọn khoa</label>
+                <select name="deptId" class="form-control">
+                    <option value="">-- Chọn khoa --</option>
+                    <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}" th:selected="${deptId == d.id}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Từ ngày</label>
+                <input type="date" name="from" th:value="${from}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Đến ngày</label>
+                <input type="date" name="to" th:value="${to}" class="form-control">
+            </div>
+            <div class="form-group" style="display:flex; align-items:flex-end;">
+                <button type="submit" class="btn btn-primary" style="width:100%;">Xem</button>
+            </div>
+        </form>
+    </div>
+
+    <div th:if="${stats}" class="table-container">
+        <table class="data-table">
+            <thead>
+            <tr><th>Bác sĩ</th><th>Số bệnh nhân</th><th>Doanh thu (VNĐ)</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${stats}">
+                <td th:text="${s.doctorName}"></td>
+                <td th:text="${s.patientCount}"></td>
+                <td th:text="${s.revenue}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

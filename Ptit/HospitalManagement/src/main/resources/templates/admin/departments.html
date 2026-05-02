@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Quản lý chuyên khoa</h1>
+            <p>Thiết lập danh mục chuyên khoa và mô tả dịch vụ.</p>
+        </div>
+        <div class="page-hero-actions">
+            <a href="/admin/dashboard" class="btn btn-outline">Quay lại Dashboard</a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+        <h2 style="color:#1e3a5f;">Quản lý chuyên khoa</h2>
+        <a href="/admin/dashboard" class="btn btn-outline">Quay lại</a>
+    </div>
+
+    <div th:if="${message}" class="alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+    <!-- Form thêm khoa -->
+    <div class="form-card" style="margin-bottom: 30px;">
+        <h3>Thêm khoa mới</h3>
+        <form method="post" action="/admin/department/add" class="form-row">
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Tên khoa" required class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="description" placeholder="Mô tả" class="form-control">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Thêm khoa</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Danh sách khoa -->
+    <div class="table-container">
+        <table class="data-table">
+            <thead><tr><th>ID</th><th>Tên khoa</th><th>Mô tả</th><th style="white-space: nowrap;">Thao tác</th></tr></thead>
+            <tbody>
+            <tr th:each="d : ${departments}">
+                <td th:text="${d.id}"></td>
+                <td th:text="${d.name}"></td>
+                <td th:text="${d.description}"></td>
+                <td>
+                    <form method="post" th:action="'/admin/department/delete/' + ${d.id}" style="display:inline;"
+                          onsubmit="return confirm('Xóa khoa này sẽ xóa tất cả bác sĩ và lịch hẹn liên quan. Tiếp tục?')">
+                        <button type="submit" class="btn btn-danger btn-delete" style="padding:5px 12px;">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

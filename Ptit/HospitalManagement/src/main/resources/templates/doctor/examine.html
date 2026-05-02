@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Khám bệnh</h1>
+            <p>Nhập kết quả chẩn đoán và kê đơn thuốc cho bệnh nhân.</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card wide">
+        <h2 style="text-align:center; color:#1e3a5f; margin-bottom:15px">Thông tin khám bệnh</h2>
+
+        <div th:if="${appointment}">
+            <table class="detail-table" style="margin-bottom: 30px;">
+                <tr><td style="font-weight:bold;">Bệnh nhân:</td><td th:text="${appointment.patientName}"></td></tr>
+                <tr><td style="font-weight:bold;">Số điện thoại:</td><td th:text="${appointment.patientPhone}"></td></tr>
+                <tr><td style="font-weight:bold;">Ngày khám:</td><td th:text="${#temporals.format(appointment.appointmentDate, 'dd/MM/yyyy')}"></td></tr>
+                <tr><td style="font-weight:bold;">Triệu chứng:</td><td th:text="${appointment.symptoms} ?: '---'"></td></tr>
+            </table>
+
+            <form method="post" th:action="'/doctor/examine/' + ${appointment.id}">
+                <div class="form-group">
+                    <label>Chẩn đoán *</label>
+                    <textarea name="diagnosis" rows="4" class="form-control" placeholder="Nhập chẩn đoán bệnh..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Đơn thuốc</label>
+                    <textarea name="prescription" rows="6" class="form-control" placeholder="Tên thuốc, liều lượng, số ngày dùng..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Ghi chú thêm</label>
+                    <textarea name="notes" rows="3" class="form-control" placeholder="Hẹn tái khám, hướng dẫn chăm sóc..."></textarea>
+                </div>
+                <div style="display:flex; gap:15px;">
+                    <a href="/doctor/patients" class="btn btn-outline" style="flex:1;">Quay lại</a>
+                    <button type="submit" class="btn btn-primary" style="flex:1;">Hoàn thành khám</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

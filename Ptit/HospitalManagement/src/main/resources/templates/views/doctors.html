@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Đội ngũ bác sĩ</h1>
+            <p>Bác sĩ chuyên khoa giàu kinh nghiệm, đồng hành trong mọi hành trình điều trị.</p>
+        </div>
+        <div class="page-hero-actions">
+            <a href="/book" class="btn btn-primary">Đặt lịch với bác sĩ</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Bác sĩ tiêu biểu</h2>
+        <p class="section-lead">Hình ảnh đội ngũ bác sĩ tiêu biểu trong hệ thống, sẵn sàng tư vấn và điều trị chuyên sâu.</p>
+        <div class="image-grid">
+            <div class="image-card">
+                <img th:src="@{/images/landing/doctor-1.webp}" src="images/landing/doctor-1.webp" alt="Bác sĩ Phạm Thị Thu Hà" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/Ph%E1%BA%A1m%20Th%E1%BB%8B%20Thu%20H%C3%A0.dsA4BvZF_Z2amWxD.webp';">
+                <div class="image-card-body">
+                    <h4>Bác sĩ Phạm Thị Thu Hà</h4>
+                    <p>Chuyên khoa da liễu, giàu kinh nghiệm lâm sàng và tư vấn chăm sóc điều trị dài hạn.</p>
+                </div>
+            </div>
+            <div class="image-card">
+                <img th:src="@{/images/landing/doctor-2.webp}" src="images/landing/doctor-2.webp" alt="Bác sĩ chuyên khoa" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/bs2.BGn4UYNE_ZuYkET.webp';">
+                <div class="image-card-body">
+                    <h4>Bác sĩ chuyên khoa</h4>
+                    <p>Thăm khám kỹ lưỡng, tư vấn rõ ràng và xây dựng phác đồ phù hợp từng bệnh nhân.</p>
+                </div>
+            </div>
+            <div class="image-card">
+                <img th:src="@{/images/landing/doctor-3.webp}" src="images/landing/doctor-3.webp" alt="Bác sĩ chuyên sâu" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/bs3.D8bGG1cT_1OkD79.webp';">
+                <div class="image-card-body">
+                    <h4>Bác sĩ chuyên sâu</h4>
+                    <p>Hỗ trợ điều trị chuyên sâu, theo dõi tiến triển và chăm sóc sau điều trị hiệu quả.</p>
+                </div>
+            </div>
+            <div class="image-card">
+                <img th:src="@{/images/landing/doctor-4.webp}" src="images/landing/doctor-4.webp" alt="Bác sĩ tư vấn" loading="lazy" onerror="this.onerror=null;this.src='https://benhvienthucuc.vn/landing/_astro/bs4.5d3hHU68_ZQIIFD.webp';">
+                <div class="image-card-body">
+                    <h4>Bác sĩ tư vấn</h4>
+                    <p>Đồng hành cùng người bệnh trong suốt quá trình điều trị và phục hồi sức khỏe.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Bác sĩ chuyên khoa</h2>
+        <div th:if="${#lists.isEmpty(doctors)}" class="alert-error">
+            Hiện chưa có bác sĩ trong hệ thống. Vui lòng quay lại sau hoặc liên hệ tổng đài để được hỗ trợ.
+        </div>
+        <div class="grid-3" th:unless="${#lists.isEmpty(doctors)}">
+            <div class="card" th:each="doc : ${doctors}">
+                <div class="card-body">
+                    <h3 th:text="${doc.name}"></h3>
+                    <p th:text="${doc.qualification}"></p>
+                    <p>Khoa: <span th:text="${doc.department.name}"></span></p>
+                    <p>Kinh nghiệm: <span th:text="${doc.experience} + ' năm'"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

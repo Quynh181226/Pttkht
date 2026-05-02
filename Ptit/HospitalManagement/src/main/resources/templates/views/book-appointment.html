@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Đặt lịch khám</h1>
+            <p>Điền thông tin để hoàn tất đặt lịch khám nhanh chóng.</p>
+        </div>
+        <div class="page-hero-actions">
+            <a href="/search-appointment" class="btn btn-outline">Tra cứu lịch</a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card wide">
+        <h2>Đặt lịch khám</h2>
+
+        <div class="steps">
+            <div class="step" th:classappend="${step == 1} ? 'active'" th:text="'1. Chọn khoa'">1</div>
+            <div class="step" th:classappend="${step == 2} ? 'active'" th:text="'2. Chọn bác sĩ'">2</div>
+            <div class="step" th:classappend="${step == 3} ? 'active'" th:text="'3. Chọn ngày giờ'">3</div>
+            <div class="step" th:classappend="${step == 4} ? 'active'" th:text="'4. Thông tin'">4</div>
+        </div>
+
+        <div th:if="${step == 1}">
+            <form method="get">
+                <input type="hidden" name="step" value="2">
+                <div class="form-group">
+                    <label>Chuyên khoa *</label>
+                    <select name="deptId" required class="form-control">
+                        <option value="">-- Chọn khoa --</option>
+                        <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Tiếp</button>
+            </form>
+        </div>
+
+        <div th:if="${step == 2}">
+            <form method="get">
+                <input type="hidden" name="step" value="3">
+                <input type="hidden" name="deptId" th:value="${deptId}">
+                <div class="form-group">
+                    <label>Bác sĩ *</label>
+                    <select name="doctorId" required class="form-control">
+                        <option value="">-- Chọn bác sĩ --</option>
+                        <option th:each="doc : ${doctors}" th:value="${doc.id}" th:text="${doc.fullname + ' - ' + doc.qualification}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Tiếp</button>
+            </form>
+        </div>
+
+        <div th:if="${step == 3}">
+            <form method="get">
+                <input type="hidden" name="step" value="4">
+                <input type="hidden" name="doctorId" th:value="${doctorId}">
+                <input type="hidden" name="deptId" th:value="${deptId}">
+                <div class="form-group">
+                    <label>Ngày khám *</label>
+                    <input type="date" name="date" required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Ca khám *</label>
+                    <select name="slot" required class="form-control">
+                        <option value="MORNING">Sáng (7:30-11:00)</option>
+                        <option value="AFTERNOON">Chiều (13:30-16:30)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Tiếp</button>
+            </form>
+        </div>
+
+        <div th:if="${step == 4}">
+            <form action="/appointment/create" method="post">
+                <input type="hidden" name="doctorId" th:value="${doctorId}">
+                <input type="hidden" name="appointmentDate" th:value="${selectedDate}">
+                <input type="hidden" name="slot" th:value="${selectedSlot}">
+                <div class="form-row">
+                    <div class="form-group"><input type="text" name="fullname" placeholder="Họ tên" required class="form-control"></div>
+                    <div class="form-group"><input type="text" name="phone" placeholder="Số điện thoại" required class="form-control"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><input type="text" name="identityNo" placeholder="CCCD" class="form-control"></div>
+                    <div class="form-group"><input type="text" name="insuranceNo" placeholder="BHYT" class="form-control"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><input type="date" name="dob" class="form-control"></div>
+                    <div class="form-group">
+                        <select name="gender" class="form-control">
+                            <option value="MALE">Nam</option>
+                            <option value="FEMALE">Nữ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"><textarea name="address" placeholder="Địa chỉ" class="form-control"></textarea></div>
+                <div class="form-group"><textarea name="symptoms" placeholder="Triệu chứng" class="form-control"></textarea></div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Xác nhận</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

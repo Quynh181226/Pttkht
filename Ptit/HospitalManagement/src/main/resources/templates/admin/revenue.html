@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container page-hero-content">
+        <div>
+            <h1>Thống kê doanh thu</h1>
+            <p>Theo dõi doanh thu theo chuyên khoa và thời gian.</p>
+        </div>
+        <div class="page-hero-actions">
+            <a href="/admin/dashboard" class="btn btn-outline">Quay lại Dashboard</a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+        <h2 style="color:#1e3a5f;">Thống kê doanh thu</h2>
+        <a href="/admin/dashboard" class="btn btn-outline">Quay lại</a>
+    </div>
+
+    <div class="form-card" style="margin-bottom: 30px;">
+        <form method="get" action="/admin/revenue" class="form-row">
+            <div class="form-group">
+                <label>Chọn khoa</label>
+                <select name="deptId" class="form-control">
+                    <option value="">-- Tất cả khoa --</option>
+                    <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}" th:selected="${deptId == d.id}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Từ ngày</label>
+                <input type="date" name="from" class="form-control" th:value="${from}">
+            </div>
+            <div class="form-group">
+                <label>Đến ngày</label>
+                <input type="date" name="to" class="form-control" th:value="${to}">
+            </div>
+            <div class="form-group" style="display: flex; align-items: flex-end;">
+                <button type="submit" class="btn btn-primary" style="width:100%;">Xem thống kê</button>
+            </div>
+        </form>
+    </div>
+
+    <div th:if="${invoices != null}" class="table-container">
+        <h3 style="margin-bottom: 15px;">Kết quả thống kê</h3>
+        <div th:if="${#lists.isEmpty(invoices)}" class="alert-error">
+            Không có hóa đơn nào trong khoảng thời gian này.
+        </div>
+        <div th:unless="${#lists.isEmpty(invoices)}">
+            <div class="stats-grid" style="margin-bottom: 25px;">
+                <div class="stat-card">
+                    <div class="number" th:text="${#lists.size(invoices)}">0</div>
+                    <div class="label">Tổng số hóa đơn</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number" th:text="${#aggregates.sum(invoices.![totalAmount])}">0</div>
+                    <div class="label">Tổng doanh thu (VND)</div>
+                </div>
+            </div>
+            <table class="data-table">
+                <thead>
+                <tr><th>Mã lịch hẹn</th><th>Bệnh nhân</th><th>Bác sĩ</th><th>Ngày thanh toán</th><th>Số tiền</th><th>Trạng thái</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="inv : ${invoices}">
+                    <td th:text="${inv.appointment.appointmentCode}"></td>
+                    <td th:text="${inv.appointment.patientName}"></td>
+                    <td th:text="${inv.appointment.doctor.name}"></td>
+                    <td th:text="${#temporals.format(inv.paymentDate, 'dd/MM/yyyy')}"></td>
+                    <td th:text="'${inv.totalAmount} VND'"></td>
+                    <td><span class="badge badge-completed" th:text="${inv.status == 'PAID' ? 'Đã thanh toán' : 'Chưa thanh toán'}"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
