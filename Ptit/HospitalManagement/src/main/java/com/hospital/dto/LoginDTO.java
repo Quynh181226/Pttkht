@@ -1,4 +1,3 @@
-// dto/LoginDTO.java
 package com.hospital.dto;
 
 import jakarta.validation.constraints.NotBlank;

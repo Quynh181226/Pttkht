@@ -1,4 +1,3 @@
-// controller/HomeController.java
 package com.hospital.controller;
 
 import com.hospital.service.ArticleService;

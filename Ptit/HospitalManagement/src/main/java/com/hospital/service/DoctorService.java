@@ -1,4 +1,3 @@
-// service/DoctorService.java
 package com.hospital.service;
 
 import com.hospital.entity.Doctor;
@@ -32,8 +31,4 @@ public class DoctorService {
     public void deleteDoctor(Long id) {
         doctorRepository.deleteById(id);
     }
-
-//    public Optional<Doctor> findByPhone(String phone) {
-//        return doctorRepository.findByUser_Phone(phone);
-//    }
 }

@@ -38,15 +38,11 @@ public class DoctorController {
         String phone = (String) session.getAttribute("userPhone");
         if (phone == null) return null;
 
-        // Tìm user theo phone
         Optional<User> userOpt = userService.findByPhone(phone);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            // Tìm doctor theo userId (giả sử Doctor có trường userId)
-            // Nếu không có, bạn có thể query trực tiếp hoặc bỏ qua
             List<Doctor> doctors = doctorService.getAllDoctors();
             for (Doctor d : doctors) {
-                // So sánh theo tên hoặc theo userId tùy cấu trúc
                 if (d.getName().equals(user.getFullname())) {
                     return d.getId();
                 }
@@ -135,7 +131,6 @@ public class DoctorController {
         Long doctorId = getCurrentDoctorId(session);
         List<Appointment> appointments = appointmentService.getCompletedAppointmentsByDoctorId(doctorId);
 
-        // Tạo map để lưu medical_record theo appointment_id
         Map<Long, MedicalRecord> recordMap = new HashMap<>();
         for (Appointment app : appointments) {
             MedicalRecord record = medicalRecordService.getByAppointmentId((long) app.getId()).orElse(null);

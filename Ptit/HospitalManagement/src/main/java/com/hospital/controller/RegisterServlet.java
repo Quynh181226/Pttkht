@@ -12,9 +12,7 @@ import java.io.IOException;
 public class RegisterServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Legacy servlet endpoint is disabled; use Spring Boot controllers instead.
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "Legacy servlet disabled");
     }
 }

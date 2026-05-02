@@ -1,4 +1,3 @@
-// controller/AuthController.java
 package com.hospital.controller;
 
 import com.hospital.dto.LoginDTO;
@@ -40,7 +39,6 @@ public class AuthController {
             session.setAttribute("userName", user.getFullname());
             session.setAttribute("role", user.getRole());
 
-            // Điều hướng theo role
             if ("ADMIN".equals(user.getRole())) {
                 return "redirect:/admin/dashboard";
             } else if ("DOCTOR".equals(user.getRole())) {

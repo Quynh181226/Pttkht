@@ -1,4 +1,3 @@
-// controller/AdminController.java
 package com.hospital.controller;
 
 import com.hospital.entity.*;

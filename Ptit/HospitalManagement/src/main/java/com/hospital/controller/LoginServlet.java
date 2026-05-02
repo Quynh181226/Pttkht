@@ -14,7 +14,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Legacy servlet endpoint is disabled; use Spring Boot controllers instead.
         response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "Legacy servlet disabled");
     }
 }

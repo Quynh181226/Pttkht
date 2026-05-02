@@ -17,7 +17,6 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected String[] getServletMappings() {
-        // Tất cả request đều vào DispatcherServlet
         return new String[]{"/"};
     }
 }

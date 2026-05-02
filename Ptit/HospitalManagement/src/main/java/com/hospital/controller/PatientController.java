@@ -1,4 +1,3 @@
-// controller/PatientController.java
 package com.hospital.controller;
 
 import com.hospital.entity.Appointment;

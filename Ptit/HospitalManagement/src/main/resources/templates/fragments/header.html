@@ -7,82 +7,70 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <div th:fragment="header">
+        <div class="topbar" th:if="${session.role == 'USER'}">
+            <div class="container">
+                <div class="topbar-left">
+                    <span>Hotline: 1900 6951</span>
+                    <span>Giờ làm việc: 7h30 - 16h30 (T2 - T7)</span>
+                    <span>Hà Nội - 123 Nguyễn Trãi</span>
+                </div>
+                <div class="topbar-right">
+                    <a href="/book">Đặt lịch nhanh</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="container">
+                <div class="logo">
+                    <a th:href="${session.role == 'USER' ? '/' : (session.role == 'DOCTOR' ? '/doctor/patients' : '/admin/dashboard')}" style="display: flex; align-items: center; text-decoration: none; gap: 10px;">
+                        <img th:src="@{/images/logo/img.png}" alt="Logo" style="height: 45px; width: auto; object-fit: contain;">
+                        <span style="font-weight: bold; color: inherit;">
+                              BỆNH VIỆN <span>DA LIỄU</span>
+                    </span>
+                    </a>
+                </div>
+                <button class="mobile-toggle" id="mobileToggle">☰</button>
+
+                <ul class="nav" id="navMenu">
+                    <th:block th:if="${session.role == 'USER'}">
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="/about">Giới thiệu</a></li>
+                        <li><a href="/departments">Chuyên khoa</a></li>
+                        <li><a href="/doctors">Bác sĩ</a></li>
+                        <li><a href="/book">Đặt lịch</a></li>
+                        <li><a href="/search-appointment">Tra cứu lịch</a></li>
+                        <li><a href="/medical-record">Hồ sơ sức khỏe</a></li>
+                        <li><a href="/payments">Hóa đơn của tôi</a></li>
+                    </th:block>
+
+                    <th:block th:if="${session.role == 'ADMIN'}">
+                        <li><a href="/admin/dashboard" style="color: #facc15;">Dashboard</a></li>
+                        <li><a href="/admin/appointments">QL lịch hẹn</a></li>
+                        <li><a href="/admin/departments">QL khoa</a></li>
+                        <li><a href="/admin/doctors">QL bác sĩ</a></li>
+                        <li><a href="/admin/revenue">Doanh thu</a></li>
+                    </th:block>
+
+                    <th:block th:if="${session.role == 'DOCTOR'}">
+                        <li><a href="/doctor/patients">Danh sách bệnh nhân</a></li>
+                        <li><a href="/doctor/schedule">Lịch khám của tôi</a></li>
+                        <li><a href="/doctor/medical-records">Bệnh án cũ</a></li>
+                    </th:block>
+
+                    <th:block th:if="${session.userPhone != null}">
+                        <li><a href="/logout">Đăng xuất</a></li>
+                        <li><span class="user-greeting">Xin chào, <span th:text="${session.userName}"></span></span></li>
+                    </th:block>
+
+                    <th:block th:unless="${session.userPhone}">
+                        <li><a href="/login">Đăng nhập</a></li>
+                        <li><a href="/register">Đăng ký</a></li>
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-
-<div th:fragment="header">
-    <!-- ===== TOPBAR - chỉ hiển thị với USER (bệnh nhân) ===== -->
-    <div class="topbar" th:if="${session.role == 'USER'}">
-        <div class="container">
-            <div class="topbar-left">
-                <span>Hotline: 1900 6951</span>
-                <span>Giờ làm việc: 7h30 - 16h30 (T2 - T7)</span>
-                <span>Hà Nội - 123 Nguyễn Trãi</span>
-            </div>
-            <div class="topbar-right">
-                <a href="/book">Đặt lịch nhanh</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="header">
-        <div class="container">
-            <div class="logo">
-<!--                <a th:href="${session.role == 'USER' ? '/' : (session.role == 'DOCTOR' ? '/doctor/patients' : '/admin/dashboard')}">-->
-<!--                    <img th:src="@{/images/logo/img.png}" alt="Logo Bệnh viện Da liễu" class="logo-img">-->
-<!--                    BỆNH VIỆN <span>DA LIỄU</span>-->
-<!--                </a>-->
-                <a th:href="${session.role == 'USER' ? '/' : (session.role == 'DOCTOR' ? '/doctor/patients' : '/admin/dashboard')}" style="display: flex; align-items: center; text-decoration: none; gap: 10px;">
-                    <img th:src="@{/images/logo/img.png}" alt="Logo" style="height: 45px; width: auto; object-fit: contain;">
-                    <span style="font-weight: bold; color: inherit;">
-<!--                    BỆNH VIỆN <span style="color: #007bff;">DA LIỄU</span>-->
-                          BỆNH VIỆN <span>DA LIỄU</span>
-                </span>
-                </a>
-            </div>
-            <button class="mobile-toggle" id="mobileToggle">☰</button>
-
-            <ul class="nav" id="navMenu">
-                <!-- USER -->
-                <th:block th:if="${session.role == 'USER'}">
-                    <li><a href="/">Trang chủ</a></li>
-                    <li><a href="/about">Giới thiệu</a></li>
-                    <li><a href="/departments">Chuyên khoa</a></li>
-                    <li><a href="/doctors">Bác sĩ</a></li>
-                    <li><a href="/book">Đặt lịch</a></li>
-                    <li><a href="/search-appointment">Tra cứu lịch</a></li>
-                    <li><a href="/medical-record">Hồ sơ sức khỏe</a></li>
-                    <li><a href="/payments">Hóa đơn của tôi</a></li>
-                </th:block>
-
-                <!-- ADMIN -->
-                <th:block th:if="${session.role == 'ADMIN'}">
-                    <li><a href="/admin/dashboard" style="color: #facc15;">Dashboard</a></li>
-                    <li><a href="/admin/appointments">QL lịch hẹn</a></li>
-                    <li><a href="/admin/departments">QL khoa</a></li>
-                    <li><a href="/admin/doctors">QL bác sĩ</a></li>
-                    <li><a href="/admin/revenue">Doanh thu</a></li>
-                </th:block>
-
-                <!-- DOCTOR -->
-                <th:block th:if="${session.role == 'DOCTOR'}">
-                    <li><a href="/doctor/patients">Danh sách bệnh nhân</a></li>
-                    <li><a href="/doctor/schedule">Lịch khám của tôi</a></li>
-                    <li><a href="/doctor/medical-records">Bệnh án cũ</a></li>
-                </th:block>
-
-                <!-- ĐÃ LOGIN -->
-                <th:block th:if="${session.userPhone != null}">
-                    <li><a href="/logout">Đăng xuất</a></li>
-                    <li><span class="user-greeting">Xin chào, <span th:text="${session.userName}"></span></span></li>
-                </th:block>
-
-                <!-- CHƯA LOGIN -->
-                <th:block th:unless="${session.userPhone}">
-                    <li><a href="/login">Đăng nhập</a></li>
-                    <li><a href="/register">Đăng ký</a></li>
-                </th:block>
-            </ul>
-        </div>
-    </div>
-</div>

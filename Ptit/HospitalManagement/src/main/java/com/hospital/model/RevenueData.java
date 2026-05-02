@@ -1,4 +1,3 @@
-// src/java/model/RevenueData.java
 package com.hospital.model;
 
 public class RevenueData {
@@ -7,7 +6,6 @@ public class RevenueData {
     private int totalPatients;
     private long totalRevenue;
 
-    // For service breakdown
     private long examRevenue;
     private long testRevenue;
     private long drugRevenue;
@@ -21,7 +19,6 @@ public class RevenueData {
         this.totalRevenue = totalRevenue;
     }
 
-    // Getters and Setters
     public int getDoctorId() { return doctorId; }
     public void setDoctorId(int doctorId) { this.doctorId = doctorId; }
     public String getDoctorName() { return doctorName; }

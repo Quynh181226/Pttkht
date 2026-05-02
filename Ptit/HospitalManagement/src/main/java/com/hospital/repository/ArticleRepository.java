@@ -1,4 +1,3 @@
-// repository/ArticleRepository.java
 package com.hospital.repository;
 
 import com.hospital.entity.Article;

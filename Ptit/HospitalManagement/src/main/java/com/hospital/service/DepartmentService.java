@@ -1,4 +1,3 @@
-// service/DepartmentService.java
 package com.hospital.service;
 
 import com.hospital.entity.Department;

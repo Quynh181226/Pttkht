@@ -1,8 +1,3 @@
-// ============================================
-// HOSPITAL MANAGEMENT SYSTEM - MAIN JS
-// Mobile menu, form validation, confirm dialogs
-// ============================================
-
 document.addEventListener('DOMContentLoaded', function() {
 
     // ===== Mobile Menu Toggle =====

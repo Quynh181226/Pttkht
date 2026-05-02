@@ -1,4 +1,3 @@
-// dto/RevenueDTO.java
 package com.hospital.dto;
 
 import lombok.AllArgsConstructor;

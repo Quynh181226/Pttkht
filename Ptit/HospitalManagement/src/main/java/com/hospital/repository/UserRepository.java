@@ -1,4 +1,3 @@
-// repository/UserRepository.java
 package com.hospital.repository;
 
 import com.hospital.entity.User;

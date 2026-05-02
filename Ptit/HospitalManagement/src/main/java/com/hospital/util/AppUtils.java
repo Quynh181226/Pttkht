@@ -1,4 +1,3 @@
-// util/AppUtils.java
 package com.hospital.util;
 
 import jakarta.servlet.http.HttpSession;

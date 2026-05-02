@@ -21,7 +21,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     long countByAppointmentDateBetween(LocalDate from, LocalDate to);
 
-    // SỬA: Dùng patientPhone thay vì patientId
     @Query("SELECT COUNT(DISTINCT a.patientPhone) FROM Appointment a WHERE a.appointmentDate BETWEEN :from AND :to")
     long countDistinctPatientPhoneByAppointmentDateBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
 }

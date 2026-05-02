@@ -1,4 +1,3 @@
-// src/java/controller/AppointmentServlet.java
 package com.hospital.controller;
 
 import jakarta.servlet.ServletException;
@@ -13,9 +12,7 @@ import java.io.IOException;
 public class AppointmentServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Legacy servlet endpoint is disabled; use Spring Boot controllers instead.
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "Legacy servlet disabled");
     }
 }

@@ -1,4 +1,3 @@
-// service/ArticleService.java
 package com.hospital.service;
 
 import com.hospital.entity.Article;

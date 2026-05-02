@@ -1,4 +1,3 @@
-// dto/AppointmentDTO.java
 package com.hospital.dto;
 
 import jakarta.validation.constraints.*;

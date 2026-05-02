@@ -1,4 +1,3 @@
-// service/InvoiceService.java
 package com.hospital.service;
 
 import com.hospital.entity.Invoice;

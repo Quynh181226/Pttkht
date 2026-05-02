@@ -1,4 +1,3 @@
-// controller/AppointmentController.java
 package com.hospital.controller;
 
 import com.hospital.dto.AppointmentDTO;
@@ -77,14 +76,12 @@ public class AppointmentController {
             return "redirect:/book?step=4";
         }
 
-        // Check slot availability
         if (!appointmentService.isSlotAvailable(appointmentDTO.getDoctorId(),
                 appointmentDTO.getAppointmentDate(), appointmentDTO.getSlot())) {
             ra.addFlashAttribute("error", "Ca khám đã đầy, vui lòng chọn ca khác");
             return "redirect:/book?step=3&doctorId=" + appointmentDTO.getDoctorId();
         }
 
-        // Check if user is logged in and phone matches
         String loggedPhone = (String) session.getAttribute("userPhone");
         User user = null;
         if (loggedPhone != null && loggedPhone.equals(appointmentDTO.getPatientPhone())) {

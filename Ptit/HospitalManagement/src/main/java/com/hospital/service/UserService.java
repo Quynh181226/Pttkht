@@ -1,4 +1,3 @@
-// service/UserService.java
 package com.hospital.service;
 
 import com.hospital.entity.User;

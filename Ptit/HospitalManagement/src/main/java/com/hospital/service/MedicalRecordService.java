@@ -24,9 +24,4 @@ public class MedicalRecordService {
     public List<MedicalRecord> getMedicalRecordsByPatientPhone(String phone) {
         return medicalRecordRepository.findByAppointment_PatientPhoneOrderByCreatedAtDesc(phone);
     }
-
-    // XÓA method này hoặc comment
-    // public List<MedicalRecord> getMedicalRecordsByPatientId(Long patientId) {
-    //     return medicalRecordRepository.findByAppointment_PatientIdOrderByCreatedAtDesc(patientId);
-    // }
 }

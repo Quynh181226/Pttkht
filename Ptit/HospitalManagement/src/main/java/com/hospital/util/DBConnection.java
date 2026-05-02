@@ -10,7 +10,7 @@ import java.sql.CallableStatement;
 public class DBConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/HospitalManagement?useSSL=false&characterEncoding=utf8";
     private static final String USER = "root";
-    private static final String PASSWORD = "phq1812_ptit"; // Nếu bạn có mật khẩu thì nhập vào
+    private static final String PASSWORD = "";
 
     private static Connection connection = null;
 

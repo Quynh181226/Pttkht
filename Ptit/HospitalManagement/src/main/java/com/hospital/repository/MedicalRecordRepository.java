@@ -11,7 +11,4 @@ import java.util.Optional;
 public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Long> {
     Optional<MedicalRecord> findByAppointmentId(Long appointmentId);
     List<MedicalRecord> findByAppointment_PatientPhoneOrderByCreatedAtDesc(String phone);
-
-    // XÓA DÒNG NÀY - không có patientId trong Appointment
-    // List<MedicalRecord> findByAppointment_PatientIdOrderByCreatedAtDesc(Long patientId);
 }
